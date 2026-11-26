@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STELLARIUM | A Gallery Dedicated to Stars</title>
+
+  <!-- Google Fonts: Playfair Display & Spectral -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Separated Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- FULL-BLEED SPIRAL GALAXY CANVAS (SILVER PLATE + GOLDEN SPOTS) -->
+  <canvas id="galaxy-webgl-canvas" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="logo-frame" id="logoContainer">
+        <!-- Loads image_d9ae09.png and converts black ink on white into transparent Golden Egg emblem -->
+        <img id="rawLogoImg" src="images/image_d9ae09.jpeg" alt="Stellarium Celestial Ring Logo">
+      </div>
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+    <button
+      type="button"
+      class="nav-toggle"
+      id="navToggle"
+      aria-expanded="false"
+      aria-controls="primaryNav"
+      aria-label="Toggle navigation menu"
+    >
+      <span class="nav-toggle-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav id="primaryNav" aria-label="Primary museum navigation">
+      <a href="index.html" class="active">Lobby</a>
+      <a href="pages/solar-system.html">I. Solar System</a>
+      <a href="pages/deep-space.html">II. Deep Space</a>
+      <a href="pages/exploration.html">III. Exploration</a>
+      <a href="pages/telescopes.html">IV. Observatories</a>
+      <a href="pages/map.html">Floor Plan</a>
+      <a href="pages/gift.html">Gift</a>
+      <a href="pages/my-collection.html">Saved Art</a>
+    </nav>
+  </header>
+
+  <!-- LARGE INTERACTIVE GALAXY STAGE + HERO OVERLAY -->
+  <section class="galaxy-hero-stage">
+    <div class="hero-split">
+      <div class="hero-frame">
+        <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&w=900&q=80" alt="Spiral Galaxy">
+      </div>
+      <div class="hero-text">
+        <div class="subtitle">Featured Exhibition • Hall II</div>
+        <h1>Stellarium: A Gallery Dedicated to Stars</h1>
+        <p>Step inside our curated digital halls showcasing humanity's greatest astronomical discoveries—from ancient planetary observations to deep-field infrared portraits captured by modern space telescopes.</p>
+        <a href="pages/gift.html" class="gold-btn">Begin Curated Tour</a>
+      </div>
+    </div>
+    <div class="galaxy-hud-badge">✦ Move cursor across the sky to bend starlight &amp; tilt the galactic plane</div>
+  </section>
+
+  <!-- INTERACTIVE MULTI-WAVELENGTH EXPLORER: ANDROMEDA GALAXY (M31) -->
+  <section class="wavelength-section">
+    <div class="wavelength-panel">
+      <div class="wavelength-header">
+        <div class="subtitle">Interactive Observatory Lab • Messier 31</div>
+        <h2>Andromeda Galaxy Across the Spectrum</h2>
+        <p>Slide across the <strong>Andromeda Galaxy (M31)</strong> to transition smoothly from <strong>Visible Light</strong> to high-energy <strong>X-Ray</strong> emissions and the full <strong>Multi-Wavelength</strong> composite.</p>
+      </div>
+
+      <div class="spectrum-viewer" id="spectrumViewer">
+        <!-- Base Layer (Right Side): Visible Light -->
+        <div class="spectrum-layer">
+          <img class="img-visible" src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1500&q=85" alt="Andromeda Galaxy in Visible Light">
+        </div>
+
+        <!-- Middle Layer: X-Ray Spectrum -->
+        <div class="spectrum-layer" id="layerXray">
+          <img class="img-xray" src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1500&q=85" alt="Andromeda Galaxy in X-Ray">
+        </div>
+
+        <!-- Top Layer (Left Side): Multi-Wavelength Composite -->
+        <div class="spectrum-layer" id="layerMulti">
+          <img class="img-multi" src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1500&q=85" alt="Andromeda Galaxy Multi-Wavelength Composite">
+        </div>
+
+        <!-- Corner Spectrum Indicators -->
+        <span class="zone-badge badge-left">Multi-Wavelength</span>
+        <span class="zone-badge badge-center">X-Ray</span>
+        <span class="zone-badge badge-right">Visible Light</span>
+
+        <!-- Draggable Golden Divider Handle -->
+        <div class="slider-divider" id="sliderDivider">
+          <div class="slider-knob">⇄</div>
+        </div>
+      </div>
+
+      <div class="spectrum-controls">
+        <input type="range" min="0" max="100" step="0.1" value="50" class="range-track" id="spectrumRange" aria-label="Andromeda wavelength spectrum slider">
+        
+        <div class="spectrum-tabs">
+          <button type="button" class="spec-btn" onclick="setTargetSpectrum(12)">1. Visible Light (Optical)</button>
+          <button type="button" class="spec-btn active" onclick="setTargetSpectrum(50)">2. X-Ray Spectrum (Chandra)</button>
+          <button type="button" class="spec-btn" onclick="setTargetSpectrum(88)">3. Multi-Wavelength Composite</button>
+        </div>
+
+        <div class="spectrum-caption" id="spectrumCaption">
+          <strong style="color: #F0CB90;">X-Ray View (Andromeda):</strong> Highlights hundreds of X-ray binary stars and superheated plasma swirling around Andromeda's central supermassive black hole.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rooms">
+    <div class="rooms-header">
+      <div class="subtitle">Explore By Wing</div>
+      <h2>Permanent Exhibition Halls</h2>
+    </div>
+    <div class="room-list" id="roomList" aria-live="polite"></div>
+  </section>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="pages/map.html">Museum Map</a>
+      <a href="pages/quiz.html">Visitor Quiz</a>
+      <a href="pages/my-collection.html">My Collection</a>
+      <a href="pages/about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Public Domain Archives</p>
+  </footer>
+
+  <!-- Exhibition Hall & Interactive Gallery Scripts -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STELLARIUM | About &amp; Curators</title>
+
+  <!-- Google Fonts: Playfair Display & Spectral -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet (One level up from pages/) -->
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* Deep-Field Nebula & Constellation Background Canvas */
+    #about-cosmos-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      display: block;
+    }
+
+    .about-container {
+      position: relative;
+      z-index: 5;
+      max-width: 1200px;
+      margin: 3.5rem auto;
+      padding: 0 5%;
+    }
+
+    /* Museum Mission Statement Plaque */
+    .mission-panel {
+      background: rgba(4, 30, 66, 0.92);
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--gold-main);
+      padding: 2.8rem;
+      box-shadow: 12px 12px 0 var(--shadow-thick);
+      margin-bottom: 4rem;
+    }
+
+    .mission-header {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 2rem;
+    }
+
+    .mission-header h1 {
+      font-size: 2.55rem;
+      line-height: 1.18;
+      margin: 0.45rem 0 1rem;
+    }
+
+    .mission-lead {
+      font-size: 1.12rem;
+      color: var(--text-silver);
+    }
+
+    .mission-pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(240, 203, 144, 0.32);
+    }
+
+    .pillar-box {
+      background: rgba(1, 8, 20, 0.85);
+      border: 1px solid var(--gold-dark);
+      padding: 1.4rem 1.5rem;
+    }
+
+    .pillar-box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-box p {
+      font-size: 0.96rem;
+      color: var(--text-silver);
+    }
+
+    /* Meet the Curators Section */
+    .curators-section {
+      margin-bottom: 4rem;
+    }
+
+    .section-banner {
+      text-align: center;
+      margin-bottom: 2.2rem;
+      background: rgba(4, 30, 66, 0.88);
+      border: 2px solid var(--gold-main);
+      padding: 1.6rem 2rem;
+      box-shadow: 8px 8px 0 var(--shadow-thick);
+    }
+
+    .section-banner h2 {
+      font-size: 2.2rem;
+      margin: 0.3rem 0 0.5rem;
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .curator-filter-btn {
+      background: var(--bg-abyss);
+      color: var(--text-silver);
+      border: 1px solid var(--gold-main);
+      padding: 0.55rem 1.1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 4px 4px 0 var(--shadow-thick);
+    }
+
+    .curator-filter-btn.active,
+    .curator-filter-btn:hover {
+      background: var(--gold-main);
+      color: var(--bg-abyss);
+      font-weight: 700;
+    }
+
+    .curator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 2rem;
+    }
+
+    .curator-card {
+      background: rgba(4, 30, 66, 0.93);
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--gold-main);
+      padding: 2rem;
+      box-shadow: 10px 10px 0 var(--shadow-thick);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+    }
+
+    .curator-card:hover {
+      transform: translate(-4px, -4px);
+      border-color: var(--gold-light);
+      box-shadow: 14px 14px 0 var(--shadow-thick);
+    }
+
+    .curator-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(240, 203, 144, 0.28);
+    }
+
+    .curator-crest {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--bg-abyss);
+      border: 2px solid var(--gold-light);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    .curator-id {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      color: var(--gold-main);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .curator-card h3 {
+      font-size: 1.48rem;
+      margin: 0.15rem 0;
+    }
+
+    .wing-tag {
+      display: inline-block;
+      background: rgba(1, 8, 20, 0.9);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold-light);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.8px;
+      padding: 0.3rem 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .curator-summary {
+      font-size: 0.98rem;
+      color: var(--text-silver);
+      margin-bottom: 1.25rem;
+    }
+
+    .page-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-top: auto;
+    }
+
+    .page-link-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(1, 8, 20, 0.88);
+      border: 1px solid var(--gold-dark);
+      padding: 0.55rem 0.85rem;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .page-link-item:hover {
+      border-color: var(--gold-light);
+      background: var(--shadow-thick);
+      color: #ffffff;
+    }
+
+    .page-link-item span {
+      color: var(--gold-light);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+    }
+
+    /* NASA & Archival Image Credits Section */
+    .credits-panel {
+      background: rgba(4, 30, 66, 0.93);
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--gold-main);
+      padding: 2.5rem;
+      box-shadow: 12px 12px 0 var(--shadow-thick);
+    }
+
+    .credits-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2rem;
+    }
+
+    .credits-header h2 {
+      font-size: 2.1rem;
+      margin: 0.35rem 0 0.6rem;
+    }
+
+    .credits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .credit-item {
+      background: rgba(1, 8, 20, 0.88);
+      border: 1px solid var(--gold-dark);
+      padding: 1.35rem;
+    }
+
+    .credit-item h4 {
+      font-size: 1.12rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .credit-item p {
+      font-size: 0.92rem;
+      color: var(--text-silver);
+    }
+
+    .credit-footer-note {
+      margin-top: 1.8rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(240, 203, 144, 0.3);
+      text-align: center;
+      font-size: 0.92rem;
+      color: var(--gold-light);
+    }
+
+    @media (max-width: 700px) {
+      .mission-panel, .credits-panel {
+        padding: 1.6rem;
+      }
+      .mission-header h1 {
+        font-size: 2rem;
+      }
+      .curator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Interactive Deep-Field Nebula & Constellation Background Canvas -->
+  <canvas id="about-cosmos-canvas" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="logo-frame" id="logoContainer">
+        <img id="rawLogoImg" src="../images/image_d9ae09.jpeg" alt="Stellarium Celestial Ring Logo">
+      </div>
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+    <button
+      type="button"
+      class="nav-toggle"
+      id="navToggle"
+      aria-expanded="false"
+      aria-controls="primaryNav"
+      aria-label="Toggle navigation menu"
+    >
+      <span class="nav-toggle-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav id="primaryNav" aria-label="Primary museum navigation">
+      <a href="../index.html">Lobby</a>
+      <a href="solar-system.html">I. Solar System</a>
+      <a href="deep-space.html">II. Deep Space</a>
+      <a href="exploration.html">III. Exploration</a>
+      <a href="telescopes.html">IV. Observatories</a>
+      <a href="map.html">Floor Plan</a>
+      <a href="gift.html">Gift</a>
+      <a href="my-collection.html">Saved Art</a>
+    </nav>
+  </header>
+
+  <main class="about-container">
+
+    <!-- 1. MUSEUM MISSION STATEMENT -->
+    <section class="mission-panel" aria-labelledby="missionHeading">
+      <div class="mission-header">
+        <div class="subtitle">Institutional Charter • IICT Final Exhibition</div>
+        <h1 id="missionHeading">Our Mission: Curating the Cosmos for Every Explorer</h1>
+        <p class="mission-lead">
+          <strong>STELLARIUM</strong> is an open-access digital astronomy museum designed to transform raw astronomical data, deep-space telescope imagery, and human spaceflight milestones into an interactive architectural gallery.
+        </p>
+      </div>
+
+      <div class="mission-pillars">
+        <div class="pillar-box">
+          <h3>✦ Architectural Storytelling</h3>
+          <p>Organized into a Grand Rotunda and four specialized exhibition wings spanning 18 curated rooms, guiding visitors from our own Sun to the edge of observable space.</p>
+        </div>
+        <div class="pillar-box">
+          <h3>✦ Multi-Wavelength Discovery</h3>
+          <p>Bridges optical, infrared, and X-ray observations from flagship observatories so visitors can compare how modern instruments reveal hidden cosmic structures.</p>
+        </div>
+        <div class="pillar-box">
+          <h3>✦ Interactive Learning</h3>
+          <p>Combines visual comparisons, chronological timelines, trivia assessments, and bookmarkable visitor passes to make space science engaging and accessible.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MEET THE CURATORS (ALL 6 GROUP MEMBERS) -->
+    <section class="curators-section" aria-labelledby="curatorsHeading">
+      <div class="section-banner">
+        <div class="subtitle">Curatorial Board • 6 Founding Members</div>
+        <h2 id="curatorsHeading">Meet the Curators</h2>
+        <p>Filter by museum wing or explore the 18 exhibition galleries crafted by our six curatorial leads.</p>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter curators by exhibition wing">
+        <button type="button" class="curator-filter-btn active" data-wing="all" aria-pressed="true">All 6 Curators (18 Rooms)</button>
+        <button type="button" class="curator-filter-btn" data-wing="entrance" aria-pressed="false">Entrance &amp; Hub</button>
+        <button type="button" class="curator-filter-btn" data-wing="wing1" aria-pressed="false">Wing I: Solar System</button>
+        <button type="button" class="curator-filter-btn" data-wing="wing2" aria-pressed="false">Wing II: Deep Space</button>
+        <button type="button" class="curator-filter-btn" data-wing="wing3" aria-pressed="false">Wing III: Exploration</button>
+        <button type="button" class="curator-filter-btn" data-wing="wing4" aria-pressed="false">Wing IV: Observatories</button>
+        <button type="button" class="curator-filter-btn" data-wing="visitor" aria-pressed="false">Visitor Extras</button>
+      </div>
+
+      <div class="curator-grid" id="curatorGrid" aria-live="polite"></div>
+    </section>
+
+    <!-- 3. NASA & OBSERVATORY IMAGE CREDITS -->
+    <section class="credits-panel" aria-labelledby="creditsHeading">
+      <div class="credits-header">
+        <div class="subtitle">Archival Attribution &amp; Public Domain Sources</div>
+        <h2 id="creditsHeading">NASA &amp; Observatory Image Credits</h2>
+        <p>All astronomical photography, deep-field composites, and mission telemetry featured across Stellarium are credited to public-domain space science archives.</p>
+      </div>
+
+      <div class="credits-grid">
+        <div class="credit-item">
+          <h4>NASA / ESA / CSA — James Webb Space Telescope (JWST)</h4>
+          <p>Near-infrared and mid-infrared deep-field captures, including Stephan's Quintet, Carina Nebula cliffs, and multi-observatory galactic composites.</p>
+        </div>
+        <div class="credit-item">
+          <h4>NASA / ESA — Hubble Space Telescope &amp; Chandra X-Ray</h4>
+          <p>Optical and high-energy X-ray imagery of the Andromeda Galaxy (M31), Pillars of Creation, Orion Nebula, and Hubble Birthday archive observations.</p>
+        </div>
+        <div class="credit-item">
+          <h4>NASA / JPL-Caltech &amp; Planetary Missions</h4>
+          <p>Planetary portraits and surface panoramas from Cassini-Huygens, Juno, Voyager 1 &amp; 2, Sojourner, Curiosity, and the Perseverance Mars rover.</p>
+        </div>
+        <div class="credit-item">
+          <h4>NASA Johnson Space Center &amp; Event Horizon Telescope</h4>
+          <p>Apollo lunar surface photography, International Space Station expedition imagery, and the Event Horizon Telescope (EHT) M87* black hole shadow observation.</p>
+        </div>
+      </div>
+
+      <div class="credit-footer-note">
+        Images courtesy of NASA, ESA, CSA, STScI, JPL-Caltech, and Unsplash Public Domain Contributors • Presented strictly for non-commercial educational exhibition.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="my-collection.html">My Collection</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Public Domain Archives</p>
+  </footer>
+
+  <!-- Dedicated About & Curators JS -->
+  <script src="../js/about.js"></script>
+
+</body>
+</html>

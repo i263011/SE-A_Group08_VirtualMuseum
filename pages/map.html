@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STELLARIUM | Museum Floor Plan</title>
+
+  <!-- Google Fonts: Playfair Display & Spectral -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Shared Stylesheet (One level up from pages/) -->
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    /* Galaxy Cluster Mapping Background Canvas */
+    #galaxy-cluster-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Floor Plan Specific Architectural Layout */
+    .map-stage {
+      position: relative;
+      z-index: 5;
+      max-width: 1200px;
+      margin: 3.5rem auto;
+      padding: 0 5%;
+    }
+
+    .map-shell {
+      background: rgba(4, 30, 66, 0.92);
+      border: 2px solid var(--gold-main);
+      padding: 2.5rem;
+      box-shadow: 12px 12px 0 var(--shadow-thick);
+    }
+
+    .map-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2rem;
+    }
+
+    .map-header h1 {
+      font-size: 2.4rem;
+      margin: 0.4rem 0 0.7rem;
+    }
+
+    .wing-filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      background: var(--bg-abyss);
+      color: var(--text-silver);
+      border: 1px solid var(--gold-main);
+      padding: 0.55rem 1.15rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 4px 4px 0 var(--shadow-thick);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--gold-main);
+      color: var(--bg-abyss);
+      font-weight: 700;
+    }
+
+    .map-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* Interactive Architectural Blueprint */
+    .blueprint-box {
+      background: var(--bg-abyss);
+      border: 2px solid var(--gold-light);
+      padding: 1.2rem;
+      position: relative;
+    }
+
+    .blueprint-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .wing-zone {
+      cursor: pointer;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .wing-zone rect,
+    .wing-zone polygon {
+      fill: rgba(4, 30, 66, 0.92);
+      stroke: #BC9E70;
+      stroke-width: 2.5;
+      transition: fill 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease;
+    }
+
+    .wing-zone:hover rect,
+    .wing-zone:hover polygon,
+    .wing-zone.selected rect,
+    .wing-zone.selected polygon {
+      fill: rgba(35, 54, 88, 0.98);
+      stroke: #F0CB90;
+      stroke-width: 4;
+    }
+
+    .wing-zone.dimmed {
+      opacity: 0.35;
+    }
+
+    .zone-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: #F0CB90;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+
+    .zone-sub {
+      font-family: 'Spectral', Georgia, serif;
+      fill: #C4C4C4;
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .corridor-line {
+      stroke: rgba(240, 203, 144, 0.45);
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+      fill: none;
+    }
+
+    /* Inspector Plaque Card */
+    .wing-inspector {
+      background: var(--bg-abyss);
+      border: 2px solid var(--gold-main);
+      padding: 2rem;
+      box-shadow: 8px 8px 0 var(--shadow-thick);
+    }
+
+    .wing-inspector h2 {
+      font-size: 1.75rem;
+      margin: 0.4rem 0 1rem;
+    }
+
+    .inspector-meta {
+      border-top: 1px solid rgba(240, 203, 144, 0.3);
+      border-bottom: 1px solid rgba(240, 203, 144, 0.3);
+      padding: 0.9rem 0;
+      margin: 1.2rem 0 1.6rem;
+      font-size: 0.95rem;
+    }
+
+    .inspector-meta div {
+      margin-bottom: 0.45rem;
+    }
+
+    .inspector-meta strong {
+      color: var(--gold-light);
+    }
+
+    .wing-legend {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--gold-main);
+    }
+
+    @media (max-width: 900px) {
+      .map-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dedicated Galaxy Cluster Mapping Canvas (Replaces Interactive Single Galaxy) -->
+  <canvas id="galaxy-cluster-canvas" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="logo-frame" id="logoContainer">
+        <img id="rawLogoImg" src="../images/image_d9ae09.jpeg" alt="Stellarium Celestial Ring Logo">
+      </div>
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+    <button
+      type="button"
+      class="nav-toggle"
+      id="navToggle"
+      aria-expanded="false"
+      aria-controls="primaryNav"
+      aria-label="Toggle navigation menu"
+    >
+      <span class="nav-toggle-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav id="primaryNav" aria-label="Primary museum navigation">
+      <a href="../index.html">Lobby</a>
+      <a href="solar-system.html">I. Solar System</a>
+      <a href="deep-space.html">II. Deep Space</a>
+      <a href="exploration.html">III. Exploration</a>
+      <a href="telescopes.html">IV. Observatories</a>
+      <a href="map.html" class="active">Floor Plan</a>
+      <a href="gift.html">Gift</a>
+      <a href="my-collection.html">Saved Art</a>
+    </nav>
+  </header>
+
+  <section class="map-stage">
+    <div class="map-shell">
+      <div class="map-header">
+        <div class="subtitle">Architectural Directory • Level I &amp; II</div>
+        <h1>Interactive Museum Floor Plan</h1>
+        <p>Select any exhibition hall or rotunda wing on the blueprint below to inspect its featured exhibits, estimated tour time, and direct gallery entrance.</p>
+      </div>
+
+      <div class="wing-filters" role="group" aria-label="Filter museum wings">
+        <button type="button" class="filter-btn active" data-filter="all">All Halls</button>
+        <button type="button" class="filter-btn" data-filter="rotunda">Grand Rotunda</button>
+        <button type="button" class="filter-btn" data-filter="wing1">Wing I: Solar System</button>
+        <button type="button" class="filter-btn" data-filter="wing2">Wing II: Deep Space</button>
+        <button type="button" class="filter-btn" data-filter="wing3">Wing III: Exploration</button>
+        <button type="button" class="filter-btn" data-filter="wing4">Wing IV: Observatories</button>
+      </div>
+
+      <div class="map-layout">
+        <!-- Interactive Architectural Blueprint SVG -->
+        <div class="blueprint-box">
+          <svg class="blueprint-svg" viewBox="0 0 700 470" role="img" aria-label="Stellarium Museum Floor Plan Diagram">
+            <!-- Outer Architectural Frame -->
+            <rect x="14" y="14" width="672" height="442" fill="none" stroke="#B39053" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+            <!-- Dashed Walking Corridors -->
+            <line x1="210" y1="125" x2="350" y2="235" class="corridor-line" />
+            <line x1="490" y1="125" x2="350" y2="235" class="corridor-line" />
+            <line x1="210" y1="345" x2="350" y2="235" class="corridor-line" />
+            <line x1="490" y1="345" x2="350" y2="235" class="corridor-line" />
+            <line x1="350" y1="315" x2="350" y2="410" class="corridor-line" />
+
+            <!-- WING I: Top Left -->
+            <g class="wing-zone" data-wing="wing1" tabindex="0">
+              <rect x="42" y="42" width="245" height="135" rx="4" />
+              <text x="164" y="92" text-anchor="middle" class="zone-title">WING I</text>
+              <text x="164" y="116" text-anchor="middle" class="zone-sub">Our Solar System</text>
+              <text x="164" y="140" text-anchor="middle" class="zone-sub">8 Exhibits • North-West Hall</text>
+            </g>
+
+            <!-- WING II: Top Right -->
+            <g class="wing-zone" data-wing="wing2" tabindex="0">
+              <rect x="413" y="42" width="245" height="135" rx="4" />
+              <text x="535" y="92" text-anchor="middle" class="zone-title">WING II</text>
+              <text x="535" y="116" text-anchor="middle" class="zone-sub">Deep Space &amp; Nebulae</text>
+              <text x="535" y="140" text-anchor="middle" class="zone-sub">12 Exhibits • North-East Hall</text>
+            </g>
+
+            <!-- CENTRAL GRAND ROTUNDA -->
+            <g class="wing-zone selected" data-wing="rotunda" tabindex="0">
+              <polygon points="350,155 430,235 350,315 270,235" />
+              <text x="350" y="228" text-anchor="middle" class="zone-title">LOBBY</text>
+              <text x="350" y="249" text-anchor="middle" class="zone-sub">Andromeda Lab</text>
+            </g>
+
+            <!-- WING III: Bottom Left -->
+            <g class="wing-zone" data-wing="wing3" tabindex="0">
+              <rect x="42" y="293" width="245" height="135" rx="4" />
+              <text x="164" y="343" text-anchor="middle" class="zone-title">WING III</text>
+              <text x="164" y="367" text-anchor="middle" class="zone-sub">Human Exploration</text>
+              <text x="164" y="391" text-anchor="middle" class="zone-sub">9 Exhibits • South-West Hall</text>
+            </g>
+
+            <!-- WING IV: Bottom Right -->
+            <g class="wing-zone" data-wing="wing4" tabindex="0">
+              <rect x="413" y="293" width="245" height="135" rx="4" />
+              <text x="535" y="343" text-anchor="middle" class="zone-title">WING IV</text>
+              <text x="535" y="367" text-anchor="middle" class="zone-sub">Space Engineering</text>
+              <text x="535" y="391" text-anchor="middle" class="zone-sub">7 Exhibits • South-East Hall</text>
+            </g>
+
+            <!-- South Entrance / Gift Pavilion Marker -->
+            <rect x="295" y="405" width="110" height="32" fill="#041E42" stroke="#BC9E70" stroke-width="1.5" />
+            <text x="350" y="425" text-anchor="middle" class="zone-sub" style="fill:#F0CB90;">MAIN ENTRANCE</text>
+          </svg>
+
+          <div class="wing-legend">
+            <span>✦ Click any hall to inspect details</span>
+            <span>Dashed lines: Grand Gallery Concourse</span>
+          </div>
+        </div>
+
+        <!-- Wing Details Plaque -->
+        <aside class="wing-inspector" id="wingInspector" aria-live="polite">
+          <div class="subtitle" id="inspectorCode">CENTRAL ATRIUM • LEVEL I</div>
+          <h2 id="inspectorTitle">Grand Rotunda &amp; Andromeda Lab</h2>
+          <p id="inspectorDesc">The central orientation dome of Stellarium. Features the interactive Messier 31 multi-wavelength comparator, spiral galaxy simulation, and curator tour departures.</p>
+
+          <div class="inspector-meta">
+            <div><strong>Featured Highlight:</strong> <span id="inspectorHighlight">Andromeda Galaxy (M31) X-Ray &amp; Optical Slider</span></div>
+            <div><strong>Suggested Duration:</strong> <span id="inspectorTime">15 Minutes</span></div>
+            <div><strong>Wing Status:</strong> <span id="inspectorStatus">Open • Audio Guide Included</span></div>
+          </div>
+
+          <a href="../index.html" class="gold-btn" id="inspectorLink">Enter Gallery →</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="my-collection.html">My Collection</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Public Domain Archives</p>
+  </footer>
+
+  <!-- Standalone Floor Plan / Galaxy Cluster Map Script (Does NOT load app.js) -->
+  <script src="../js/map.js"></script>
+  <script>
+    (function () {
+      const navToggle = document.getElementById('navToggle');
+      const primaryNav = document.getElementById('primaryNav');
+      if (!navToggle || !primaryNav) return;
+
+      function setMenuOpen(isOpen) {
+        primaryNav.classList.toggle('is-open', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      }
+
+      navToggle.addEventListener('click', () => {
+        setMenuOpen(!primaryNav.classList.contains('is-open'));
+      });
+
+      primaryNav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 850) setMenuOpen(false);
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && primaryNav.classList.contains('is-open')) {
+          setMenuOpen(false);
+          navToggle.focus();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (
+          primaryNav.classList.contains('is-open') &&
+          !primaryNav.contains(e.target) &&
+          !navToggle.contains(e.target)
+        ) {
+          setMenuOpen(false);
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 850 && primaryNav.classList.contains('is-open')) {
+          setMenuOpen(false);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
