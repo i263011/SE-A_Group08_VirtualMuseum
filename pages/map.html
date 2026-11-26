@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STELLARIUM | Museum Floor Plan</title>
+  <title>STELLARIUM | Museum Floor Plan &amp; Tour Planner</title>
 
   <!-- Google Fonts: Playfair Display & Spectral -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,17 +26,31 @@
       display: block;
     }
 
-    /* Floor Plan Specific Architectural Layout */
+    /* Screen-reader only utility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Floor Plan Architectural Stage */
     .map-stage {
       position: relative;
       z-index: 5;
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 3.5rem auto;
       padding: 0 5%;
     }
 
     .map-shell {
       background: rgba(4, 30, 66, 0.92);
+      backdrop-filter: blur(6px);
       border: 2px solid var(--gold-main);
       padding: 2.5rem;
       box-shadow: 12px 12px 0 var(--shadow-thick);
@@ -44,7 +58,7 @@
 
     .map-header {
       text-align: center;
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto 2rem;
     }
 
@@ -53,11 +67,12 @@
       margin: 0.4rem 0 0.7rem;
     }
 
+    /* Wing Filter Buttons */
     .wing-filters {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 0.9rem;
+      gap: 0.85rem;
       margin-bottom: 2rem;
     }
 
@@ -82,7 +97,7 @@
 
     .map-layout {
       display: grid;
-      grid-template-columns: 1.35fr 0.85fr;
+      grid-template-columns: 1.38fr 0.87fr;
       gap: 2rem;
       align-items: start;
     }
@@ -93,6 +108,7 @@
       border: 2px solid var(--gold-light);
       padding: 1.2rem;
       position: relative;
+      box-shadow: 8px 8px 0 var(--shadow-thick);
     }
 
     .blueprint-svg {
@@ -101,97 +117,662 @@
       display: block;
     }
 
-    .wing-zone {
-      cursor: pointer;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-    }
-
-    .wing-zone rect,
-    .wing-zone polygon {
-      fill: rgba(4, 30, 66, 0.92);
-      stroke: #BC9E70;
-      stroke-width: 2.5;
-      transition: fill 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease;
-    }
-
-    .wing-zone:hover rect,
-    .wing-zone:hover polygon,
-    .wing-zone.selected rect,
-    .wing-zone.selected polygon {
-      fill: rgba(35, 54, 88, 0.98);
-      stroke: #F0CB90;
-      stroke-width: 4;
-    }
-
-    .wing-zone.dimmed {
-      opacity: 0.35;
-    }
-
-    .zone-title {
-      font-family: 'Playfair Display', Georgia, serif;
-      fill: #F0CB90;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      pointer-events: none;
-    }
-
-    .zone-sub {
-      font-family: 'Spectral', Georgia, serif;
-      fill: #C4C4C4;
-      font-size: 12px;
-      pointer-events: none;
-    }
-
     .corridor-line {
-      stroke: rgba(240, 203, 144, 0.45);
+      stroke: rgba(240, 203, 144, 0.38);
       stroke-width: 2;
       stroke-dasharray: 6 6;
       fill: none;
     }
 
-    /* Inspector Plaque Card */
-    .wing-inspector {
-      background: var(--bg-abyss);
-      border: 2px solid var(--gold-main);
-      padding: 2rem;
-      box-shadow: 8px 8px 0 var(--shadow-thick);
+    .wing-group {
+      transition: opacity 0.25s ease;
     }
 
-    .wing-inspector h2 {
-      font-size: 1.75rem;
-      margin: 0.4rem 0 1rem;
+    .wing-group.dimmed {
+      opacity: 0.32;
     }
 
-    .inspector-meta {
-      border-top: 1px solid rgba(240, 203, 144, 0.3);
-      border-bottom: 1px solid rgba(240, 203, 144, 0.3);
-      padding: 0.9rem 0;
-      margin: 1.2rem 0 1.6rem;
-      font-size: 0.95rem;
+    .wing-frame {
+      fill: rgba(4, 30, 66, 0.52);
+      stroke: var(--gold-main);
+      stroke-width: 2;
+      transition: stroke 0.25s ease, fill 0.25s ease, stroke-width 0.25s ease;
     }
 
-    .inspector-meta div {
-      margin-bottom: 0.45rem;
+    .wing-group.wing-active .wing-frame {
+      fill: rgba(4, 30, 66, 0.85);
+      stroke: var(--gold-light);
+      stroke-width: 3;
     }
 
-    .inspector-meta strong {
-      color: var(--gold-light);
+    .wing-header-zone {
+      cursor: pointer;
+    }
+
+    .wing-header-bg {
+      fill: rgba(4, 30, 66, 0.96);
+      stroke: var(--gold-main);
+      stroke-width: 1.5;
+      transition: fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .wing-header-zone:hover .wing-header-bg,
+    .wing-header-zone:focus-visible .wing-header-bg,
+    .wing-group.wing-active .wing-header-bg {
+      fill: rgba(35, 54, 88, 0.98);
+      stroke: var(--gold-light);
+    }
+
+    .wing-header-label {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: var(--gold-light);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      pointer-events: none;
+    }
+
+    .room-zone {
+      cursor: pointer;
+      transition: opacity 0.25s ease;
+    }
+
+    .room-zone rect,
+    .room-zone polygon {
+      fill: rgba(4, 30, 66, 0.94);
+      stroke: var(--gold-main);
+      stroke-width: 1.8;
+      transition: fill 0.22s ease, stroke 0.22s ease, stroke-width 0.22s ease;
+    }
+
+    .room-zone:hover rect,
+    .room-zone:hover polygon {
+      fill: rgba(35, 54, 88, 0.98);
+      stroke: var(--gold-light);
+      stroke-width: 2.6;
+    }
+
+    .room-zone.selected rect,
+    .room-zone.selected polygon {
+      fill: rgba(35, 54, 88, 1);
+      stroke: var(--gold-light);
+      stroke-width: 3.4;
+    }
+
+    .room-zone.in-tour rect,
+    .room-zone.in-tour polygon {
+      stroke: var(--gold-light);
+      stroke-dasharray: none;
+    }
+
+    .room-zone:focus-visible {
+      outline: none;
+    }
+
+    .room-zone:focus-visible rect,
+    .room-zone:focus-visible polygon,
+    .wing-header-zone:focus-visible .wing-header-bg {
+      stroke: #ffffff;
+      stroke-width: 3.5;
+    }
+
+    .zone-code {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: var(--gold-main);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+
+    .zone-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: var(--gold-light);
+      font-size: 12.5px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .zone-sub {
+      font-family: 'Spectral', Georgia, serif;
+      fill: var(--text-silver);
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    .rotunda-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: var(--gold-light);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      pointer-events: none;
+    }
+
+    .tour-route-path {
+      fill: none;
+      stroke: var(--gold-light);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 8 5;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .tour-stop-pin circle {
+      fill: var(--bg-abyss);
+      stroke: var(--gold-light);
+      stroke-width: 2;
+      pointer-events: none;
+    }
+
+    .tour-stop-pin text {
+      font-family: 'Playfair Display', Georgia, serif;
+      fill: var(--gold-light);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
     }
 
     .wing-legend {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.8rem;
+      gap: 0.75rem;
       margin-top: 1rem;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: var(--gold-main);
     }
 
-    @media (max-width: 900px) {
+    /* Inspector Plaque Card */
+    .wing-inspector {
+      background: var(--bg-abyss);
+      border: 2px solid var(--gold-main);
+      padding: 1.85rem;
+      box-shadow: 8px 8px 0 var(--shadow-thick);
+    }
+
+    .wing-inspector h2 {
+      font-size: 1.65rem;
+      margin: 0.35rem 0 0.75rem;
+      line-height: 1.22;
+    }
+
+    .inspector-desc {
+      color: var(--text-silver);
+      font-size: 0.97rem;
+    }
+
+    .inspector-meta {
+      border-top: 1px solid rgba(240, 203, 144, 0.3);
+      border-bottom: 1px solid rgba(240, 203, 144, 0.3);
+      padding: 0.9rem 0;
+      margin: 1.15rem 0;
+      font-size: 0.93rem;
+    }
+
+    .inspector-meta div {
+      margin-bottom: 0.45rem;
+    }
+
+    .inspector-meta div:last-child {
+      margin-bottom: 0;
+    }
+
+    .inspector-meta strong {
+      color: var(--gold-light);
+    }
+
+    .inspector-rooms-block {
+      margin-bottom: 1.25rem;
+    }
+
+    .inspector-rooms-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-bottom: 0.6rem;
+    }
+
+    .inspector-room-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .inspector-room-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      background: rgba(4, 30, 66, 0.75);
+      border: 1px solid var(--gold-dark);
+      padding: 0.45rem 0.7rem;
+    }
+
+    .inspector-room-row.is-current {
+      border-color: var(--gold-light);
+      background: rgba(35, 54, 88, 0.9);
+    }
+
+    .room-chip-btn {
+      background: none;
+      border: none;
+      color: var(--gold-light);
+      font-family: 'Spectral', Georgia, serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      padding: 0.15rem 0;
+      flex: 1;
+    }
+
+    .room-chip-btn:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .room-chip-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+      color: var(--text-silver);
+      flex-shrink: 0;
+    }
+
+    .room-chip-link {
+      color: var(--gold-light);
+      border-bottom: 1px solid var(--gold-main);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .room-chip-link:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .inspector-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .gold-btn {
+      padding: 0.75rem 1.35rem;
+      font-size: 0.88rem;
+    }
+
+    .gold-btn[aria-pressed="true"] {
+      background: var(--panel-oxford);
+      color: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+
+    .gold-btn[aria-pressed="true"]:hover {
+      background: var(--shadow-thick);
+      color: #ffffff;
+    }
+
+    .stop-map-btn {
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--gold-main);
+      color: var(--gold-light);
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .stop-map-btn:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .secondary-btn {
+      display: inline-block;
+      padding: 0.75rem 1.25rem;
+      border: 2px solid var(--gold-main);
+      background: var(--bg-abyss);
+      color: var(--gold-light);
+      font-family: 'Spectral', Georgia, serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 4px 4px 0 var(--shadow-thick);
+    }
+
+    .secondary-btn:hover:not(:disabled) {
+      background: var(--panel-oxford);
+      border-color: var(--gold-light);
+      color: #ffffff;
+    }
+
+    .secondary-btn[aria-pressed="true"] {
+      background: var(--panel-oxford);
+      border-color: var(--gold-light);
+      color: var(--gold-light);
+    }
+
+    .secondary-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Custom Tour Itinerary & Time Calculator */
+    .tour-planner {
+      margin-top: 2.5rem;
+      padding-top: 2.2rem;
+      border-top: 2px solid rgba(188, 158, 112, 0.45);
+    }
+
+    .tour-planner-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tour-planner-top h2 {
+      font-size: 1.9rem;
+      margin: 0.25rem 0 0.35rem;
+    }
+
+    .tour-planner-lead {
+      color: var(--text-silver);
+      max-width: 640px;
+      font-size: 0.96rem;
+    }
+
+    .preset-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .preset-label {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.82rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-right: 0.25rem;
+    }
+
+    .preset-btn {
+      background: var(--bg-abyss);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-main);
+      padding: 0.5rem 1rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 4px 4px 0 var(--shadow-thick);
+    }
+
+    .preset-btn:hover,
+    .preset-btn.active {
+      background: var(--gold-main);
+      color: var(--bg-abyss);
+      font-weight: 700;
+    }
+
+    .clear-tour-btn {
+      margin-left: auto;
+      background: var(--bg-abyss);
+      color: var(--text-silver);
+      border: 1px solid var(--gold-dark);
+      padding: 0.5rem 1rem;
+      font-family: 'Spectral', Georgia, serif;
+      font-size: 0.86rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .clear-tour-btn:hover:not(:disabled) {
+      border-color: var(--gold-light);
+      color: var(--gold-light);
+      background: var(--shadow-thick);
+    }
+
+    .clear-tour-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Metrics Strip */
+    .tour-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .summary-metric {
+      background: var(--bg-abyss);
+      border: 1px solid var(--gold-main);
+      padding: 1rem 1.15rem;
+      box-shadow: 5px 5px 0 var(--shadow-thick);
+    }
+
+    .metric-label {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.78rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.38rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    /* Itinerary List */
+    .itinerary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .tour-stop-card {
+      background: var(--bg-abyss);
+      border: 2px solid var(--gold-main);
+      padding: 1rem 1.25rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1.1rem;
+      align-items: center;
+      box-shadow: 6px 6px 0 var(--shadow-thick);
+    }
+
+    .stop-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--panel-oxford);
+      border: 2px solid var(--gold-light);
+      color: var(--gold-light);
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stop-info h3 {
+      font-size: 1.15rem;
+      margin: 0.1rem 0 0.2rem;
+    }
+
+    .stop-eyebrow {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.76rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gold-main);
+    }
+
+    .stop-meta-line {
+      font-size: 0.88rem;
+      color: var(--text-silver);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .stop-meta-line a {
+      color: var(--gold-light);
+      border-bottom: 1px solid var(--gold-main);
+      font-weight: 600;
+    }
+
+    .stop-meta-line a:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .stop-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .stop-ctrl-btn {
+      background: var(--panel-oxford);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-main);
+      width: 34px;
+      height: 34px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .stop-ctrl-btn:hover:not(:disabled) {
+      background: var(--gold-main);
+      color: var(--bg-abyss);
+    }
+
+    .stop-ctrl-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .stop-ctrl-btn.remove-btn {
+      border-color: var(--gold-dark);
+      color: var(--text-silver);
+    }
+
+    .stop-ctrl-btn.remove-btn:hover:not(:disabled) {
+      background: #7c2323;
+      border-color: var(--gold-light);
+      color: #ffffff;
+    }
+
+    .tour-leg-connector {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.15rem 0 0.15rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--gold-main);
+      font-style: italic;
+    }
+
+    .tour-leg-connector::before {
+      content: '↳';
+      color: var(--gold-light);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
       .map-layout {
         grid-template-columns: 1fr;
+      }
+
+      .tour-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 850px) {
+      .map-stage {
+        margin: 2rem auto;
+      }
+
+      .map-shell {
+        padding: 1.45rem;
+      }
+
+      .map-header h1 {
+        font-size: 1.9rem;
+      }
+
+      .blueprint-box,
+      .wing-inspector {
+        padding: 1rem;
+      }
+
+      .clear-tour-btn {
+        margin-left: 0;
+      }
+
+      .tour-stop-card {
+        grid-template-columns: auto 1fr;
+        gap: 0.85rem;
+      }
+
+      .stop-controls {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(188, 158, 112, 0.25);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .tour-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .inspector-actions {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
       }
     }
   </style>
@@ -237,104 +818,250 @@
     </nav>
   </header>
 
-  <section class="map-stage">
+  <main class="map-stage">
     <div class="map-shell">
       <div class="map-header">
         <div class="subtitle">Architectural Directory • Level I &amp; II</div>
         <h1>Interactive Museum Floor Plan</h1>
-        <p>Select any exhibition hall or rotunda wing on the blueprint below to inspect its featured exhibits, estimated tour time, and direct gallery entrance.</p>
+        <p>Select any exhibition wing, gallery room, or central rotunda on the architectural blueprint to read curator notes, check accessibility, open gallery rooms, and build your personalized museum tour route.</p>
       </div>
 
-      <div class="wing-filters" role="group" aria-label="Filter museum wings">
-        <button type="button" class="filter-btn active" data-filter="all">All Halls</button>
-        <button type="button" class="filter-btn" data-filter="rotunda">Grand Rotunda</button>
-        <button type="button" class="filter-btn" data-filter="wing1">Wing I: Solar System</button>
-        <button type="button" class="filter-btn" data-filter="wing2">Wing II: Deep Space</button>
-        <button type="button" class="filter-btn" data-filter="wing3">Wing III: Exploration</button>
-        <button type="button" class="filter-btn" data-filter="wing4">Wing IV: Observatories</button>
+      <div class="wing-filters" role="group" aria-label="Filter and inspect museum wings">
+        <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All Halls</button>
+        <button type="button" class="filter-btn" data-filter="rotunda" aria-pressed="false">Grand Rotunda</button>
+        <button type="button" class="filter-btn" data-filter="wing1" aria-pressed="false">Wing I: Solar System</button>
+        <button type="button" class="filter-btn" data-filter="wing2" aria-pressed="false">Wing II: Deep Space</button>
+        <button type="button" class="filter-btn" data-filter="wing3" aria-pressed="false">Wing III: Exploration</button>
+        <button type="button" class="filter-btn" data-filter="wing4" aria-pressed="false">Wing IV: Observatories</button>
       </div>
 
       <div class="map-layout">
         <!-- Interactive Architectural Blueprint SVG -->
         <div class="blueprint-box">
-          <svg class="blueprint-svg" viewBox="0 0 700 470" role="img" aria-label="Stellarium Museum Floor Plan Diagram">
+          <svg class="blueprint-svg" viewBox="0 0 800 560" role="img" aria-label="Stellarium Interactive Floor Plan showing Grand Rotunda and 4 Exhibition Wings with 12 Gallery Rooms">
             <!-- Outer Architectural Frame -->
-            <rect x="14" y="14" width="672" height="442" fill="none" stroke="#B39053" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <rect x="14" y="14" width="772" height="532" fill="none" stroke="#B39053" stroke-width="1.5" stroke-dasharray="4 4"/>
 
-            <!-- Dashed Walking Corridors -->
-            <line x1="210" y1="125" x2="350" y2="235" class="corridor-line" />
-            <line x1="490" y1="125" x2="350" y2="235" class="corridor-line" />
-            <line x1="210" y1="345" x2="350" y2="235" class="corridor-line" />
-            <line x1="490" y1="345" x2="350" y2="235" class="corridor-line" />
-            <line x1="350" y1="315" x2="350" y2="410" class="corridor-line" />
+            <!-- Grand Gallery Concourse Corridors -->
+            <line x1="344" y1="127" x2="456" y2="127" class="corridor-line" />
+            <line x1="344" y1="429" x2="456" y2="429" class="corridor-line" />
+            <line x1="189" y1="220" x2="189" y2="336" class="corridor-line" />
+            <line x1="611" y1="220" x2="611" y2="336" class="corridor-line" />
+            <line x1="189" y1="220" x2="365" y2="277" class="corridor-line" />
+            <line x1="611" y1="220" x2="435" y2="277" class="corridor-line" />
+            <line x1="189" y1="336" x2="365" y2="277" class="corridor-line" />
+            <line x1="611" y1="336" x2="435" y2="277" class="corridor-line" />
+            <line x1="400" y1="342" x2="400" y2="492" class="corridor-line" />
 
-            <!-- WING I: Top Left -->
-            <g class="wing-zone" data-wing="wing1" tabindex="0">
-              <rect x="42" y="42" width="245" height="135" rx="4" />
-              <text x="164" y="92" text-anchor="middle" class="zone-title">WING I</text>
-              <text x="164" y="116" text-anchor="middle" class="zone-sub">Our Solar System</text>
-              <text x="164" y="140" text-anchor="middle" class="zone-sub">8 Exhibits • North-West Hall</text>
+            <!-- WING I: Top Left (Solar System) -->
+            <g class="wing-group" data-wing="wing1">
+              <rect class="wing-frame" x="34" y="34" width="310" height="186" rx="4" />
+              <g class="wing-header-zone" data-wing-select="wing1" role="button" tabindex="0" aria-label="Inspect Wing I: Solar System" aria-pressed="false">
+                <rect class="wing-header-bg" x="34" y="34" width="310" height="36" rx="4" />
+                <text x="189" y="57" text-anchor="middle" class="wing-header-label">WING I • SOLAR SYSTEM</text>
+              </g>
+              <g class="room-zone" data-room="solar-system" data-wing="wing1" role="button" tabindex="0" aria-label="Room 1A: Solar System Overview and Scale, 10 minutes" aria-pressed="false">
+                <rect x="46" y="80" width="90" height="128" rx="3" />
+                <text x="91" y="103" text-anchor="middle" class="zone-code">ROOM 1A</text>
+                <text x="91" y="129" text-anchor="middle" class="zone-title">Solar</text>
+                <text x="91" y="146" text-anchor="middle" class="zone-title">Overview</text>
+                <text x="91" y="188" text-anchor="middle" class="zone-sub">10 min</text>
+              </g>
+              <g class="room-zone" data-room="inner-planets" data-wing="wing1" role="button" tabindex="0" aria-label="Room 1B: Inner Rocky Planets, 15 minutes" aria-pressed="false">
+                <rect x="144" y="80" width="90" height="128" rx="3" />
+                <text x="189" y="103" text-anchor="middle" class="zone-code">ROOM 1B</text>
+                <text x="189" y="129" text-anchor="middle" class="zone-title">Inner</text>
+                <text x="189" y="146" text-anchor="middle" class="zone-title">Planets</text>
+                <text x="189" y="188" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="outer-planets" data-wing="wing1" role="button" tabindex="0" aria-label="Room 1C: Outer Gas and Ice Giants, 15 minutes" aria-pressed="false">
+                <rect x="242" y="80" width="90" height="128" rx="3" />
+                <text x="287" y="103" text-anchor="middle" class="zone-code">ROOM 1C</text>
+                <text x="287" y="129" text-anchor="middle" class="zone-title">Outer</text>
+                <text x="287" y="146" text-anchor="middle" class="zone-title">Giants</text>
+                <text x="287" y="188" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
             </g>
 
-            <!-- WING II: Top Right -->
-            <g class="wing-zone" data-wing="wing2" tabindex="0">
-              <rect x="413" y="42" width="245" height="135" rx="4" />
-              <text x="535" y="92" text-anchor="middle" class="zone-title">WING II</text>
-              <text x="535" y="116" text-anchor="middle" class="zone-sub">Deep Space &amp; Nebulae</text>
-              <text x="535" y="140" text-anchor="middle" class="zone-sub">12 Exhibits • North-East Hall</text>
+            <!-- WING II: Top Right (Deep Space) -->
+            <g class="wing-group" data-wing="wing2">
+              <rect class="wing-frame" x="456" y="34" width="310" height="186" rx="4" />
+              <g class="wing-header-zone" data-wing-select="wing2" role="button" tabindex="0" aria-label="Inspect Wing II: Deep Space" aria-pressed="false">
+                <rect class="wing-header-bg" x="456" y="34" width="310" height="36" rx="4" />
+                <text x="611" y="57" text-anchor="middle" class="wing-header-label">WING II • DEEP SPACE</text>
+              </g>
+              <g class="room-zone" data-room="deep-space" data-wing="wing2" role="button" tabindex="0" aria-label="Room 2A: Deep Space Overview, 10 minutes" aria-pressed="false">
+                <rect x="468" y="80" width="90" height="128" rx="3" />
+                <text x="513" y="103" text-anchor="middle" class="zone-code">ROOM 2A</text>
+                <text x="513" y="129" text-anchor="middle" class="zone-title">Deep Space</text>
+                <text x="513" y="146" text-anchor="middle" class="zone-title">Overview</text>
+                <text x="513" y="188" text-anchor="middle" class="zone-sub">10 min</text>
+              </g>
+              <g class="room-zone" data-room="stars-nebulae" data-wing="wing2" role="button" tabindex="0" aria-label="Room 2B: Stars and Stellar Nurseries, 15 minutes" aria-pressed="false">
+                <rect x="566" y="80" width="90" height="128" rx="3" />
+                <text x="611" y="103" text-anchor="middle" class="zone-code">ROOM 2B</text>
+                <text x="611" y="129" text-anchor="middle" class="zone-title">Stars &amp;</text>
+                <text x="611" y="146" text-anchor="middle" class="zone-title">Nebulae</text>
+                <text x="611" y="188" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="black-holes" data-wing="wing2" role="button" tabindex="0" aria-label="Room 2C: Black Holes and Galaxies, 20 minutes" aria-pressed="false">
+                <rect x="664" y="80" width="90" height="128" rx="3" />
+                <text x="709" y="103" text-anchor="middle" class="zone-code">ROOM 2C</text>
+                <text x="709" y="129" text-anchor="middle" class="zone-title">Black</text>
+                <text x="709" y="146" text-anchor="middle" class="zone-title">Holes</text>
+                <text x="709" y="188" text-anchor="middle" class="zone-sub">20 min</text>
+              </g>
             </g>
 
             <!-- CENTRAL GRAND ROTUNDA -->
-            <g class="wing-zone selected" data-wing="rotunda" tabindex="0">
-              <polygon points="350,155 430,235 350,315 270,235" />
-              <text x="350" y="228" text-anchor="middle" class="zone-title">LOBBY</text>
-              <text x="350" y="249" text-anchor="middle" class="zone-sub">Andromeda Lab</text>
+            <g class="wing-group wing-active" data-wing="rotunda">
+              <g class="room-zone selected" data-room="rotunda" data-wing="rotunda" role="button" tabindex="0" aria-label="Grand Rotunda and Andromeda Lab, 10 minutes" aria-pressed="true">
+                <polygon points="400,212 470,277 400,342 330,277" />
+                <text x="400" y="264" text-anchor="middle" class="rotunda-title">ROTUNDA</text>
+                <text x="400" y="283" text-anchor="middle" class="zone-sub">Andromeda Lab</text>
+                <text x="400" y="302" text-anchor="middle" class="zone-code">10 MIN</text>
+              </g>
             </g>
 
-            <!-- WING III: Bottom Left -->
-            <g class="wing-zone" data-wing="wing3" tabindex="0">
-              <rect x="42" y="293" width="245" height="135" rx="4" />
-              <text x="164" y="343" text-anchor="middle" class="zone-title">WING III</text>
-              <text x="164" y="367" text-anchor="middle" class="zone-sub">Human Exploration</text>
-              <text x="164" y="391" text-anchor="middle" class="zone-sub">9 Exhibits • South-West Hall</text>
+            <!-- WING III: Bottom Left (Exploration) -->
+            <g class="wing-group" data-wing="wing3">
+              <rect class="wing-frame" x="34" y="336" width="310" height="186" rx="4" />
+              <g class="wing-header-zone" data-wing-select="wing3" role="button" tabindex="0" aria-label="Inspect Wing III: Exploration" aria-pressed="false">
+                <rect class="wing-header-bg" x="34" y="336" width="310" height="36" rx="4" />
+                <text x="189" y="359" text-anchor="middle" class="wing-header-label">WING III • EXPLORATION</text>
+              </g>
+              <g class="room-zone" data-room="exploration" data-wing="wing3" role="button" tabindex="0" aria-label="Room 3A: Space Race Timeline, 15 minutes" aria-pressed="false">
+                <rect x="46" y="382" width="90" height="128" rx="3" />
+                <text x="91" y="405" text-anchor="middle" class="zone-code">ROOM 3A</text>
+                <text x="91" y="431" text-anchor="middle" class="zone-title">Space</text>
+                <text x="91" y="448" text-anchor="middle" class="zone-title">Timeline</text>
+                <text x="91" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="apollo-missions" data-wing="wing3" role="button" tabindex="0" aria-label="Room 3B: Apollo and Lunar Missions, 15 minutes" aria-pressed="false">
+                <rect x="144" y="382" width="90" height="128" rx="3" />
+                <text x="189" y="405" text-anchor="middle" class="zone-code">ROOM 3B</text>
+                <text x="189" y="431" text-anchor="middle" class="zone-title">Apollo</text>
+                <text x="189" y="448" text-anchor="middle" class="zone-title">Missions</text>
+                <text x="189" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="mars-rovers" data-wing="wing3" role="button" tabindex="0" aria-label="Room 3C: Mars Rovers and Probes, 15 minutes" aria-pressed="false">
+                <rect x="242" y="382" width="90" height="128" rx="3" />
+                <text x="287" y="405" text-anchor="middle" class="zone-code">ROOM 3C</text>
+                <text x="287" y="431" text-anchor="middle" class="zone-title">Mars</text>
+                <text x="287" y="448" text-anchor="middle" class="zone-title">Rovers</text>
+                <text x="287" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
             </g>
 
-            <!-- WING IV: Bottom Right -->
-            <g class="wing-zone" data-wing="wing4" tabindex="0">
-              <rect x="413" y="293" width="245" height="135" rx="4" />
-              <text x="535" y="343" text-anchor="middle" class="zone-title">WING IV</text>
-              <text x="535" y="367" text-anchor="middle" class="zone-sub">Space Engineering</text>
-              <text x="535" y="391" text-anchor="middle" class="zone-sub">7 Exhibits • South-East Hall</text>
+            <!-- WING IV: Bottom Right (Observatories) -->
+            <g class="wing-group" data-wing="wing4">
+              <rect class="wing-frame" x="456" y="336" width="310" height="186" rx="4" />
+              <g class="wing-header-zone" data-wing-select="wing4" role="button" tabindex="0" aria-label="Inspect Wing IV: Observatories" aria-pressed="false">
+                <rect class="wing-header-bg" x="456" y="336" width="310" height="36" rx="4" />
+                <text x="611" y="359" text-anchor="middle" class="wing-header-label">WING IV • OBSERVATORIES</text>
+              </g>
+              <g class="room-zone" data-room="telescopes" data-wing="wing4" role="button" tabindex="0" aria-label="Room 4A: Space Telescopes Hubble and JWST, 15 minutes" aria-pressed="false">
+                <rect x="468" y="382" width="90" height="128" rx="3" />
+                <text x="513" y="405" text-anchor="middle" class="zone-code">ROOM 4A</text>
+                <text x="513" y="431" text-anchor="middle" class="zone-title">Space</text>
+                <text x="513" y="448" text-anchor="middle" class="zone-title">Telescopes</text>
+                <text x="513" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="rockets" data-wing="wing4" role="button" tabindex="0" aria-label="Room 4B: Historic and Modern Rockets, 15 minutes" aria-pressed="false">
+                <rect x="566" y="382" width="90" height="128" rx="3" />
+                <text x="611" y="405" text-anchor="middle" class="zone-code">ROOM 4B</text>
+                <text x="611" y="431" text-anchor="middle" class="zone-title">Historic</text>
+                <text x="611" y="448" text-anchor="middle" class="zone-title">Rockets</text>
+                <text x="611" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
+              <g class="room-zone" data-room="iss" data-wing="wing4" role="button" tabindex="0" aria-label="Room 4C: International Space Station, 15 minutes" aria-pressed="false">
+                <rect x="664" y="382" width="90" height="128" rx="3" />
+                <text x="709" y="405" text-anchor="middle" class="zone-code">ROOM 4C</text>
+                <text x="709" y="431" text-anchor="middle" class="zone-title">Space</text>
+                <text x="709" y="448" text-anchor="middle" class="zone-title">Station</text>
+                <text x="709" y="490" text-anchor="middle" class="zone-sub">15 min</text>
+              </g>
             </g>
 
-            <!-- South Entrance / Gift Pavilion Marker -->
-            <rect x="295" y="405" width="110" height="32" fill="#041E42" stroke="#BC9E70" stroke-width="1.5" />
-            <text x="350" y="425" text-anchor="middle" class="zone-sub" style="fill:#F0CB90;">MAIN ENTRANCE</text>
+            <!-- Dynamic Custom Tour Route Overlay -->
+            <g id="tourRouteLayer" aria-hidden="true"></g>
+
+            <!-- South Entrance Marker -->
+            <rect x="345" y="492" width="110" height="30" fill="#041E42" stroke="#BC9E70" stroke-width="1.5" />
+            <text x="400" y="511" text-anchor="middle" class="zone-sub" style="fill:#F0CB90;">MAIN ENTRANCE</text>
           </svg>
 
           <div class="wing-legend">
-            <span>✦ Click any hall to inspect details</span>
-            <span>Dashed lines: Grand Gallery Concourse</span>
+            <span>✦ Click any wing banner or room chamber to inspect</span>
+            <span>Gold dashed route: Your custom tour order</span>
           </div>
         </div>
 
-        <!-- Wing Details Plaque -->
+        <!-- Wing & Room Details Plaque -->
         <aside class="wing-inspector" id="wingInspector" aria-live="polite">
           <div class="subtitle" id="inspectorCode">CENTRAL ATRIUM • LEVEL I</div>
           <h2 id="inspectorTitle">Grand Rotunda &amp; Andromeda Lab</h2>
-          <p id="inspectorDesc">The central orientation dome of Stellarium. Features the interactive Messier 31 multi-wavelength comparator, spiral galaxy simulation, and curator tour departures.</p>
+          <p class="inspector-desc" id="inspectorDesc">The central orientation dome of Stellarium. Features the interactive Messier 31 multi-wavelength comparator, spiral galaxy simulation, and curator tour departures.</p>
 
           <div class="inspector-meta">
+            <div><strong>Curator Notes:</strong> <span id="inspectorCuratorNotes">Curated by Sara Parvez (26I-3005) as the museum's orientation hub connecting all four astronomical wings.</span></div>
+            <div><strong>Estimated Duration:</strong> <span id="inspectorTime">10 Minutes</span></div>
+            <div><strong>Accessibility:</strong> <span id="inspectorAccessibility">Step-free atrium, high-contrast captions, keyboard-navigable controls, audio guide included</span></div>
             <div><strong>Featured Highlight:</strong> <span id="inspectorHighlight">Andromeda Galaxy (M31) X-Ray &amp; Optical Slider</span></div>
-            <div><strong>Suggested Duration:</strong> <span id="inspectorTime">15 Minutes</span></div>
-            <div><strong>Wing Status:</strong> <span id="inspectorStatus">Open • Audio Guide Included</span></div>
           </div>
 
-          <a href="../index.html" class="gold-btn" id="inspectorLink">Enter Gallery →</a>
+          <div class="inspector-rooms-block" id="inspectorRoomsBlock"></div>
+
+          <div class="inspector-actions">
+            <button type="button" class="gold-btn" id="addToTourBtn" aria-pressed="false">+ Add to My Tour</button>
+            <a href="../index.html" class="secondary-btn" id="inspectorLink">Enter Gallery →</a>
+          </div>
         </aside>
       </div>
+
+      <!-- Custom Tour Itinerary & Time Calculator -->
+      <section class="tour-planner" aria-labelledby="tourPlannerHeading">
+        <div class="tour-planner-top">
+          <div>
+            <div class="subtitle">Custom Route Planner • Saved in Browser</div>
+            <h2 id="tourPlannerHeading">My Museum Tour Itinerary</h2>
+            <p class="tour-planner-lead">Add rooms from the floor plan above or load a curated preset route. Walking times between wings update automatically as you reorder stops.</p>
+          </div>
+        </div>
+
+        <div class="preset-controls" role="group" aria-label="Preset quick-tour routes">
+          <span class="preset-label">Quick Tours:</span>
+          <button type="button" class="preset-btn" data-preset="highlights" aria-pressed="false">30-Min Highlights Tour</button>
+          <button type="button" class="preset-btn" data-preset="grand" aria-pressed="false">Full 4-Wing Grand Tour</button>
+          <button type="button" class="preset-btn" data-preset="deepspace" aria-pressed="false">Deep Space &amp; Telescopes Focus</button>
+          <button type="button" class="clear-tour-btn" id="clearTourBtn" disabled>Clear Tour</button>
+        </div>
+
+        <div class="tour-summary-grid" aria-label="Tour time and stop summary">
+          <div class="summary-metric">
+            <div class="metric-label">Total Stops</div>
+            <div class="metric-value" id="tourTotalStops">0 Stops</div>
+          </div>
+          <div class="summary-metric">
+            <div class="metric-label">Total Estimated Duration</div>
+            <div class="metric-value" id="tourTotalDuration">0 hrs 0 mins</div>
+          </div>
+          <div class="summary-metric">
+            <div class="metric-label">Gallery Exhibit Time</div>
+            <div class="metric-value" id="tourExhibitTime">0 hrs 0 mins</div>
+          </div>
+          <div class="summary-metric">
+            <div class="metric-label">Wing Walking Time</div>
+            <div class="metric-value" id="tourWalkingTime">0 mins</div>
+          </div>
+        </div>
+
+        <div id="tourStatusLive" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+        <div class="itinerary-list" id="tourItineraryList" aria-live="polite"></div>
+      </section>
     </div>
-  </section>
+  </main>
 
   <footer>
     <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
@@ -347,53 +1074,6 @@
     <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Public Domain Archives</p>
   </footer>
 
-  <!-- Standalone Floor Plan / Galaxy Cluster Map Script (Does NOT load app.js) -->
-  <script src="../js/map.js"></script>
-  <script>
-    (function () {
-      const navToggle = document.getElementById('navToggle');
-      const primaryNav = document.getElementById('primaryNav');
-      if (!navToggle || !primaryNav) return;
-
-      function setMenuOpen(isOpen) {
-        primaryNav.classList.toggle('is-open', isOpen);
-        navToggle.setAttribute('aria-expanded', String(isOpen));
-      }
-
-      navToggle.addEventListener('click', () => {
-        setMenuOpen(!primaryNav.classList.contains('is-open'));
-      });
-
-      primaryNav.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth <= 850) setMenuOpen(false);
-        });
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && primaryNav.classList.contains('is-open')) {
-          setMenuOpen(false);
-          navToggle.focus();
-        }
-      });
-
-      document.addEventListener('click', (e) => {
-        if (
-          primaryNav.classList.contains('is-open') &&
-          !primaryNav.contains(e.target) &&
-          !navToggle.contains(e.target)
-        ) {
-          setMenuOpen(false);
-        }
-      });
-
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 850 && primaryNav.classList.contains('is-open')) {
-          setMenuOpen(false);
-        }
-      });
-    })();
-  </script>
-
+  <script src="../js/map.js" defer></script>
 </body>
 </html>
