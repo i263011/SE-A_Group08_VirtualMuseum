@@ -1,0 +1,624 @@
+/* ==========================================================================
+   THE CELESTIAL GALLERY — SHARED MUSEUM STYLESHEET (style.css)
+   Palette: Deep Abyss (#010814), Oxford Blue (#041E42), Silver Plate (#C4C4C4),
+            Golden Egg (#BC9E70 / #F0CB90 / #B39053), Thick Shadow (#233658)
+   Typography: Times New Roman (Titles), Playfair Display (Subheadings), Spectral (Body)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg-abyss: #010814;       /* Deep dark black with a hint of blue */
+  --panel-oxford: #041E42;   /* Oxford Blue / Night Sky for panels */
+  --text-silver: #C4C4C4;    /* Silver Plate text */
+  --gold-main: #BC9E70;      /* Golden Egg border */
+  --gold-light: #F0CB90;     /* Golden Egg highlight */
+  --gold-dark: #B39053;      /* Golden Egg deep */
+  --shadow-thick: #233658;   /* Thick architectural shadow */
+}
+
+/* --------------------------------------------------------------------------
+   1. RESET & BASE TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Spectral', Georgia, serif;
+  background-color: var(--bg-abyss);
+  color: var(--text-silver);
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Heading Titles: Times New Roman */
+h1, .brand {
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--gold-light);
+}
+
+/* Subheadings: Playfair Display */
+h2, h3, h4, .subtitle, .room-num, .badge-tag {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--gold-light);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   2. SHARED HEADER & NAVIGATION MASTHEAD
+   -------------------------------------------------------------------------- */
+header {
+  text-align: center;
+  padding: 2rem 5% 1.2rem;
+  border-bottom: 2px solid var(--gold-main);
+  background-color: var(--panel-oxford);
+  box-shadow: 0 8px 0 var(--shadow-thick);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold-main);
+}
+
+.brand {
+  font-size: 2.6rem;
+  letter-spacing: 5px;
+  margin: 0.3rem 0 1.2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 var(--bg-abyss);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(240, 203, 144, 0.3);
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+nav a {
+  color: var(--text-silver);
+  transition: 0.2s;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   3. REUSABLE PAGE CONTAINERS & PANELS (For All 18 Pages)
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 3.5rem auto;
+  padding: 0 5%;
+  flex: 1;
+}
+
+.page-header {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+}
+
+.page-header h1 {
+  font-size: 2.6rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.page-header p {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 1.06rem;
+}
+
+.panel-box {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  padding: 2.2rem;
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+  margin-bottom: 2.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. BUTTONS & INTERACTIVE LINKS
+   -------------------------------------------------------------------------- */
+.gold-btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  border: 2px solid var(--gold-light);
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.gold-btn:hover {
+  background: var(--gold-light);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow-thick);
+}
+
+.outline-btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--gold-main);
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.outline-btn:hover,
+.outline-btn.active {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   5. HERO SPLIT SECTION (Lobby / Wing Intro Pages)
+   -------------------------------------------------------------------------- */
+.hero-split {
+  max-width: 1200px;
+  margin: 3.5rem auto;
+  padding: 0 5%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-frame {
+  border: 2px solid var(--gold-main);
+  padding: 12px;
+  background: var(--panel-oxford);
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+}
+
+.hero-frame img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border: 1px solid var(--gold-dark);
+}
+
+.hero-text {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  padding: 2.5rem;
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+}
+
+.hero-text h1 {
+  font-size: 2.7rem;
+  line-height: 1.15;
+  margin: 0.6rem 0 1.2rem;
+}
+
+.hero-text p {
+  color: var(--text-silver);
+  margin-bottom: 2rem;
+  font-size: 1.08rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. EXHIBIT & GALLERY CARD GRIDS (Planets, Telescopes, Rovers, Stars)
+   -------------------------------------------------------------------------- */
+.rooms {
+  max-width: 1200px;
+  margin: 4.5rem auto;
+  padding: 0 5%;
+}
+
+.rooms-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.rooms-header h2 {
+  font-size: 2.1rem;
+  margin-top: 0.3rem;
+}
+
+.room-list,
+.exhibit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.room-card,
+.exhibit-card {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 8px 8px 0 var(--shadow-thick);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.room-card:hover,
+.exhibit-card:hover {
+  transform: translate(-4px, -4px);
+  border-color: var(--gold-light);
+  box-shadow: 12px 12px 0 var(--shadow-thick);
+}
+
+.exhibit-card img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border: 1px solid var(--gold-dark);
+  margin-bottom: 1.2rem;
+}
+
+.room-num,
+.badge-tag {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--gold-main);
+  text-transform: uppercase;
+}
+
+.room-card h3,
+.exhibit-card h3 {
+  font-size: 1.45rem;
+  margin: 0.7rem 0;
+}
+
+.room-card p,
+.exhibit-card p {
+  color: var(--text-silver);
+  font-size: 0.98rem;
+  margin-bottom: 1.5rem;
+}
+
+.room-card a,
+.card-action {
+  color: var(--gold-light);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--gold-main);
+  padding-bottom: 3px;
+  transition: 0.2s;
+  align-self: center;
+}
+
+.room-card a:hover,
+.card-action:hover {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* Metadata Stats Bar inside Exhibit Cards */
+.stat-list {
+  list-style: none;
+  text-align: left;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.3rem;
+  font-size: 0.9rem;
+}
+
+.stat-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(188, 158, 112, 0.2);
+}
+
+.stat-list li:last-child {
+  border-bottom: none;
+}
+
+.stat-list strong {
+  color: var(--gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   7. MULTI-WAVELENGTH SPECTRUM SLIDER (index.html)
+   -------------------------------------------------------------------------- */
+.wavelength-section {
+  max-width: 1200px;
+  margin: 4.5rem auto;
+  padding: 0 5%;
+}
+
+.wavelength-panel {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  padding: 2.5rem;
+  box-shadow: 12px 12px 0 var(--shadow-thick);
+}
+
+.wavelength-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 2rem;
+}
+
+.wavelength-header h2 {
+  font-size: 2.2rem;
+  margin: 0.3rem 0 0.7rem;
+}
+
+.spectrum-viewer {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border: 2px solid var(--gold-light);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--bg-abyss);
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.spectrum-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: clip-path;
+}
+
+.spectrum-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.img-visible {
+  filter: contrast(1.06) saturate(1.1) brightness(1.02);
+}
+
+.img-xray {
+  filter: hue-rotate(190deg) saturate(2.5) contrast(1.38) brightness(1.08);
+}
+
+.img-multi {
+  filter: hue-rotate(315deg) saturate(2.05) contrast(1.3) brightness(1.08);
+}
+
+.zone-badge {
+  position: absolute;
+  top: 14px;
+  padding: 0.35rem 0.85rem;
+  background: rgba(1, 8, 20, 0.88);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.badge-left { left: 14px; }
+.badge-center { left: 50%; transform: translateX(-50%); }
+.badge-right { right: 14px; }
+
+.slider-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--gold-light);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
+  z-index: 10;
+  pointer-events: none;
+  will-change: left;
+}
+
+.slider-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg-abyss);
+  border: 3px solid var(--gold-light);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.spectrum-viewer:hover .slider-knob,
+.spectrum-viewer.dragging .slider-knob {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: var(--panel-oxford);
+}
+
+.spectrum-controls {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.range-track {
+  width: 100%;
+  max-width: 650px;
+  accent-color: var(--gold-light);
+  cursor: pointer;
+  height: 6px;
+}
+
+.spectrum-tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.spec-btn {
+  background: var(--bg-abyss);
+  color: var(--text-silver);
+  border: 1px solid var(--gold-main);
+  padding: 0.55rem 1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.spec-btn.active,
+.spec-btn:hover {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  font-weight: 700;
+}
+
+.spectrum-caption {
+  text-align: center;
+  max-width: 780px;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 1rem 1.5rem;
+  font-size: 0.98rem;
+  color: var(--text-silver);
+}
+
+/* --------------------------------------------------------------------------
+   8. EXHIBIT DETAIL MODAL POPUP (For Sub-pages)
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(1, 8, 20, 0.88);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-light);
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 12px 12px 0 var(--shadow-thick);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   9. SHARED FOOTER PLAQUE
+   -------------------------------------------------------------------------- */
+footer {
+  text-align: center;
+  padding: 3rem 5%;
+  margin-top: auto;
+  border-top: 2px solid var(--gold-main);
+  background: var(--panel-oxford);
+  color: var(--text-silver);
+  box-shadow: 0 -8px 0 var(--shadow-thick);
+}
+
+.footer-links {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   10. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 850px) {
+  .hero-split {
+    grid-template-columns: 1fr;
+  }
+  .brand {
+    font-size: 1.9rem;
+  }
+  .spectrum-viewer {
+    height: 320px;
+  }
+}
