@@ -1,0 +1,362 @@
+/* ==========================================================================
+   STELLARIUM — WING I: OUR SOLAR SYSTEM STYLESHEET (solar-wing.css)
+   Loaded after style.css. Adds Wing I layout, responsive mobile menu,
+   accessibility focus outlines, image fallbacks, and scale chart styles.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. ACCESSIBILITY: VISIBLE KEYBOARD FOCUS OUTLINES
+   -------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   2. HEADER BRAND LOCKUP & TAGLINE
+   -------------------------------------------------------------------------- */
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.45rem 0 0.2rem;
+}
+
+.brand-lockup .brand {
+  margin: 0;
+}
+
+.brand-logo {
+  height: 68px;
+  width: 68px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--gold-main);
+  background-color: #ffffff;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.brand-logo-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 68px;
+  width: 68px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-main);
+  background-color: var(--bg-abyss);
+  color: var(--gold-light);
+  font-size: 1.5rem;
+}
+
+.tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  color: var(--text-silver);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+/* Hamburger button is hidden on desktop screens */
+.nav-toggle {
+  display: none;
+  margin: 0.5rem auto 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. WING I SECTION HEADINGS & EXHIBIT CARDS
+   -------------------------------------------------------------------------- */
+.section-heading {
+  font-size: 1.9rem;
+  text-align: center;
+  margin-bottom: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+.solar-highlights-grid {
+  margin-bottom: 3rem;
+}
+
+.media-frame {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.media-frame img {
+  margin-bottom: 0;
+}
+
+/* Styled placeholder shown when an online image fails to load */
+.img-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 210px;
+  padding: 1.2rem;
+  background: linear-gradient(135deg, var(--bg-abyss), #092a59);
+  border: 1px dashed var(--gold-main);
+  color: var(--gold-light);
+  text-align: center;
+}
+
+.img-fallback-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.img-fallback-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.img-fallback-caption {
+  font-size: 0.85rem;
+  color: var(--text-silver);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Heart Save Button */
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.save-btn .heart-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.save-btn.is-saved {
+  background: var(--gold-light);
+  color: var(--bg-abyss);
+  border-color: var(--gold-light);
+  font-weight: 700;
+}
+
+.save-feedback {
+  font-size: 0.88rem;
+  min-height: 1.3em;
+  color: var(--gold-light);
+}
+
+.save-feedback.is-error {
+  color: #ffb4a2;
+  background: rgba(120, 20, 20, 0.35);
+  border: 1px solid #ffb4a2;
+  padding: 0.45rem 0.7rem;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   4. SCALE COMPARISON CHART
+   -------------------------------------------------------------------------- */
+.scale-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.scale-header h2 {
+  font-size: 1.9rem;
+  margin: 0.3rem 0 0.6rem;
+}
+
+.scale-header p {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.scale-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.scale-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.scale-bar-btn {
+  display: grid;
+  grid-template-columns: 110px 1fr 125px;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  background: var(--bg-abyss);
+  border: 1px solid rgba(188, 158, 112, 0.35);
+  color: var(--text-silver);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.scale-bar-btn:hover {
+  border-color: var(--gold-light);
+  background: rgba(4, 30, 66, 0.85);
+}
+
+.scale-bar-btn.selected {
+  border-color: var(--gold-light);
+  background: rgba(188, 158, 112, 0.16);
+}
+
+.scale-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+.scale-track {
+  display: block;
+  width: 100%;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(188, 158, 112, 0.28);
+  overflow: hidden;
+}
+
+.scale-fill {
+  display: block;
+  height: 100%;
+  min-width: 4px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  transition: width 0.35s ease;
+}
+
+.scale-bar-btn[data-body-id="sun"] .scale-fill {
+  background: linear-gradient(90deg, #e08a2b, #ffd57e);
+}
+
+.scale-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-silver);
+  font-size: 0.9rem;
+}
+
+.scale-readout {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1.2rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  color: var(--gold-light);
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. WING NAVIGATION LINKS & STATUS MESSAGES
+   -------------------------------------------------------------------------- */
+.wing-nav-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.status-message {
+  padding: 1.2rem 1.5rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVE BREAKPOINTS (MOBILE <= 850px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 850px) {
+  .brand-lockup {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .brand-logo,
+  .brand-logo-fallback {
+    height: 56px;
+    width: 56px;
+  }
+
+  .nav-toggle {
+    display: inline-block;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+
+  nav.nav-open {
+    display: flex;
+  }
+
+  .page-header,
+  .panel-box {
+    padding: 1.4rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .scale-bar-btn {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 0.8rem;
+  }
+
+  .scale-label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .scale-value {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .scale-track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .wing-nav-section .gold-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

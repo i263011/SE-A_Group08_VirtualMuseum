@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wing I: Our Solar System | STELLARIUM</title>
+  <!-- Shared museum stylesheet followed by Wing I specific styles -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/solar-wing.css">
+</head>
+<body>
+  <!-- Shared Museum Header -->
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <img
+        class="brand-logo"
+        src="../images/logo.jpeg"
+        alt="Stellarium Celestial Ring Logo"
+        height="68"
+      >
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <p class="tagline">A Gallery Dedicated to Stars</p>
+
+    <!-- Mobile hamburger toggle (shown below 850px via solar-wing.css) -->
+    <button
+      type="button"
+      class="nav-toggle outline-btn"
+      id="nav-toggle"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      ☰ Menu
+    </button>
+
+    <nav id="main-nav" aria-label="Primary museum navigation">
+      <a href="../index.html">Lobby</a>
+      <a href="solar-system.html" class="active" aria-current="page">I. Solar System</a>
+      <a href="deep-space.html">II. Deep Space</a>
+      <a href="exploration.html">III. Exploration</a>
+      <a href="telescopes.html">IV. Observatories</a>
+      <a href="map.html">Floor Plan</a>
+      <a href="audio-tour.html">Audio Guide</a>
+      <a href="my-collection.html">Saved Art</a>
+    </nav>
+  </header>
+
+  <!-- Main Wing I Exhibition Content (populated from JavaScript data arrays) -->
+  <main class="container">
+    <section class="page-header" id="page-header" aria-labelledby="page-title"></section>
+
+    <section aria-labelledby="highlights-heading">
+      <h2 id="highlights-heading" class="section-heading">Featured Solar Exhibits</h2>
+      <div class="exhibit-grid solar-highlights-grid" id="solar-highlights"></div>
+    </section>
+
+    <section class="panel-box" id="scale-section" aria-labelledby="scale-heading"></section>
+
+    <section class="wing-nav-section" id="wing-links" aria-label="Continue exploring Wing I"></section>
+
+    <noscript>
+      <div class="panel-box status-message">
+        JavaScript is required to render the Solar System exhibits and interactive scale chart.
+      </div>
+    </noscript>
+  </main>
+
+  <!-- Shared Museum Footer -->
+  <footer>
+    <h3>STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="my-collection.html">My Collection</a>
+      <a href="about.html">Curator Team</a>
+    </div>
+    <p>Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Wikimedia Commons</p>
+  </footer>
+
+  <!-- Shared navigation toggle and page-specific exhibition script -->
+  <script src="../js/nav.js"></script>
+  <script src="../js/solar-system.js"></script>
+</body>
+</html>
