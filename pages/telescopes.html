@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STELLARIUM | Wing IV — Space Telescopes: Hubble vs. JWST</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/wing4.css">
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to exhibition content</a>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+
+    <div class="nav-bar-wrap">
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">☰ Gallery Menu</button>
+      <nav id="mainNav" aria-label="Main Museum Navigation">
+        <a href="../Index1.html">Lobby</a>
+        <a href="solar-system.html">I. Solar System</a>
+        <a href="deep-space.html">II. Deep Space</a>
+        <a href="exploration.html">III. Exploration</a>
+        <a href="telescopes.html" class="active">IV. Observatories</a>
+        <a href="map.html">Floor Plan</a>
+        <a href="audio-tour.html">Audio Guide</a>
+        <a href="my-collection.html">Saved Art</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wing-subnav" role="navigation" aria-label="Wing IV Exhibits">
+    <div class="wing-links">
+      <span class="wing-label">Wing IV • Space Technology &amp; Observatories:</span>
+      <a href="telescopes.html" class="wing-pill active" aria-current="page">13. Space Telescopes</a>
+      <a href="rockets.html" class="wing-pill">14. Historic &amp; Modern Rockets</a>
+      <a href="iss.html" class="wing-pill">15. International Space Station</a>
+    </div>
+    <button type="button" class="collection-trigger" id="openSavedCollectionBtn">
+      <span>Saved Exhibits</span>
+      <span class="saved-count-badge" aria-live="polite">0</span>
+    </button>
+  </div>
+
+  <main id="mainContent" class="container">
+    <section class="page-header">
+      <div class="subtitle">Wing IV • Exhibit 13 • Orbital Observatories</div>
+      <h1>Space Telescopes: Hubble vs. James Webb</h1>
+      <p>Compare identical regions of deep space captured by the <strong>Hubble Space Telescope</strong> in ultraviolet and visible light against the <strong>James Webb Space Telescope (JWST)</strong> in infrared wavelengths that pierce cosmic dust.</p>
+    </section>
+
+    <!-- FEATURED INTERACTIVE SIDE-BY-SIDE & WIPE COMPARISON STAGE -->
+    <section class="panel-box" aria-labelledby="stageHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Interactive Dual Observatory Viewer</div>
+          <h2 id="stageHeading">Pillars of Creation (Eagle Nebula)</h2>
+          <p id="stageMeta" style="color: var(--text-silver); margin-top: 0.2rem;"></p>
+        </div>
+        <div class="filter-group" role="tablist" aria-label="Comparison display mode">
+          <button type="button" class="outline-btn active" id="modeDualBtn" role="tab" aria-selected="true">Side-by-Side Frames</button>
+          <button type="button" class="outline-btn" id="modeWipeBtn" role="tab" aria-selected="false">Interactive Wipe Slider</button>
+        </div>
+      </div>
+
+      <div class="comparison-stage">
+        <!-- Side-by-Side View -->
+        <div class="dual-view-grid" id="dualCompareView">
+          <article class="telescope-frame">
+            <div class="telescope-frame-head">
+              <span>Hubble Space Telescope (Visible / UV)</span>
+              <span>2.4 m Mirror • LEO</span>
+            </div>
+            <img id="dualHubbleImg" src="../images/hubble-pillars.svg" alt="Hubble visible light view">
+            <div class="telescope-frame-note" id="dualHubbleNote"></div>
+          </article>
+
+          <article class="telescope-frame">
+            <div class="telescope-frame-head">
+              <span>James Webb Space Telescope (Infrared)</span>
+              <span>6.5 m Gold Mirror • L2</span>
+            </div>
+            <img id="dualJwstImg" src="../images/jwst-pillars.svg" alt="JWST infrared light view">
+            <div class="telescope-frame-note" id="dualJwstNote"></div>
+          </article>
+        </div>
+
+        <!-- Overlap Wipe Slider View -->
+        <div id="wipeCompareView" hidden>
+          <div class="wipe-viewer" id="wipeViewer" aria-label="Interactive Hubble and JWST comparison slider">
+            <div class="wipe-layer">
+              <img id="wipeJwstImg" src="../images/jwst-pillars.svg" alt="JWST Infrared Layer">
+            </div>
+            <div class="wipe-layer" id="wipeHubbleLayer" style="clip-path: inset(0 50% 0 0);">
+              <img id="wipeHubbleImg" src="../images/hubble-pillars.svg" alt="Hubble Optical Layer">
+            </div>
+            <span class="wipe-badge left">Hubble (Optical)</span>
+            <span class="wipe-badge right">JWST (Infrared)</span>
+            <div class="wipe-divider" id="wipeDivider">
+              <div class="wipe-knob">⇄</div>
+            </div>
+          </div>
+          <div class="wipe-range-wrap">
+            <label for="wipeRange" style="color: var(--gold-light); font-weight: 600;">Optical ↔ Infrared Blend:</label>
+            <input type="range" id="wipeRange" min="0" max="100" value="50" aria-label="Slide between Hubble optical and JWST infrared views">
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <p id="stageScienceSummary" style="max-width:760px;"></p>
+        <button type="button" class="gold-btn" id="stageSaveBtn">Save Exhibit to Collection</button>
+      </div>
+    </section>
+
+    <!-- DATA-DRIVEN COMPARISON GALLERY (JS RENDERED FROM ARRAY) -->
+    <section class="panel-box" aria-labelledby="galleryHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Curated Deep-Space Plates</div>
+          <h2 id="galleryHeading">Side-by-Side Comparison Gallery</h2>
+        </div>
+        <span id="galleryCount" style="color: var(--gold-light); font-weight: 600;" aria-live="polite"></span>
+      </div>
+
+      <div class="controls-bar">
+        <div class="filter-group" id="targetFilters" role="group" aria-label="Filter targets by type">
+          <button type="button" class="outline-btn active" data-filter="all">All Regions</button>
+          <button type="button" class="outline-btn" data-filter="nebula">Star-Forming Nebulae</button>
+          <button type="button" class="outline-btn" data-filter="planetary">Planetary &amp; Dying Stars</button>
+          <button type="button" class="outline-btn" data-filter="galaxy">Galaxies</button>
+        </div>
+
+        <div class="search-sort-group">
+          <input type="search" id="targetSearch" class="museum-input" placeholder="Search region or constellation..." aria-label="Search cosmic comparison targets">
+          <select id="targetSort" class="museum-select" aria-label="Sort targets">
+            <option value="distance-asc">Nearest First (ly)</option>
+            <option value="distance-desc">Farthest First (ly)</option>
+            <option value="name-asc">Name (A–Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="exhibit-grid" id="telescopeGalleryGrid"></div>
+    </section>
+
+    <!-- HARDWARE TABS + LIGHT-TRAVEL & OPTICS CALCULATOR -->
+    <div class="two-col-grid">
+      <section class="panel-box" aria-labelledby="specsHeading">
+        <div class="subtitle">Engineering Comparison</div>
+        <h2 id="specsHeading" style="margin-bottom: 1rem;">Hubble vs. JWST Architecture</h2>
+
+        <div class="tab-bar" role="tablist" aria-label="Telescope engineering categories">
+          <button type="button" class="outline-btn active" data-spec-tab="mirrors" role="tab" aria-selected="true">Mirrors &amp; Optics</button>
+          <button type="button" class="outline-btn" data-spec-tab="orbit" role="tab" aria-selected="false">Orbit &amp; Shield</button>
+          <button type="button" class="outline-btn" data-spec-tab="spectrum" role="tab" aria-selected="false">Spectrum &amp; Vision</button>
+        </div>
+
+        <div class="tab-panel" id="specTabContent" role="tabpanel" aria-live="polite"></div>
+      </section>
+
+      <section class="panel-box" aria-labelledby="calcHeading">
+        <div class="subtitle">Interactive Astronomy Calculator</div>
+        <h2 id="calcHeading" style="margin-bottom: 0.75rem;">Light-Travel &amp; Collecting Power</h2>
+        <p style="margin-bottom: 1.2rem; font-size: 0.96rem;">Calculate when photons from a cosmic target left their source and how much more light JWST's 6.5 m gold-coated mirror collects compared to Hubble's 2.4 m mirror.</p>
+
+        <div class="calc-grid">
+          <div class="form-field">
+            <label for="calcTargetPreset">Preset Target</label>
+            <select id="calcTargetPreset" class="museum-select"></select>
+          </div>
+          <div class="form-field">
+            <label for="calcDistanceInput">Distance (Light-Years)</label>
+            <input type="number" id="calcDistanceInput" class="museum-input" min="1" max="13500000000" value="6500">
+          </div>
+          <div class="form-field">
+            <label for="calcExposureInput">Hubble Exposure (hrs)</label>
+            <input type="number" id="calcExposureInput" class="museum-input" min="0.5" max="200" step="0.5" value="10">
+          </div>
+        </div>
+
+        <div class="calc-output-grid" aria-live="polite">
+          <div class="metric-tile">
+            <span class="metric-value" id="outLookback">6,500 yrs</span>
+            <span class="metric-label">Photon Travel Time</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="outEra">~4474 BCE</span>
+            <span class="metric-label">Earth Era When Light Emitted</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="outMirrorRatio">7.3×</span>
+            <span class="metric-label">JWST / Hubble Mirror Area</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="outJwstTime">1.4 hrs</span>
+            <span class="metric-label">Equivalent JWST Photon Time</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- OBSERVATION PROPOSAL FORM WITH LIVE VALIDATION -->
+    <section class="panel-box" aria-labelledby="proposalHeading">
+      <div class="subtitle">Curator Submission Desk</div>
+      <h2 id="proposalHeading" style="margin-bottom: 0.5rem;">Request Observatory Comparison Time</h2>
+      <p style="margin-bottom: 1.4rem;">Propose a celestial region for dual Hubble/JWST archival imaging in Stellarium's next exhibition rotation. All fields validate live as you type.</p>
+
+      <form id="proposalForm" novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="propTarget">Target Object Name *</label>
+            <input type="text" id="propTarget" class="museum-input" placeholder="e.g., Crab Nebula (M1)" required>
+            <span class="field-error" id="errPropTarget" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="propEmail">Researcher / Student Email *</label>
+            <input type="email" id="propEmail" class="museum-input" placeholder="astronomy@stellarium.edu" required>
+            <span class="field-error" id="errPropEmail" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="propObservatory">Observatory Mode *</label>
+            <select id="propObservatory" class="museum-select" required>
+              <option value="">-- Choose Observatory Mode --</option>
+              <option value="Dual Hubble + JWST Pair">Dual Hubble + JWST Comparison</option>
+              <option value="JWST NIRCam Deep Infrared">JWST NIRCam Deep Infrared</option>
+              <option value="Hubble WFC3 Ultraviolet">Hubble WFC3 Ultraviolet / Visible</option>
+            </select>
+            <span class="field-error" id="errPropObservatory" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="propHours">Requested Exposure Hours (1–48) *</label>
+            <input type="number" id="propHours" class="museum-input" min="1" max="48" placeholder="8" required>
+            <span class="field-error" id="errPropHours" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field full-width">
+            <label for="propRationale">Scientific Justification (min 20 characters) *</label>
+            <textarea id="propRationale" class="museum-textarea" rows="3" placeholder="Explain what dust structures or star-formation features infrared imaging will reveal..." required></textarea>
+            <span class="field-error" id="errPropRationale" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+          <button type="submit" class="gold-btn">Submit Observation Proposal</button>
+          <span style="font-size: 0.9rem; color: var(--text-silver);">Saved locally in your browser's exhibition log.</span>
+        </div>
+
+        <div class="form-status" id="proposalFormStatus" role="status" aria-live="polite"></div>
+      </form>
+
+      <div id="savedProposalsContainer" style="margin-top: 1.5rem;"></div>
+    </section>
+  </main>
+
+  <!-- EXHIBIT TELEMETRY DETAIL MODAL -->
+  <div class="modal-backdrop" id="telescopeDetailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close exhibit details">✕</button>
+      <div class="subtitle" id="modalSubtitle"></div>
+      <h2 id="modalTitle" style="margin: 0.35rem 0 1rem;"></h2>
+      <div class="dual-view-grid" style="margin-bottom: 1rem;">
+        <img id="modalHubbleImg" src="" alt="" style="width:100%; border:1px solid var(--gold-dark);">
+        <img id="modalJwstImg" src="" alt="" style="width:100%; border:1px solid var(--gold-dark);">
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- SAVED COLLECTION DRAWER MODAL -->
+  <div class="modal-backdrop" id="savedCollectionModal" role="dialog" aria-modal="true" aria-labelledby="savedModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close saved collection">✕</button>
+      <div class="subtitle">Personal Curated Tour</div>
+      <h2 id="savedModalTitle" style="margin: 0.3rem 0 1rem;">Saved Wing IV Exhibits</h2>
+      <div id="savedCollectionList"></div>
+      <div style="margin-top: 1rem; text-align: right;">
+        <button type="button" class="outline-btn" id="clearSavedCollectionBtn">Clear All Saved</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="../Index1.html">Museum Lobby</a>
+      <a href="telescopes.html">Space Telescopes</a>
+      <a href="rockets.html">Rockets</a>
+      <a href="iss.html">ISS Habitats</a>
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Wing IV: Space Technology &amp; Observatories</p>
+    <p class="ai-disclosure">Exhibit visuals on this page were generated using Antigravity AI.</p>
+  </footer>
+
+  <script src="../js/wing4-shared.js"></script>
+  <script src="../js/telescopes.js"></script>
+</body>
+</html>

@@ -1,0 +1,729 @@
+/* ==========================================================================
+   WING IV: SPACE TECHNOLOGY & OBSERVATORIES — SHARED & PAGE COMPONENTS
+   Matches Stellarium Palette & Typography from Index1.html & style.css
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. WING IV SUB-NAVIGATION & COLLECTION BAR
+   -------------------------------------------------------------------------- */
+.wing-subnav {
+  background: rgba(1, 8, 20, 0.92);
+  border-bottom: 1px solid var(--gold-dark);
+  padding: 0.75rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 15;
+}
+
+.wing-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.wing-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-main);
+  margin-right: 0.35rem;
+}
+
+.wing-pill {
+  padding: 0.42rem 0.95rem;
+  border: 1px solid var(--gold-dark);
+  background: var(--panel-oxford);
+  color: var(--text-silver);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.wing-pill:hover,
+.wing-pill.active {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  border-color: var(--gold-light);
+}
+
+.collection-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 1rem;
+  border: 1px solid var(--gold-light);
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--shadow-thick);
+  transition: 0.2s;
+}
+
+.collection-trigger:hover {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+}
+
+.saved-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--gold-light);
+  color: var(--bg-abyss);
+  font-family: 'Spectral', serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   2. TOOLBARS (SEARCH, FILTER, SORT, MODE TOGGLES)
+   -------------------------------------------------------------------------- */
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+  padding: 1.1rem 1.3rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.search-sort-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.museum-input,
+.museum-select,
+.museum-textarea {
+  background: var(--bg-abyss);
+  color: var(--text-bright);
+  border: 1px solid var(--gold-main);
+  padding: 0.58rem 0.85rem;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 0.96rem;
+  transition: border-color 0.2s;
+}
+
+.museum-input::placeholder,
+.museum-textarea::placeholder {
+  color: #8c99ad;
+}
+
+.museum-input:focus,
+.museum-select:focus,
+.museum-textarea:focus {
+  border-color: var(--gold-light);
+}
+
+.section-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.section-heading-row h2 {
+  font-size: 1.9rem;
+  margin-top: 0.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. TELESCOPES PAGE: SIDE-BY-SIDE & WIPE COMPARISON STAGE
+   -------------------------------------------------------------------------- */
+.comparison-stage {
+  border: 2px solid var(--gold-light);
+  background: var(--bg-abyss);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.dual-view-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.telescope-frame {
+  border: 1px solid var(--gold-main);
+  background: #020b1a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.telescope-frame-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  background: var(--panel-oxford);
+  border-bottom: 1px solid var(--gold-dark);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.88rem;
+  color: var(--gold-light);
+}
+
+.telescope-frame img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.telescope-frame-note {
+  padding: 0.85rem 1rem;
+  font-size: 0.94rem;
+  color: var(--text-silver);
+  border-top: 1px solid rgba(188, 158, 112, 0.25);
+}
+
+/* Interactive Wipe Slider Mode */
+.wipe-viewer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 490px;
+  border: 1px solid var(--gold-main);
+  overflow: hidden;
+  background: #020b1a;
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.wipe-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wipe-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.wipe-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--gold-light);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 6;
+}
+
+.wipe-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--bg-abyss);
+  border: 2px solid var(--gold-light);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.wipe-badge {
+  position: absolute;
+  top: 12px;
+  padding: 0.3rem 0.75rem;
+  background: rgba(1, 8, 20, 0.88);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.wipe-badge.left { left: 12px; }
+.wipe-badge.right { right: 12px; }
+
+.wipe-range-wrap {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.wipe-range-wrap input[type="range"] {
+  width: 100%;
+  max-width: 520px;
+  accent-color: var(--gold-light);
+  cursor: pointer;
+}
+
+.dual-preview-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dual-preview-strip figure {
+  margin: 0;
+  border: 1px solid var(--gold-dark);
+  background: #020b1a;
+}
+
+.dual-preview-strip img {
+  height: 120px;
+  margin-bottom: 0;
+  border: none;
+}
+
+.dual-preview-strip figcaption {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.4rem;
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  border-top: 1px solid rgba(188, 158, 112, 0.25);
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.tab-panel {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 1.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. ROCKETS PAGE: TO-SCALE HEIGHT & PAYLOAD COMPARISON STAGE
+   -------------------------------------------------------------------------- */
+.scale-stage {
+  background: radial-gradient(circle at 50% 25%, #092147 0%, var(--bg-abyss) 78%);
+  border: 2px solid var(--gold-light);
+  padding: 1.5rem 1.2rem 0;
+  overflow-x: auto;
+}
+
+.scale-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 1.2rem;
+  align-items: end;
+  min-height: 390px;
+  padding-top: 1.2rem;
+  border-bottom: 3px solid var(--gold-main);
+}
+
+.scale-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding-bottom: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.scale-col:hover {
+  transform: translateY(-4px);
+}
+
+.scale-col.active .scale-meta {
+  border-color: var(--gold-light);
+  background: var(--panel-oxford);
+}
+
+.scale-rocket-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 290px;
+}
+
+.scale-rocket-img {
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  transition: height 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(240, 203, 144, 0.16));
+}
+
+.scale-meta {
+  width: 100%;
+  background: rgba(4, 30, 66, 0.85);
+  border: 1px solid var(--gold-dark);
+  border-bottom: none;
+  padding: 0.65rem 0.5rem;
+}
+
+.scale-meta h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.scale-stat-line {
+  font-size: 0.86rem;
+  color: var(--text-bright);
+}
+
+/* Payload Horizontal Bar Chart */
+.payload-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.payload-row {
+  display: grid;
+  grid-template-columns: 155px 1fr 130px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.payload-track {
+  height: 24px;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  overflow: hidden;
+}
+
+.payload-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  transition: width 0.5s ease;
+}
+
+/* --------------------------------------------------------------------------
+   5. ISS PAGE: INTERACTIVE STATION FLOORPLAN & DAILY ROUTINE
+   -------------------------------------------------------------------------- */
+.iss-schematic {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 1.8rem;
+}
+
+.iss-node-btn {
+  text-align: left;
+  padding: 1rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  color: var(--text-silver);
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.iss-node-btn:hover,
+.iss-node-btn.active {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  border-color: var(--gold-light);
+}
+
+.iss-node-btn .node-code {
+  display: block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+.iss-node-btn.active .node-code,
+.iss-node-btn:hover .node-code {
+  color: var(--bg-abyss);
+}
+
+.iss-node-btn strong {
+  display: block;
+  font-size: 1.05rem;
+  margin-top: 0.25rem;
+}
+
+.iss-room-spotlight {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 1.8rem;
+  align-items: start;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-light);
+  padding: 1.4rem;
+}
+
+.iss-room-spotlight img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--gold-dark);
+}
+
+/* Accordion */
+.accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.accordion-item {
+  border: 1px solid var(--gold-main);
+  background: var(--bg-abyss);
+}
+
+.accordion-trigger {
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.2rem;
+  background: transparent;
+  border: none;
+  color: var(--gold-light);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordion-trigger:hover {
+  background: rgba(188, 158, 112, 0.12);
+}
+
+.accordion-body {
+  display: none;
+  padding: 0 1.2rem 1.1rem;
+  color: var(--text-silver);
+  border-top: 1px solid rgba(188, 158, 112, 0.25);
+  padding-top: 0.85rem;
+}
+
+.accordion-item.open .accordion-body {
+  display: block;
+}
+
+/* Daily Checklist */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"] {
+  margin-top: 0.3rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold-light);
+  cursor: pointer;
+}
+
+.check-item.completed {
+  border-color: var(--gold-light);
+  background: rgba(188, 158, 112, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   6. CALCULATORS & LIVE-VALIDATED FORMS
+   -------------------------------------------------------------------------- */
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.calc-output-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.metric-tile {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  padding: 1rem;
+  text-align: center;
+}
+
+.metric-tile .metric-value {
+  display: block;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.65rem;
+  color: var(--gold-light);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.metric-tile .metric-label {
+  font-size: 0.86rem;
+  color: var(--text-silver);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.15rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.94rem;
+  color: var(--gold-light);
+}
+
+.field-error {
+  min-height: 1.15rem;
+  font-size: 0.84rem;
+  color: #ff9e8f;
+}
+
+.museum-input[aria-invalid="true"],
+.museum-select[aria-invalid="true"],
+.museum-textarea[aria-invalid="true"] {
+  border-color: #ff826e;
+}
+
+.form-status {
+  margin-top: 1rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--gold-light);
+  background: rgba(240, 203, 144, 0.12);
+  color: var(--text-bright);
+  display: none;
+}
+
+.form-status.visible {
+  display: block;
+}
+
+.form-status.error {
+  border-color: #ff826e;
+  background: rgba(255, 130, 110, 0.12);
+  color: #ffd6cf;
+}
+
+.card-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: auto;
+}
+
+.saved-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  margin-bottom: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. RESPONSIVE MEDIA QUERIES (DESKTOP & MOBILE)
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .dual-view-grid,
+  .iss-room-spotlight,
+  .two-col-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .payload-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wing-subnav {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .wing-links {
+    justify-content: center;
+  }
+
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-sort-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

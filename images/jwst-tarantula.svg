@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="tarJwst" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#69b8ff" stop-opacity="0.5"/>
+      <stop offset="48%" stop-color="#b55128" stop-opacity="0.55"/>
+      <stop offset="85%" stop-color="#3a191a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#030710" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="tarSharp"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="#030710"/>
+  <ellipse cx="400" cy="250" rx="355" ry="225" fill="url(#tarJwst)"/>
+  <!-- Crisp Hollowed-Out Dust Cavity & Spider-like Filaments -->
+  <path d="M90,180 C210,120 310,185 340,250 C310,330 220,380 110,360" fill="none" stroke="#f0974f" stroke-width="10" opacity="0.7" filter="url(#tarSharp)"/>
+  <path d="M710,150 C590,140 485,190 465,250 C495,335 585,380 705,355" fill="none" stroke="#d97136" stroke-width="10" opacity="0.7" filter="url(#tarSharp)"/>
+  <!-- Hot Massive Blue Stars in Central Cavity -->
+  <g stroke="#bfe8ff" stroke-width="1.2">
+    <g transform="translate(400,250)">
+      <line x1="0" y1="-18" x2="0" y2="18"/><line x1="-15.5" y1="-9" x2="15.5" y2="9"/><line x1="-15.5" y1="9" x2="15.5" y2="-9"/>
+      <circle cx="0" cy="0" r="3.5" fill="#ffffff" stroke="none"/>
+    </g>
+    <g transform="translate(382,238)">
+      <line x1="0" y1="-10" x2="0" y2="10"/><line x1="-8.5" y1="-5" x2="8.5" y2="5"/><line x1="-8.5" y1="5" x2="8.5" y2="-5"/>
+      <circle cx="0" cy="0" r="2.2" fill="#e6f7ff" stroke="none"/>
+    </g>
+  </g>
+  <!-- Background Crimson Protostars & Distant Galaxies -->
+  <g fill="#ff684d">
+    <circle cx="195" cy="175" r="2.6"/><circle cx="245" cy="340" r="2.4"/><circle cx="575" cy="182" r="2.8"/><circle cx="620" cy="325" r="2.5"/>
+  </g>
+</svg>

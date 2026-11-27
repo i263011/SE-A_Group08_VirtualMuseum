@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="earthCurve" cx="50%" cy="135%" r="105%">
+      <stop offset="0%" stop-color="#69c9ff"/>
+      <stop offset="45%" stop-color="#1966b8"/>
+      <stop offset="82%" stop-color="#07224d"/>
+      <stop offset="100%" stop-color="#010814"/>
+    </radialGradient>
+    <linearGradient id="cabinMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2639"/>
+      <stop offset="100%" stop-color="#0b1320"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="#010814"/>
+  <!-- Curved Earth Horizon Seen Through Cupola -->
+  <circle cx="400" cy="610" r="460" fill="url(#earthCurve)"/>
+  <!-- Swirling White Cloud Bands -->
+  <path d="M130,300 Q280,250 430,295 T710,275" fill="none" stroke="#ffffff" stroke-width="18" opacity="0.45"/>
+  <path d="M190,360 Q360,330 560,375" fill="none" stroke="#d8f0ff" stroke-width="12" opacity="0.35"/>
+  <!-- Atmospheric Gold/Cyan Rim -->
+  <path d="M60,335 A460,460 0 0,1 740,335" fill="none" stroke="#7fd8ff" stroke-width="5" opacity="0.8"/>
+  <!-- Cupola 7-Window Frame Interior -->
+  <path d="M0,0 L800,0 L800,500 L0,500 Z M400,75 C255,75 160,175 160,310 C160,400 265,445 400,445 C535,445 640,400 640,310 C640,175 545,75 400,75 Z" fill="url(#cabinMetal)" fill-rule="evenodd"/>
+  <!-- Radial Window Struts & Central Circular Window -->
+  <g fill="none" stroke="#687891" stroke-width="14">
+    <circle cx="400" cy="265" r="88"/>
+    <ellipse cx="400" cy="265" rx="242" ry="188"/>
+    <line x1="400" y1="77" x2="400" y2="177"/>
+    <line x1="215" y1="150" x2="324" y2="220"/>
+    <line x1="585" y1="150" x2="476" y2="220"/>
+    <line x1="175" y1="340" x2="316" y2="290"/>
+    <line x1="625" y1="340" x2="484" y2="290"/>
+    <line x1="400" y1="353" x2="400" y2="453"/>
+  </g>
+  <!-- Camera Lens & Handrail -->
+  <rect x="372" y="385" width="56" height="44" rx="5" fill="#2c3545" stroke="#BC9E70" stroke-width="2"/>
+  <circle cx="400" cy="407" r="14" fill="#111822" stroke="#F0CB90" stroke-width="2"/>
+  <line x1="115" y1="455" x2="260" y2="455" stroke="#F0CB90" stroke-width="6" stroke-linecap="round"/>
+</svg>

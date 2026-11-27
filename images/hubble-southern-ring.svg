@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="srHub" cx="50%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#d8f3ff"/>
+      <stop offset="28%" stop-color="#4fb4d8" stop-opacity="0.85"/>
+      <stop offset="56%" stop-color="#1e6285" stop-opacity="0.72"/>
+      <stop offset="76%" stop-color="#d97538" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#030711" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="srSoft"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="#030711"/>
+  <g fill="#d9e8ff" opacity="0.75">
+    <circle cx="95" cy="70" r="1.4"/><circle cx="215" cy="400" r="1.6"/><circle cx="670" cy="95" r="1.5"/>
+    <circle cx="710" cy="390" r="1.3"/><circle cx="145" cy="250" r="1.2"/><circle cx="645" cy="260" r="1.4"/>
+  </g>
+  <ellipse cx="400" cy="250" rx="220" ry="165" transform="rotate(-18 400 250)" fill="url(#srHub)" filter="url(#srSoft)"/>
+  <ellipse cx="400" cy="250" rx="145" ry="102" transform="rotate(-18 400 250)" fill="none" stroke="#9be7ff" stroke-width="10" opacity="0.45" filter="url(#srSoft)"/>
+  <!-- Single visible bright companion star (white dwarf companion hidden in glare) -->
+  <circle cx="400" cy="250" r="5" fill="#ffffff"/>
+  <g stroke="#ffffff" stroke-width="1.2">
+    <line x1="400" y1="234" x2="400" y2="266"/><line x1="384" y1="250" x2="416" y2="250"/>
+  </g>
+</svg>

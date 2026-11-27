@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="srJwstCore" cx="50%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#7ef9ff" stop-opacity="0.9"/>
+      <stop offset="28%" stop-color="#35a9c9" stop-opacity="0.65"/>
+      <stop offset="62%" stop-color="#eb7530" stop-opacity="0.58"/>
+      <stop offset="85%" stop-color="#69201a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#030711" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="srSharp"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="#030711"/>
+  <!-- Deep infrared field with distant edge-on galaxy! -->
+  <g fill="#ffe6c7" opacity="0.85">
+    <circle cx="72" cy="58" r="1.4"/><circle cx="132" cy="148" r="1.2"/><circle cx="195" cy="422" r="1.6"/>
+    <circle cx="670" cy="84" r="1.5"/><circle cx="732" cy="382" r="1.3"/><circle cx="628" cy="432" r="1.4"/>
+  </g>
+  <!-- Edge-on background galaxy discovered in JWST view -->
+  <ellipse cx="145" cy="190" rx="28" ry="4" transform="rotate(-35 145 190)" fill="#ffbd82" opacity="0.8" filter="url(#srSharp)"/>
+  <circle cx="145" cy="190" r="3" fill="#fff0d1"/>
+  <!-- Foamy outer infrared dust shells -->
+  <ellipse cx="400" cy="250" rx="240" ry="182" transform="rotate(-18 400 250)" fill="url(#srJwstCore)"/>
+  <g fill="none" stroke="#ff9c54" opacity="0.55" transform="rotate(-18 400 250)">
+    <ellipse cx="400" cy="250" rx="195" ry="145" stroke-width="2.5" stroke-dasharray="14 8"/>
+    <ellipse cx="400" cy="250" rx="168" ry="122" stroke-width="2" stroke-dasharray="8 6"/>
+    <ellipse cx="400" cy="250" rx="135" ry="96" stroke-width="2" stroke-dasharray="18 7"/>
+  </g>
+  <!-- Binary Pair Revealed: Bright Companion + Red Dusty White Dwarf -->
+  <g stroke="#d6fbff" stroke-width="1.3">
+    <g transform="translate(395,248)">
+      <line x1="0" y1="-16" x2="0" y2="16"/><line x1="-14" y1="-8" x2="14" y2="8"/><line x1="-14" y1="8" x2="14" y2="-8"/>
+      <circle cx="0" cy="0" r="3.2" fill="#ffffff" stroke="none"/>
+    </g>
+  </g>
+  <circle cx="410" cy="258" r="4.2" fill="#ff4e3b"/>
+  <circle cx="410" cy="258" r="2" fill="#ffd2c4"/>
+</svg>

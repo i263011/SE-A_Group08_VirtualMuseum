@@ -1,5 +1,5 @@
 /* ==========================================================================
-   THE CELESTIAL GALLERY — SHARED MUSEUM STYLESHEET (style.css)
+   THE CELESTIAL GALLERY — SHARED MUSEUM STYLESHEET (css/style.css)
    Palette: Deep Abyss (#010814), Oxford Blue (#041E42), Silver Plate (#C4C4C4),
             Golden Egg (#BC9E70 / #F0CB90 / #B39053), Thick Shadow (#233658)
    Typography: Times New Roman (Titles), Playfair Display (Subheadings), Spectral (Body)
@@ -11,6 +11,7 @@
   --bg-abyss: #010814;       /* Deep dark black with a hint of blue */
   --panel-oxford: #041E42;   /* Oxford Blue / Night Sky for panels */
   --text-silver: #C4C4C4;    /* Silver Plate text */
+  --text-bright: #E6ECF5;    /* High-contrast light silver for key labels */
   --gold-main: #BC9E70;      /* Golden Egg border */
   --gold-light: #F0CB90;     /* Golden Egg highlight */
   --gold-dark: #B39053;      /* Golden Egg deep */
@@ -29,11 +30,17 @@
 body {
   font-family: 'Spectral', Georgia, serif;
   background-color: var(--bg-abyss);
+  background-image: linear-gradient(rgba(1, 8, 20, 0.52), rgba(1, 8, 20, 0.65)), url('../background.png');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text-silver);
   line-height: 1.65;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* Main Heading Titles: Times New Roman */
@@ -58,12 +65,41 @@ img {
   display: block;
 }
 
+/* Accessible Focus States */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--gold-light);
+  color: var(--bg-abyss);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
 /* --------------------------------------------------------------------------
-   2. SHARED HEADER & NAVIGATION MASTHEAD
+   2. SHARED HEADER, PURE-CSS LOGO LOCKUP & NAVIGATION MASTHEAD
    -------------------------------------------------------------------------- */
 header {
+  position: relative;
+  z-index: 20;
   text-align: center;
-  padding: 2rem 5% 1.2rem;
+  padding: 1.8rem 5% 1.2rem;
   border-bottom: 2px solid var(--gold-main);
   background-color: var(--panel-oxford);
   box-shadow: 0 8px 0 var(--shadow-thick);
@@ -77,21 +113,82 @@ header {
   color: var(--gold-main);
 }
 
+/* Pure CSS Brand Lockup (mix-blend-mode: screen + Golden Egg tint filter) */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  margin: 0.4rem 0 0.25rem;
+}
+
+.logo-frame {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-frame .logo-ink {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: screen;
+  filter: invert(1) sepia(0.55) saturate(2.1) hue-rotate(355deg) brightness(1.08);
+  transition: transform 0.6s ease;
+}
+
+.brand-lockup:hover .logo-frame .logo-ink {
+  transform: rotate(15deg) scale(1.06);
+}
+
 .brand {
-  font-size: 2.6rem;
-  letter-spacing: 5px;
-  margin: 0.3rem 0 1.2rem;
+  font-size: 2.7rem;
+  letter-spacing: 6px;
+  margin: 0;
   font-weight: bold;
   text-shadow: 2px 2px 0 var(--bg-abyss);
+}
+
+.tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  color: var(--text-silver);
+  font-size: 1.05rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.1rem;
+}
+
+.nav-bar-wrap {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(240, 203, 144, 0.3);
+}
+
+.nav-toggle {
+  display: none;
+  margin: 0 auto;
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-main);
+  padding: 0.55rem 1.2rem;
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--shadow-thick);
 }
 
 nav {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 1.8rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(240, 203, 144, 0.3);
+  gap: 1.5rem;
   font-family: 'Spectral', serif;
   font-size: 0.95rem;
   font-weight: 600;
@@ -113,21 +210,22 @@ nav a.active {
 }
 
 /* --------------------------------------------------------------------------
-   3. REUSABLE PAGE CONTAINERS & PANELS (For All 18 Pages)
+   3. REUSABLE PAGE CONTAINERS & PANELS
    -------------------------------------------------------------------------- */
 .container {
   max-width: 1200px;
   width: 100%;
-  margin: 3.5rem auto;
+  margin: 3rem auto;
   padding: 0 5%;
   flex: 1;
 }
 
 .page-header {
-  background: var(--panel-oxford);
+  background: rgba(4, 30, 66, 0.91);
+  backdrop-filter: blur(4px);
   border: 2px solid var(--gold-main);
   padding: 2.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   text-align: center;
   box-shadow: 10px 10px 0 var(--shadow-thick);
 }
@@ -138,13 +236,14 @@ nav a.active {
 }
 
 .page-header p {
-  max-width: 760px;
+  max-width: 780px;
   margin: 0 auto;
   font-size: 1.06rem;
 }
 
 .panel-box {
-  background: var(--panel-oxford);
+  background: rgba(4, 30, 66, 0.91);
+  backdrop-filter: blur(4px);
   border: 2px solid var(--gold-main);
   padding: 2.2rem;
   box-shadow: 10px 10px 0 var(--shadow-thick);
@@ -156,7 +255,7 @@ nav a.active {
    -------------------------------------------------------------------------- */
 .gold-btn {
   display: inline-block;
-  padding: 0.85rem 2rem;
+  padding: 0.85rem 1.8rem;
   border: 2px solid var(--gold-light);
   background: var(--gold-main);
   color: var(--bg-abyss);
@@ -178,7 +277,7 @@ nav a.active {
 
 .outline-btn {
   display: inline-block;
-  padding: 0.7rem 1.4rem;
+  padding: 0.65rem 1.3rem;
   border: 1px solid var(--gold-main);
   background: var(--bg-abyss);
   color: var(--gold-light);
@@ -197,82 +296,18 @@ nav a.active {
 }
 
 /* --------------------------------------------------------------------------
-   5. HERO SPLIT SECTION (Lobby / Wing Intro Pages)
+   5. EXHIBIT CARDS & STAT LISTS
    -------------------------------------------------------------------------- */
-.hero-split {
-  max-width: 1200px;
-  margin: 3.5rem auto;
-  padding: 0 5%;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 3rem;
-  align-items: center;
-}
-
-.hero-frame {
-  border: 2px solid var(--gold-main);
-  padding: 12px;
-  background: var(--panel-oxford);
-  box-shadow: 10px 10px 0 var(--shadow-thick);
-}
-
-.hero-frame img {
-  width: 100%;
-  height: 380px;
-  object-fit: cover;
-  border: 1px solid var(--gold-dark);
-}
-
-.hero-text {
-  background: var(--panel-oxford);
-  border: 2px solid var(--gold-main);
-  padding: 2.5rem;
-  box-shadow: 10px 10px 0 var(--shadow-thick);
-}
-
-.hero-text h1 {
-  font-size: 2.7rem;
-  line-height: 1.15;
-  margin: 0.6rem 0 1.2rem;
-}
-
-.hero-text p {
-  color: var(--text-silver);
-  margin-bottom: 2rem;
-  font-size: 1.08rem;
-}
-
-/* --------------------------------------------------------------------------
-   6. EXHIBIT & GALLERY CARD GRIDS (Planets, Telescopes, Rovers, Stars)
-   -------------------------------------------------------------------------- */
-.rooms {
-  max-width: 1200px;
-  margin: 4.5rem auto;
-  padding: 0 5%;
-}
-
-.rooms-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-.rooms-header h2 {
-  font-size: 2.1rem;
-  margin-top: 0.3rem;
-}
-
-.room-list,
 .exhibit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 2rem;
 }
 
-.room-card,
 .exhibit-card {
   background: var(--panel-oxford);
   border: 2px solid var(--gold-main);
-  padding: 2rem 1.5rem;
+  padding: 1.8rem 1.5rem;
   text-align: center;
   box-shadow: 8px 8px 0 var(--shadow-thick);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -281,7 +316,6 @@ nav a.active {
   justify-content: space-between;
 }
 
-.room-card:hover,
 .exhibit-card:hover {
   transform: translate(-4px, -4px);
   border-color: var(--gold-light);
@@ -305,39 +339,17 @@ nav a.active {
   text-transform: uppercase;
 }
 
-.room-card h3,
 .exhibit-card h3 {
-  font-size: 1.45rem;
-  margin: 0.7rem 0;
+  font-size: 1.4rem;
+  margin: 0.6rem 0;
 }
 
-.room-card p,
 .exhibit-card p {
   color: var(--text-silver);
   font-size: 0.98rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
-.room-card a,
-.card-action {
-  color: var(--gold-light);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 2px solid var(--gold-main);
-  padding-bottom: 3px;
-  transition: 0.2s;
-  align-self: center;
-}
-
-.room-card a:hover,
-.card-action:hover {
-  color: #ffffff;
-  border-bottom-color: #ffffff;
-}
-
-/* Metadata Stats Bar inside Exhibit Cards */
 .stat-list {
   list-style: none;
   text-align: left;
@@ -362,184 +374,7 @@ nav a.active {
 }
 
 /* --------------------------------------------------------------------------
-   7. MULTI-WAVELENGTH SPECTRUM SLIDER (index.html)
-   -------------------------------------------------------------------------- */
-.wavelength-section {
-  max-width: 1200px;
-  margin: 4.5rem auto;
-  padding: 0 5%;
-}
-
-.wavelength-panel {
-  background: var(--panel-oxford);
-  border: 2px solid var(--gold-main);
-  padding: 2.5rem;
-  box-shadow: 12px 12px 0 var(--shadow-thick);
-}
-
-.wavelength-header {
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 2rem;
-}
-
-.wavelength-header h2 {
-  font-size: 2.2rem;
-  margin: 0.3rem 0 0.7rem;
-}
-
-.spectrum-viewer {
-  position: relative;
-  width: 100%;
-  height: 480px;
-  border: 2px solid var(--gold-light);
-  overflow: hidden;
-  user-select: none;
-  -webkit-user-select: none;
-  background: var(--bg-abyss);
-  cursor: ew-resize;
-  touch-action: pan-y;
-}
-
-.spectrum-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  will-change: clip-path;
-}
-
-.spectrum-layer img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.img-visible {
-  filter: contrast(1.06) saturate(1.1) brightness(1.02);
-}
-
-.img-xray {
-  filter: hue-rotate(190deg) saturate(2.5) contrast(1.38) brightness(1.08);
-}
-
-.img-multi {
-  filter: hue-rotate(315deg) saturate(2.05) contrast(1.3) brightness(1.08);
-}
-
-.zone-badge {
-  position: absolute;
-  top: 14px;
-  padding: 0.35rem 0.85rem;
-  background: rgba(1, 8, 20, 0.88);
-  border: 1px solid var(--gold-main);
-  color: var(--gold-light);
-  font-family: 'Playfair Display', serif;
-  font-size: 0.82rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.badge-left { left: 14px; }
-.badge-center { left: 50%; transform: translateX(-50%); }
-.badge-right { right: 14px; }
-
-.slider-divider {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 3px;
-  background: var(--gold-light);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
-  z-index: 10;
-  pointer-events: none;
-  will-change: left;
-}
-
-.slider-knob {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--bg-abyss);
-  border: 3px solid var(--gold-light);
-  color: var(--gold-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.15rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.spectrum-viewer:hover .slider-knob,
-.spectrum-viewer.dragging .slider-knob {
-  transform: translate(-50%, -50%) scale(1.1);
-  background: var(--panel-oxford);
-}
-
-.spectrum-controls {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-}
-
-.range-track {
-  width: 100%;
-  max-width: 650px;
-  accent-color: var(--gold-light);
-  cursor: pointer;
-  height: 6px;
-}
-
-.spectrum-tabs {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.spec-btn {
-  background: var(--bg-abyss);
-  color: var(--text-silver);
-  border: 1px solid var(--gold-main);
-  padding: 0.55rem 1.2rem;
-  font-family: 'Playfair Display', serif;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 4px 4px 0 var(--shadow-thick);
-}
-
-.spec-btn.active,
-.spec-btn:hover {
-  background: var(--gold-main);
-  color: var(--bg-abyss);
-  font-weight: 700;
-}
-
-.spectrum-caption {
-  text-align: center;
-  max-width: 780px;
-  background: var(--bg-abyss);
-  border: 1px solid var(--gold-dark);
-  padding: 1rem 1.5rem;
-  font-size: 0.98rem;
-  color: var(--text-silver);
-}
-
-/* --------------------------------------------------------------------------
-   8. EXHIBIT DETAIL MODAL POPUP (For Sub-pages)
+   6. EXHIBIT DETAIL MODAL POPUP
    -------------------------------------------------------------------------- */
 .modal-backdrop {
   display: none;
@@ -559,7 +394,7 @@ nav a.active {
 .modal-box {
   background: var(--panel-oxford);
   border: 2px solid var(--gold-light);
-  max-width: 700px;
+  max-width: 760px;
   width: 100%;
   padding: 2rem;
   box-shadow: 12px 12px 0 var(--shadow-thick);
@@ -580,8 +415,13 @@ nav a.active {
   cursor: pointer;
 }
 
+.modal-close:hover {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+}
+
 /* --------------------------------------------------------------------------
-   9. SHARED FOOTER PLAQUE
+   7. SHARED FOOTER PLAQUE
    -------------------------------------------------------------------------- */
 footer {
   text-align: center;
@@ -608,17 +448,58 @@ footer {
   text-underline-offset: 4px;
 }
 
+.ai-disclosure {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-silver);
+  opacity: 0.75;
+  font-style: italic;
+}
+
 /* --------------------------------------------------------------------------
-   10. RESPONSIVE BREAKPOINTS
+   8. RESPONSIVE BREAKPOINTS
    -------------------------------------------------------------------------- */
 @media (max-width: 850px) {
-  .hero-split {
-    grid-template-columns: 1fr;
+  body {
+    background-attachment: scroll;
   }
+
   .brand {
-    font-size: 1.9rem;
+    font-size: 2rem;
+    letter-spacing: 3px;
   }
-  .spectrum-viewer {
-    height: 320px;
+
+  .logo-frame {
+    width: 50px;
+    height: 50px;
+  }
+
+  .page-header {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .panel-box {
+    padding: 1.4rem 1.1rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  nav.open {
+    display: flex;
   }
 }

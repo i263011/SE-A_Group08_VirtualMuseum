@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STELLARIUM | Wing IV — International Space Station</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/wing4.css">
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to ISS exhibition</a>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+
+    <div class="nav-bar-wrap">
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">☰ Gallery Menu</button>
+      <nav id="mainNav" aria-label="Main Museum Navigation">
+        <a href="../Index1.html">Lobby</a>
+        <a href="solar-system.html">I. Solar System</a>
+        <a href="deep-space.html">II. Deep Space</a>
+        <a href="exploration.html">III. Exploration</a>
+        <a href="telescopes.html" class="active">IV. Observatories</a>
+        <a href="map.html">Floor Plan</a>
+        <a href="audio-tour.html">Audio Guide</a>
+        <a href="my-collection.html">Saved Art</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wing-subnav" role="navigation" aria-label="Wing IV Exhibits">
+    <div class="wing-links">
+      <span class="wing-label">Wing IV • Space Technology &amp; Observatories:</span>
+      <a href="telescopes.html" class="wing-pill">13. Space Telescopes</a>
+      <a href="rockets.html" class="wing-pill">14. Historic &amp; Modern Rockets</a>
+      <a href="iss.html" class="wing-pill active" aria-current="page">15. International Space Station</a>
+    </div>
+    <button type="button" class="collection-trigger" id="openSavedCollectionBtn">
+      <span>Saved Exhibits</span>
+      <span class="saved-count-badge" aria-live="polite">0</span>
+    </button>
+  </div>
+
+  <main id="mainContent" class="container">
+    <section class="page-header">
+      <div class="subtitle">Wing IV • Exhibit 15 • Orbital Habitat &amp; Laboratory</div>
+      <h1>International Space Station: Life in Microgravity</h1>
+      <p>Tour the pressurized modules 400 kilometers above Earth to discover room-by-room how astronauts <strong>eat</strong>, <strong>sleep</strong>, and <strong>conduct breakthrough science</strong> while orbiting at 27,600 km/h.</p>
+    </section>
+
+    <!-- ROOM-BY-ROOM INTERACTIVE EXPLORER -->
+    <section class="panel-box" aria-labelledby="explorerHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Room-by-Room Station Tour</div>
+          <h2 id="explorerHeading">Select an Orbital Module</h2>
+        </div>
+        <button type="button" class="gold-btn" id="spotlightSaveBtn">Save Room to Collection</button>
+      </div>
+
+      <div class="iss-schematic" id="issSchematicButtons" role="tablist" aria-label="ISS pressurized rooms"></div>
+
+      <div class="iss-room-spotlight" id="issSpotlightPanel" role="tabpanel" aria-live="polite">
+        <div>
+          <img id="spotImg" src="../images/iss-galley.svg" alt="Zvezda Crew Galley">
+        </div>
+        <div>
+          <span class="badge-tag" id="spotTag"></span>
+          <h3 id="spotTitle" style="font-size: 1.7rem; margin: 0.35rem 0 0.7rem;"></h3>
+          <p id="spotDesc" style="margin-bottom: 1rem;"></p>
+          <ul class="stat-list" id="spotStats"></ul>
+          <p id="spotMicrogravityTip" style="font-style: italic; color: var(--gold-light);"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA-DRIVEN ROOMS DIRECTORY (FILTER + SEARCH) -->
+    <section class="panel-box" aria-labelledby="directoryHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Pressurized Living &amp; Research Quarters</div>
+          <h2 id="directoryHeading">Station Module Directory</h2>
+        </div>
+        <span id="issRoomCount" style="color: var(--gold-light); font-weight: 600;" aria-live="polite"></span>
+      </div>
+
+      <div class="controls-bar">
+        <div class="filter-group" id="issFilters" role="group" aria-label="Filter ISS rooms by function">
+          <button type="button" class="outline-btn active" data-filter="all">All Rooms</button>
+          <button type="button" class="outline-btn" data-filter="eat">Eat &amp; Dining</button>
+          <button type="button" class="outline-btn" data-filter="sleep">Sleep Quarters</button>
+          <button type="button" class="outline-btn" data-filter="science">Science Labs</button>
+          <button type="button" class="outline-btn" data-filter="eva">Observation &amp; EVA</button>
+        </div>
+
+        <div class="search-sort-group">
+          <input type="search" id="issSearch" class="museum-input" placeholder="Search module or activity..." aria-label="Search ISS modules">
+        </div>
+      </div>
+
+      <div class="exhibit-grid" id="issCardsGrid"></div>
+    </section>
+
+    <!-- DAILY ASTRONAUT CHECKLIST + MICROGRAVITY ACCORDION -->
+    <div class="two-col-grid">
+      <section class="panel-box" aria-labelledby="routineHeading">
+        <div class="section-heading-row" style="margin-bottom:0.8rem;">
+          <div>
+            <div class="subtitle">24-Hour Orbital Schedule (UTC)</div>
+            <h2 id="routineHeading">A Day in the Life of Crew</h2>
+          </div>
+          <span id="checklistProgress" style="color:var(--gold-light); font-weight:600;" aria-live="polite">0 / 6 done</span>
+        </div>
+        <p style="margin-bottom:1rem; font-size:0.95rem;">Check off each daily orbital milestone as you explore how astronauts balance science, exercise, and rest. Your progress saves automatically.</p>
+
+        <div class="checklist-grid" id="issChecklist"></div>
+      </section>
+
+      <section class="panel-box" aria-labelledby="physicsHeading">
+        <div class="subtitle">Microgravity Engineering</div>
+        <h2 id="physicsHeading" style="margin-bottom:1rem;">How Zero-G Changes Everyday Life</h2>
+
+        <div class="accordion-list" id="issAccordion">
+          <div class="accordion-item open">
+            <button type="button" class="accordion-trigger" aria-expanded="true">
+              <span>Eating: Why Tortillas Replace Sliced Bread</span>
+              <span>−</span>
+            </button>
+            <div class="accordion-body">
+              Regular bread produces crumbs that float into ventilation filters and astronauts' eyes. Crews use soft tortillas, Velcro food trays, and sealed liquid pouches with one-way valves.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>Sleeping: Why Constant Air Fans Are Life-Saving</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              Without gravity, warm exhaled carbon dioxide does not rise away from a sleeping astronaut's face. Continuous airflow fans inside each Harmony sleep pod prevent dangerous CO₂ pockets.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>Science: Why Protein Crystals &amp; Flames Behave Differently</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              With no buoyancy-driven convection or sedimentation, flames burn as quiet blue spheres and protein crystals grow larger and more uniform—advancing medicine and materials science on Earth.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>Health: 2 Hours of Daily Resistive Exercise</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              Astronauts lose up to 1–2% bone density per month without weight-bearing loads. Vacuum cylinders on the ARED machine and harnessed treadmills simulate gravity during daily workouts.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- LOGIC & CALCULATION: ORBITAL LIFE & ECLSS RESOURCE CALCULATOR -->
+    <section class="panel-box" aria-labelledby="orbitCalcHeading">
+      <div class="subtitle">Environmental Control &amp; Life Support (ECLSS)</div>
+      <h2 id="orbitCalcHeading" style="margin-bottom: 0.6rem;">Orbital Mission &amp; Resource Calculator</h2>
+      <p style="margin-bottom: 1.2rem;">Enter crew size and expedition length to compute orbits completed, sunrises witnessed, and water saved by the ISS closed-loop recycling system (98% recovery).</p>
+
+      <div class="calc-grid">
+        <div class="form-field">
+          <label for="issCrewInput">Crew Size (1–11 Astronauts)</label>
+          <input type="number" id="issCrewInput" class="museum-input" min="1" max="11" value="7">
+        </div>
+        <div class="form-field">
+          <label for="issDaysInput">Expedition Duration (Days)</label>
+          <input type="number" id="issDaysInput" class="museum-input" min="1" max="365" value="180">
+        </div>
+      </div>
+
+      <div class="calc-output-grid" aria-live="polite">
+        <div class="metric-tile">
+          <span class="metric-value" id="issOutOrbits">2,790</span>
+          <span class="metric-label">Earth Orbits &amp; Sunrises</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="issOutDistance">119.2M km</span>
+          <span class="metric-label">Distance Traveled</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="issOutWaterSaved">3,087 L</span>
+          <span class="metric-label">Water Recycled (98%)</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="issOutOxygen">1,058 kg</span>
+          <span class="metric-label">Oxygen &amp; 2,268 kg Food</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MICROGRAVITY EXPERIMENT PROPOSAL FORM (LIVE VALIDATION) -->
+    <section class="panel-box" aria-labelledby="expFormHeading">
+      <div class="subtitle">Destiny &amp; Columbus Research Desk</div>
+      <h2 id="expFormHeading" style="margin-bottom: 0.5rem;">Propose a Microgravity Experiment</h2>
+      <p style="margin-bottom: 1.3rem;">Submit a student microgravity investigation for one of the ISS research racks. All fields validate live before logging.</p>
+
+      <form id="issExperimentForm" novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="expTitle">Experiment Title *</label>
+            <input type="text" id="expTitle" class="museum-input" placeholder="e.g., Hydroponic Root Orientation in Zero-G" required>
+            <span class="field-error" id="errExpTitle" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="expEmail">Investigator Email *</label>
+            <input type="email" id="expEmail" class="museum-input" placeholder="lab@stellarium.edu" required>
+            <span class="field-error" id="errExpEmail" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="expModule">Target ISS Module *</label>
+            <select id="expModule" class="museum-select" required>
+              <option value="">-- Choose Module --</option>
+              <option value="Destiny Science Lab">Destiny Science Lab</option>
+              <option value="Columbus European Lab">Columbus European Lab</option>
+              <option value="Kibo Japanese Experiment Module">Kibo Exposed &amp; Pressurized Facility</option>
+              <option value="Zvezda Galley Nutrition Study">Zvezda Galley Nutrition Study</option>
+            </select>
+            <span class="field-error" id="errExpModule" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="expMinutes">Crew Time Needed (15–240 mins) *</label>
+            <input type="number" id="expMinutes" class="museum-input" min="15" max="240" placeholder="45" required>
+            <span class="field-error" id="errExpMinutes" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field full-width">
+            <label for="expHypothesis">Microgravity Hypothesis (min 20 characters) *</label>
+            <textarea id="expHypothesis" class="museum-textarea" rows="3" placeholder="Describe how removing gravity alters fluids, biology, or crystal growth..." required></textarea>
+            <span class="field-error" id="errExpHypothesis" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <button type="submit" class="gold-btn">Submit Experiment Proposal</button>
+        </div>
+
+        <div class="form-status" id="issFormStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <!-- ROOM DETAIL MODAL -->
+  <div class="modal-backdrop" id="issDetailModal" role="dialog" aria-modal="true" aria-labelledby="issModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close ISS room details">✕</button>
+      <div class="subtitle" id="issModalSubtitle"></div>
+      <h2 id="issModalTitle" style="margin: 0.3rem 0 1rem;"></h2>
+      <img id="issModalImg" src="" alt="" style="width:100%; max-height:290px; object-fit:cover; border:1px solid var(--gold-dark); margin-bottom:1rem;">
+      <div id="issModalBody"></div>
+    </div>
+  </div>
+
+  <!-- SAVED COLLECTION MODAL -->
+  <div class="modal-backdrop" id="savedCollectionModal" role="dialog" aria-modal="true" aria-labelledby="savedModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close saved collection">✕</button>
+      <div class="subtitle">Personal Curated Tour</div>
+      <h2 id="savedModalTitle" style="margin: 0.3rem 0 1rem;">Saved Wing IV Exhibits</h2>
+      <div id="savedCollectionList"></div>
+      <div style="margin-top: 1rem; text-align: right;">
+        <button type="button" class="outline-btn" id="clearSavedCollectionBtn">Clear All Saved</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="../Index1.html">Museum Lobby</a>
+      <a href="telescopes.html">Space Telescopes</a>
+      <a href="rockets.html">Rockets</a>
+      <a href="iss.html">ISS Habitats</a>
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Wing IV: Space Technology &amp; Observatories</p>
+    <p class="ai-disclosure">Exhibit visuals on this page were generated using Antigravity AI.</p>
+  </footer>
+
+  <script src="../js/wing4-shared.js"></script>
+  <script src="../js/iss.js"></script>
+</body>
+</html>

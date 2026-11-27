@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="tarHub" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#c9f0ff"/>
+      <stop offset="40%" stop-color="#4e9bbd" stop-opacity="0.72"/>
+      <stop offset="80%" stop-color="#223e66" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#050a14" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="tarBlur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="#050a14"/>
+  <ellipse cx="400" cy="250" rx="340" ry="215" fill="url(#tarHub)" filter="url(#tarBlur)"/>
+  <!-- Glowing Optical Ionized Hydrogen Filaments -->
+  <path d="M120,210 Q280,140 430,240 T690,200" fill="none" stroke="#85d7ff" stroke-width="18" opacity="0.35" filter="url(#tarBlur)"/>
+  <path d="M160,330 Q340,260 520,330 T710,270" fill="none" stroke="#e08963" stroke-width="14" opacity="0.3" filter="url(#tarBlur)"/>
+  <!-- Dense Central Star Cluster R136 -->
+  <g fill="#f0faff">
+    <circle cx="400" cy="250" r="4"/><circle cx="388" cy="242" r="2.5"/><circle cx="414" cy="255" r="2.8"/>
+    <circle cx="395" cy="264" r="2.2"/><circle cx="410" cy="238" r="2.2"/><circle cx="378" cy="256" r="2"/>
+  </g>
+</svg>

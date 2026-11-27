@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#061224"/>
+  <!-- Destiny / Columbus Science Rack Wall -->
+  <rect x="35" y="30" width="730" height="440" rx="14" fill="#132542" stroke="#BC9E70" stroke-width="2.5"/>
+  <!-- Three International Standard Payload Racks (ISPRs) -->
+  <g stroke="#5b769e" stroke-width="2">
+    <rect x="68" y="68" width="205" height="365" rx="6" fill="#1d3559"/>
+    <rect x="297" y="68" width="205" height="365" rx="6" fill="#213c66"/>
+    <rect x="527" y="68" width="205" height="365" rx="6" fill="#1d3559"/>
+  </g>
+  <!-- Left Rack: Microgravity Plant Habitat -->
+  <rect x="92" y="102" width="156" height="135" rx="6" fill="#091526" stroke="#7fd8ff" stroke-width="2"/>
+  <rect x="102" y="112" width="136" height="16" fill="#b44cff" opacity="0.45"/>
+  <path d="M135,220 C135,185 152,165 152,148 M170,220 C170,180 185,160 190,145" fill="none" stroke="#6fe388" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="148" cy="155" r="9" fill="#52c96c"/><circle cx="192" cy="152" r="10" fill="#52c96c"/>
+  <!-- Center Rack: Microgravity Science Glovebox -->
+  <rect x="318" y="112" width="164" height="125" rx="8" fill="#0c1c33" stroke="#F0CB90" stroke-width="2"/>
+  <circle cx="362" cy="185" r="22" fill="#2c4973" stroke="#F0CB90" stroke-width="2"/>
+  <circle cx="438" cy="185" r="22" fill="#2c4973" stroke="#F0CB90" stroke-width="2"/>
+  <!-- Telemetry Screens -->
+  <rect x="318" y="268" width="164" height="90" rx="4" fill="#071221" stroke="#69c9ff" stroke-width="1.5"/>
+  <polyline points="330,325 358,295 385,332 415,286 445,315 470,295" fill="none" stroke="#F0CB90" stroke-width="2.5"/>
+  <!-- Right Rack: Cold Atom Lab & Sample Drawers -->
+  <rect x="550" y="98" width="158" height="75" rx="4" fill="#0a192e" stroke="#BC9E70" stroke-width="1.5"/>
+  <circle cx="629" cy="135" r="20" fill="#174d7a" stroke="#69c9ff" stroke-width="2"/>
+  <rect x="550" y="196" width="158" height="45" fill="#2d4c7a" stroke="#7c96bd"/>
+  <rect x="550" y="254" width="158" height="45" fill="#2d4c7a" stroke="#7c96bd"/>
+  <rect x="550" y="312" width="158" height="45" fill="#2d4c7a" stroke="#7c96bd"/>
+  <!-- Blue Handrails -->
+  <line x1="78" y1="410" x2="262" y2="410" stroke="#4ca3e8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="538" y1="410" x2="722" y2="410" stroke="#4ca3e8" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <defs>
+    <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#010814"/>
+      <stop offset="65%" stop-color="#041E42"/>
+      <stop offset="100%" stop-color="#173561"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6c7585"/>
+      <stop offset="32%" stop-color="#e3e8f0"/>
+      <stop offset="58%" stop-color="#b5becb"/>
+      <stop offset="82%" stop-color="#2a313d"/>
+      <stop offset="100%" stop-color="#171c24"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#sky4)"/>
+  <g fill="#f0cb90" opacity="0.65"><circle cx="52" cy="58" r="1.5"/><circle cx="342" cy="82" r="1.7"/><circle cx="80" cy="270" r="1.2"/></g>
+  <rect x="0" y="545" width="400" height="55" fill="#081326"/>
+  <line x1="0" y1="545" x2="400" y2="545" stroke="#BC9E70" stroke-width="2"/>
+  <!-- Starship Upper Stage Forward Flaps -->
+  <polygon points="172,72 150,115 170,122" fill="#232933"/>
+  <polygon points="228,72 250,115 230,122" fill="#232933"/>
+  <!-- Starship Nose & Stainless Steel Hull -->
+  <path d="M167,128 C167,62 200,34 200,34 C200,34 233,62 233,128 L233,245 L167,245 Z" fill="url(#steel)"/>
+  <!-- Aft Flaps -->
+  <polygon points="167,195 142,240 167,245" fill="#232933"/>
+  <polygon points="233,195 258,240 233,245" fill="#232933"/>
+  <!-- Hot-stage Ring -->
+  <rect x="167" y="245" width="66" height="12" fill="#18202c"/>
+  <!-- Super Heavy Booster Grid Fins -->
+  <rect x="148" y="262" width="19" height="10" fill="#4f5866"/>
+  <rect x="233" y="262" width="19" height="10" fill="#4f5866"/>
+  <!-- Super Heavy Stainless Steel Booster -->
+  <rect x="167" y="257" width="66" height="273" fill="url(#steel)"/>
+  <!-- Weld Ring Seams -->
+  <g stroke="#505866" stroke-width="1" opacity="0.6">
+    <line x1="167" y1="305" x2="233" y2="305"/><line x1="167" y1="355" x2="233" y2="355"/>
+    <line x1="167" y1="405" x2="233" y2="405"/><line x1="167" y1="455" x2="233" y2="455"/>
+  </g>
+  <!-- 33 Raptor Engine Skirt -->
+  <rect x="167" y="530" width="66" height="15" fill="#323845"/>
+</svg>

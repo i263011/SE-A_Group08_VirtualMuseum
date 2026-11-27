@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STELLARIUM | Wing IV — Historic &amp; Modern Rockets</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/wing4.css">
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to rocket exhibition</a>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+
+    <div class="nav-bar-wrap">
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">☰ Gallery Menu</button>
+      <nav id="mainNav" aria-label="Main Museum Navigation">
+        <a href="../Index1.html">Lobby</a>
+        <a href="solar-system.html">I. Solar System</a>
+        <a href="deep-space.html">II. Deep Space</a>
+        <a href="exploration.html">III. Exploration</a>
+        <a href="telescopes.html" class="active">IV. Observatories</a>
+        <a href="map.html">Floor Plan</a>
+        <a href="audio-tour.html">Audio Guide</a>
+        <a href="my-collection.html">Saved Art</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wing-subnav" role="navigation" aria-label="Wing IV Exhibits">
+    <div class="wing-links">
+      <span class="wing-label">Wing IV • Space Technology &amp; Observatories:</span>
+      <a href="telescopes.html" class="wing-pill">13. Space Telescopes</a>
+      <a href="rockets.html" class="wing-pill active" aria-current="page">14. Historic &amp; Modern Rockets</a>
+      <a href="iss.html" class="wing-pill">15. International Space Station</a>
+    </div>
+    <button type="button" class="collection-trigger" id="openSavedCollectionBtn">
+      <span>Saved Exhibits</span>
+      <span class="saved-count-badge" aria-live="polite">0</span>
+    </button>
+  </div>
+
+  <main id="mainContent" class="container">
+    <section class="page-header">
+      <div class="subtitle">Wing IV • Exhibit 14 • Heavy-Lift Launch Vehicles</div>
+      <h1>Historic &amp; Modern Rockets</h1>
+      <p>Stand beside humanity’s tallest orbital launch vehicles—comparing the true-to-scale height, liftoff thrust, reusability, and payload capacity of <strong>Saturn V</strong>, <strong>Space Shuttle</strong>, <strong>Falcon 9</strong>, and <strong>Starship</strong>.</p>
+    </section>
+
+    <!-- TO-SCALE HEIGHT & PAYLOAD COMPARISON STAGE -->
+    <section class="panel-box" aria-labelledby="scaleHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Proportional Engineering Lineup</div>
+          <h2 id="scaleHeading">To-Scale Height &amp; Payload Comparison</h2>
+        </div>
+
+        <div class="filter-group" role="group" aria-label="Measurement units">
+          <button type="button" class="outline-btn active" id="unitMetricBtn">Metric (m / kg)</button>
+          <button type="button" class="outline-btn" id="unitImperialBtn">Imperial (ft / lbs)</button>
+        </div>
+      </div>
+
+      <div class="scale-stage">
+        <div class="scale-grid" id="rocketScaleGrid"></div>
+      </div>
+
+      <div style="margin-top: 1.8rem;">
+        <div class="section-heading-row" style="margin-bottom:0.8rem;">
+          <h3>Payload to Low Earth Orbit (LEO) Comparison</h3>
+          <div class="filter-group" role="group" aria-label="Orbit comparison metric">
+            <button type="button" class="outline-btn active" data-bar-metric="leo">LEO Payload</button>
+            <button type="button" class="outline-btn" data-bar-metric="gto">GTO / Deep Space</button>
+            <button type="button" class="outline-btn" data-bar-metric="thrust">Liftoff Thrust</button>
+          </div>
+        </div>
+        <div class="payload-bars" id="payloadBarChart" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- DATA-DRIVEN ROCKET CARDS (FILTER & SORT) -->
+    <section class="panel-box" aria-labelledby="fleetHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Launch Vehicle Archive</div>
+          <h2 id="fleetHeading">Explore Each Vehicle in Detail</h2>
+        </div>
+        <span id="rocketCount" style="color: var(--gold-light); font-weight: 600;" aria-live="polite"></span>
+      </div>
+
+      <div class="controls-bar">
+        <div class="filter-group" id="rocketFilters" role="group" aria-label="Filter rockets by category">
+          <button type="button" class="outline-btn active" data-filter="all">All Vehicles</button>
+          <button type="button" class="outline-btn" data-filter="historic">Historic Fleet</button>
+          <button type="button" class="outline-btn" data-filter="reusable">Reusable Architecture</button>
+          <button type="button" class="outline-btn" data-filter="superheavy">Super Heavy-Lift</button>
+        </div>
+
+        <div class="search-sort-group">
+          <input type="search" id="rocketSearch" class="museum-input" placeholder="Search rocket, agency, or engine..." aria-label="Search rockets">
+          <select id="rocketSort" class="museum-select" aria-label="Sort rockets">
+            <option value="height-desc">Tallest First</option>
+            <option value="payload-desc">Highest LEO Payload</option>
+            <option value="year-asc">Chronological (Oldest)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="exhibit-grid" id="rocketsCardGrid"></div>
+    </section>
+
+    <!-- LOGIC & CALCULATION: PAYLOAD MATCHER + ACCORDION -->
+    <div class="two-col-grid">
+      <section class="panel-box" aria-labelledby="matcherHeading">
+        <div class="subtitle">Mission Engineering Calculator</div>
+        <h2 id="matcherHeading" style="margin-bottom: 0.7rem;">Payload &amp; Orbit Rocket Matcher</h2>
+        <p style="margin-bottom: 1.2rem; font-size: 0.96rem;">Enter your spacecraft mass and destination orbit to calculate payload utilization, required launches, and the best vehicle match.</p>
+
+        <div class="calc-grid">
+          <div class="form-field">
+            <label for="calcPayloadMass">Spacecraft Mass (<span class="unit-mass-label">kg</span>)</label>
+            <input type="number" id="calcPayloadMass" class="museum-input" min="100" max="500000" value="18000">
+          </div>
+          <div class="form-field">
+            <label for="calcOrbit">Target Orbit</label>
+            <select id="calcOrbit" class="museum-select">
+              <option value="leo">Low Earth Orbit (LEO • ~400 km)</option>
+              <option value="gto">Geostationary Transfer (GTO)</option>
+              <option value="tli">Lunar / Trans-Lunar Injection (TLI)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="calcPriority">Optimization Priority</label>
+            <select id="calcPriority" class="museum-select">
+              <option value="cost">Lowest Launch Cost</option>
+              <option value="capacity">Fewest Launches / Max Margin</option>
+              <option value="reusable">Modern Reusable Fleet Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-output-grid" aria-live="polite">
+          <div class="metric-tile">
+            <span class="metric-value" id="matchBestRocket">Falcon 9</span>
+            <span class="metric-label">Recommended Rocket</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="matchUtilization">78.9%</span>
+            <span class="metric-label">Capacity Utilization</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="matchLaunches">1</span>
+            <span class="metric-label">Launches Required</span>
+          </div>
+          <div class="metric-tile">
+            <span class="metric-value" id="matchCost">$67M</span>
+            <span class="metric-label">Est. Mission Launch Cost</span>
+          </div>
+        </div>
+
+        <p id="matchSummaryNote" style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-bright);"></p>
+      </section>
+
+      <section class="panel-box" aria-labelledby="evolutionHeading">
+        <div class="subtitle">From Expendable to Rapid Reuse</div>
+        <h2 id="evolutionHeading" style="margin-bottom: 1rem;">Breakthroughs Across Four Eras</h2>
+
+        <div class="accordion-list" id="rocketAccordion">
+          <div class="accordion-item open">
+            <button type="button" class="accordion-trigger" aria-expanded="true">
+              <span>1967–1973 • Saturn V: Brute-Force Lunar Heavy Lift</span>
+              <span>−</span>
+            </button>
+            <div class="accordion-body">
+              Standing 110.6 m tall, Saturn V burned 20 metric tons of propellant per second across five F-1 engines to send 48,600 kg to the Moon—and remains 100% successful across 13 launches.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>1981–2011 • Space Shuttle: Winged Partial Reusability</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              The Shuttle introduced reusable RS-25 main engines and winged runway landings, assembling the International Space Station and servicing the Hubble Space Telescope in orbit.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>2015–Present • Falcon 9: Propulsive Booster Landings</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              By guiding its first stage back with supersonic retropropulsion and grid fins onto drone ships, Falcon 9 transformed orbital launch cadence and slashed per-kilogram cost to orbit.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>2023–Present • Starship: Full Stainless-Steel Reusability</span>
+              <span>+</span>
+            </button>
+            <div class="accordion-body">
+              At 121 m tall with 33 methalox Raptor engines and mechanical tower catch arms, Starship is engineered to return both booster and ship for rapid turnaround and interplanetary cargo.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- MISSION MANIFEST REQUEST FORM (LIVE VALIDATION) -->
+    <section class="panel-box" aria-labelledby="manifestHeading">
+      <div class="subtitle">Spaceport Manifest Desk</div>
+      <h2 id="manifestHeading" style="margin-bottom: 0.5rem;">Reserve a Payload Launch Manifest</h2>
+      <p style="margin-bottom: 1.3rem;">Simulate booking a scientific satellite or lunar cargo slot on one of Wing IV's launch vehicles. Validation runs live on every input.</p>
+
+      <form id="manifestForm" novalidate>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="manMission">Mission Name *</label>
+            <input type="text" id="manMission" class="museum-input" placeholder="e.g., Lunar Polar Ice Surveyor" required>
+            <span class="field-error" id="errManMission" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="manEmail">Mission Lead Email *</label>
+            <input type="email" id="manEmail" class="museum-input" placeholder="payload@stellarium.edu" required>
+            <span class="field-error" id="errManEmail" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="manVehicle">Launch Vehicle *</label>
+            <select id="manVehicle" class="museum-select" required>
+              <option value="">-- Select Rocket --</option>
+              <option value="Saturn V">Saturn V (Historic Apollo Reference)</option>
+              <option value="Space Shuttle">Space Shuttle (STS Reference)</option>
+              <option value="Falcon 9 Block 5">Falcon 9 Block 5</option>
+              <option value="Starship & Super Heavy">Starship &amp; Super Heavy</option>
+            </select>
+            <span class="field-error" id="errManVehicle" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="manMass">Payload Mass in kg (50–150,000) *</label>
+            <input type="number" id="manMass" class="museum-input" min="50" max="150000" placeholder="12500" required>
+            <span class="field-error" id="errManMass" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.1rem;">
+          <button type="submit" class="gold-btn">Log Launch Manifest</button>
+        </div>
+
+        <div class="form-status" id="manifestFormStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <!-- ROCKET ENGINEERING MODAL -->
+  <div class="modal-backdrop" id="rocketDetailModal" role="dialog" aria-modal="true" aria-labelledby="rocketModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close rocket specifications">✕</button>
+      <div class="subtitle" id="rocketModalSubtitle"></div>
+      <h2 id="rocketModalTitle" style="margin: 0.3rem 0 1rem;"></h2>
+      <div id="rocketModalBody"></div>
+    </div>
+  </div>
+
+  <!-- SAVED COLLECTION MODAL -->
+  <div class="modal-backdrop" id="savedCollectionModal" role="dialog" aria-modal="true" aria-labelledby="savedModalTitle">
+    <div class="modal-box">
+      <button type="button" class="modal-close" aria-label="Close saved collection">✕</button>
+      <div class="subtitle">Personal Curated Tour</div>
+      <h2 id="savedModalTitle" style="margin: 0.3rem 0 1rem;">Saved Wing IV Exhibits</h2>
+      <div id="savedCollectionList"></div>
+      <div style="margin-top: 1rem; text-align: right;">
+        <button type="button" class="outline-btn" id="clearSavedCollectionBtn">Clear All Saved</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="../Index1.html">Museum Lobby</a>
+      <a href="telescopes.html">Space Telescopes</a>
+      <a href="rockets.html">Rockets</a>
+      <a href="iss.html">ISS Habitats</a>
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Wing IV: Space Technology &amp; Observatories</p>
+    <p class="ai-disclosure">Exhibit visuals on this page were generated using Antigravity AI.</p>
+  </footer>
+
+  <script src="../js/wing4-shared.js"></script>
+  <script src="../js/rockets.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#072b36"/>
+      <stop offset="55%" stop-color="#0d4a4e"/>
+      <stop offset="100%" stop-color="#1d3528"/>
+    </linearGradient>
+    <radialGradient id="nebulaGlow" cx="62%" cy="22%" r="55%">
+      <stop offset="0%" stop-color="#4fb3a8" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#226e6a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#061d24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pillar1" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#a58652"/>
+      <stop offset="28%" stop-color="#5d482b"/>
+      <stop offset="70%" stop-color="#292116"/>
+      <stop offset="100%" stop-color="#121412"/>
+    </linearGradient>
+    <linearGradient id="pillar2" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#8b6f42"/>
+      <stop offset="40%" stop-color="#443623"/>
+      <stop offset="100%" stop-color="#131614"/>
+    </linearGradient>
+    <filter id="softBlur"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="haze"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#nebulaGlow)"/>
+  <!-- Optical O-III / H-alpha gas wisps -->
+  <path d="M0,120 Q200,60 410,140 T800,80 L800,0 L0,0 Z" fill="#63d1c4" opacity="0.16" filter="url(#haze)"/>
+  <path d="M120,250 Q350,150 580,230 T800,190 L800,500 L0,500 Z" fill="#2e6f40" opacity="0.24" filter="url(#haze)"/>
+  <!-- Sparse visible-light stars -->
+  <g fill="#e6f4f8" opacity="0.85">
+    <circle cx="95" cy="70" r="1.4"/><circle cx="190" cy="48" r="1.8"/><circle cx="320" cy="60" r="1.2"/>
+    <circle cx="480" cy="45" r="2.1"/><circle cx="640" cy="82" r="1.5"/><circle cx="730" cy="52" r="2.2"/>
+    <circle cx="140" cy="180" r="1.1"/><circle cx="690" cy="170" r="1.4"/><circle cx="590" cy="310" r="1.2"/>
+    <circle cx="72" cy="310" r="1.3"/><circle cx="445" cy="135" r="1.3"/>
+  </g>
+  <!-- Hubble 4-point cross spikes on bright stars -->
+  <g stroke="#d8f3ff" stroke-width="1.2" opacity="0.85">
+    <line x1="730" y1="38" x2="730" y2="66"/><line x1="716" y1="52" x2="744" y2="52"/>
+    <line x1="480" y1="35" x2="480" y2="55"/><line x1="470" y1="45" x2="490" y2="45"/>
+  </g>
+  <!-- Main Left Pillar (Opaque Dust in Visible Light) -->
+  <path d="M180,500 C188,410 198,320 220,245 C235,195 258,150 285,112 C304,88 332,96 338,125 C346,162 325,205 338,248 C355,305 368,405 375,500 Z" fill="url(#pillar1)"/>
+  <path d="M250,145 C270,115 305,105 324,122 C335,142 320,175 300,192 C276,178 260,162 250,145 Z" fill="#c9ab6f" opacity="0.45" filter="url(#softBlur)"/>
+  <!-- Middle Pillar -->
+  <path d="M368,500 C376,430 392,350 412,288 C428,240 448,195 478,180 C500,170 516,192 512,222 C505,270 492,332 505,395 L515,500 Z" fill="url(#pillar2)"/>
+  <path d="M445,205 C466,184 492,186 502,205 C495,228 475,236 456,228 Z" fill="#b89860" opacity="0.4" filter="url(#softBlur)"/>
+  <!-- Right Short Pillar -->
+  <path d="M525,500 C535,435 552,368 580,322 C598,295 620,295 630,322 C638,352 630,425 636,500 Z" fill="url(#pillar2)"/>
+  <!-- Subtle photoionization rim glow -->
+  <path d="M220,245 C242,188 268,136 292,106" fill="none" stroke="#9fe6d9" stroke-width="2.5" opacity="0.45" filter="url(#softBlur)"/>
+  <path d="M412,288 C432,234 456,192 484,181" fill="none" stroke="#9fe6d9" stroke-width="2" opacity="0.4" filter="url(#softBlur)"/>
+</svg>

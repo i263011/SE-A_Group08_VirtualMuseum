@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="cHubSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#14324c"/>
+      <stop offset="55%" stop-color="#3a6b82"/>
+      <stop offset="100%" stop-color="#7c8f7d"/>
+    </linearGradient>
+    <linearGradient id="cHubCliff" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#a88b68"/>
+      <stop offset="40%" stop-color="#5d4d3e"/>
+      <stop offset="100%" stop-color="#1c1c20"/>
+    </linearGradient>
+    <filter id="cMist"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#cHubSky)"/>
+  <ellipse cx="380" cy="140" rx="340" ry="120" fill="#7fc3d1" opacity="0.28" filter="url(#cMist)"/>
+  <g fill="#eef7ff" opacity="0.8">
+    <circle cx="90" cy="60" r="1.6"/><circle cx="210" cy="90" r="1.2"/><circle cx="330" cy="48" r="1.9"/>
+    <circle cx="470" cy="76" r="1.4"/><circle cx="620" cy="54" r="2.1"/><circle cx="715" cy="108" r="1.4"/>
+    <circle cx="155" cy="155" r="1.2"/><circle cx="535" cy="140" r="1.5"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="1.1" opacity="0.8">
+    <line x1="620" y1="42" x2="620" y2="66"/><line x1="608" y1="54" x2="632" y2="54"/>
+  </g>
+  <!-- Cosmic Cliffs ridge in soft optical dust -->
+  <path d="M0,330 C95,295 160,240 245,270 C315,295 365,215 445,235 C525,255 585,175 680,210 C740,232 775,205 800,195 L800,500 L0,500 Z" fill="url(#cHubCliff)"/>
+  <path d="M0,330 C95,295 160,240 245,270 C315,295 365,215 445,235 C525,255 585,175 680,210 C740,232 775,205 800,195" fill="none" stroke="#d8c39b" stroke-width="7" opacity="0.35" filter="url(#cMist)"/>
+</svg>

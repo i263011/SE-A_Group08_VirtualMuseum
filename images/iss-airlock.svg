@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#071324"/>
+  <!-- Quest Airlock Cylindrical Pressure Chamber -->
+  <ellipse cx="400" cy="250" rx="280" ry="205" fill="#142947" stroke="#BC9E70" stroke-width="3"/>
+  <ellipse cx="400" cy="250" rx="195" ry="145" fill="#0d1d36" stroke="#4b6994" stroke-width="2"/>
+  <!-- Circular EVA Hatch -->
+  <circle cx="400" cy="250" r="88" fill="#1d3557" stroke="#F0CB90" stroke-width="4"/>
+  <circle cx="400" cy="250" r="64" fill="none" stroke="#859bb8" stroke-width="2" stroke-dasharray="10 6"/>
+  <line x1="362" y1="250" x2="438" y2="250" stroke="#F0CB90" stroke-width="6" stroke-linecap="round"/>
+  <!-- Two Tethered EMU Spacesuits Waiting for Spacewalk -->
+  <g fill="#f0f4fa" stroke="#7e8fa8" stroke-width="2">
+    <!-- Left EMU Suit -->
+    <circle cx="215" cy="185" r="26" fill="#dce5f2"/>
+    <ellipse cx="215" cy="185" rx="18" ry="15" fill="#d9a145"/>
+    <rect x="182" y="214" width="66" height="92" rx="14"/>
+    <rect x="195" y="232" width="40" height="28" rx="4" fill="#c5d0e0"/>
+    <!-- Right EMU Suit -->
+    <circle cx="585" cy="185" r="26" fill="#dce5f2"/>
+    <ellipse cx="585" cy="185" rx="18" ry="15" fill="#d9a145"/>
+    <rect x="552" y="214" width="66" height="92" rx="14"/>
+    <rect x="565" y="232" width="40" height="28" rx="4" fill="#c5d0e0"/>
+  </g>
+  <!-- Pressure Gauge Panel -->
+  <rect x="335" y="72" width="130" height="44" rx="4" fill="#071221" stroke="#69c9ff" stroke-width="1.5"/>
+  <text x="400" y="99" text-anchor="middle" fill="#F0CB90" font-family="serif" font-size="16" font-weight="bold">10.2 PSI CAMP</text>
+</svg>

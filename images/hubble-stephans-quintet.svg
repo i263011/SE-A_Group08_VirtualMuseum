@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="sqGal" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff4d6"/>
+      <stop offset="35%" stop-color="#c9b48a" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#050b17" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="sqBlur"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <rect width="800" height="500" fill="#050b17"/>
+  <!-- 5 interacting galaxies in optical light (soft starry halos) -->
+  <ellipse cx="220" cy="310" rx="70" ry="38" transform="rotate(-25 220 310)" fill="url(#sqGal)" filter="url(#sqBlur)"/>
+  <ellipse cx="410" cy="220" rx="78" ry="44" transform="rotate(15 410 220)" fill="url(#sqGal)" filter="url(#sqBlur)"/>
+  <ellipse cx="445" cy="295" rx="60" ry="34" transform="rotate(-12 445 295)" fill="url(#sqGal)" filter="url(#sqBlur)"/>
+  <ellipse cx="590" cy="145" rx="68" ry="36" transform="rotate(35 590 145)" fill="url(#sqGal)" filter="url(#sqBlur)"/>
+  <ellipse cx="350" cy="115" rx="52" ry="26" transform="rotate(-40 350 115)" fill="#89aed6" opacity="0.55" filter="url(#sqBlur)"/>
+  <g fill="#fff8e8">
+    <circle cx="220" cy="310" r="6"/><circle cx="410" cy="220" r="7"/><circle cx="445" cy="295" r="5"/>
+    <circle cx="590" cy="145" r="6"/><circle cx="350" cy="115" r="4.5"/>
+  </g>
+</svg>

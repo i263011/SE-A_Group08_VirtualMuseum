@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#071224"/>
+  <!-- Harmony Node 2 Corridor & Phone-Booth Crew Quarters -->
+  <rect x="190" y="30" width="420" height="440" rx="12" fill="#132645" stroke="#BC9E70" stroke-width="2.5"/>
+  <!-- Interior Sound-Dampening Acoustic Lining -->
+  <rect x="218" y="55" width="364" height="390" rx="8" fill="#1d3559" stroke="#3c5a85" stroke-width="2"/>
+  <!-- Tethered Vertical Sleeping Bag (Zero-G: Wall = Bed!) -->
+  <rect x="265" y="95" width="140" height="295" rx="22" fill="#2c5985" stroke="#F0CB90" stroke-width="2"/>
+  <path d="M265,155 Q335,175 405,155" fill="none" stroke="#F0CB90" stroke-width="2"/>
+  <!-- Restraint Straps & Pillow -->
+  <rect x="295" y="106" width="80" height="36" rx="8" fill="#d9e2ef"/>
+  <line x1="265" y1="220" x2="405" y2="220" stroke="#BC9E70" stroke-width="5"/>
+  <line x1="265" y1="305" x2="405" y2="305" stroke="#BC9E70" stroke-width="5"/>
+  <!-- Personal Laptop Workstation & LED Strip -->
+  <rect x="445" y="185" width="105" height="72" rx="4" fill="#0a1629" stroke="#7fd8ff" stroke-width="2"/>
+  <rect x="453" y="193" width="89" height="48" fill="#123a63"/>
+  <line x1="445" y1="257" x2="550" y2="280" stroke="#9aa8bd" stroke-width="6"/>
+  <!-- CO2 Circulation Fan Vent (Essential in Microgravity) -->
+  <circle cx="500" cy="112" r="28" fill="#0d1b30" stroke="#BC9E70" stroke-width="2"/>
+  <circle cx="500" cy="112" r="18" fill="none" stroke="#69c9ff" stroke-width="2" stroke-dasharray="6 4"/>
+  <!-- Family Photos & Eye Mask Pinned to Wall -->
+  <rect x="448" y="312" width="42" height="32" fill="#e6ecf5" stroke="#BC9E70" stroke-width="1.5"/>
+  <rect x="502" y="312" width="42" height="32" fill="#f0cb90" stroke="#BC9E70" stroke-width="1.5"/>
+</svg>

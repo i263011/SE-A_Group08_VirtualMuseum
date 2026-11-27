@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#0d1a2e"/>
+  <!-- Zvezda Module Bulkhead Walls -->
+  <rect x="40" y="35" width="720" height="430" rx="18" fill="#182a47" stroke="#BC9E70" stroke-width="2"/>
+  <!-- Padded Acoustic Panels & Velcro Strips -->
+  <rect x="75" y="70" width="210" height="230" rx="6" fill="#243a5e" stroke="#455f87" stroke-width="2"/>
+  <rect x="515" y="70" width="210" height="230" rx="6" fill="#243a5e" stroke="#455f87" stroke-width="2"/>
+  <!-- Rehydration Water Dispenser Unit -->
+  <rect x="105" y="95" width="150" height="145" rx="6" fill="#d8e0ec" stroke="#455f87" stroke-width="2"/>
+  <rect x="122" y="115" width="55" height="25" fill="#14233b"/>
+  <circle cx="215" cy="127" r="8" fill="#e65c47"/>
+  <circle cx="235" cy="127" r="8" fill="#47a3e6"/>
+  <!-- Central Zero-G Fold-Down Galley Table -->
+  <rect x="275" y="295" width="250" height="22" rx="4" fill="#b8c4d6" stroke="#BC9E70" stroke-width="2"/>
+  <rect x="382" y="317" width="36" height="148" fill="#63748f"/>
+  <!-- Tethered Velcro Food Pouches & Drink Bags -->
+  <g transform="rotate(-12 340 265)">
+    <rect x="315" y="242" width="52" height="48" rx="4" fill="#d9a45b" stroke="#F0CB90" stroke-width="1.5"/>
+    <rect x="323" y="252" width="36" height="14" fill="#ffffff" opacity="0.8"/>
+  </g>
+  <g transform="rotate(8 445 255)">
+    <rect x="422" y="238" width="44" height="52" rx="4" fill="#d4dee8" stroke="#47a3e6" stroke-width="1.5"/>
+    <line x1="444" y1="238" x2="452" y2="215" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <!-- Floating Tortilla & Bungee Straps on Table -->
+  <circle cx="395" cy="278" r="18" fill="#edd19a" stroke="#b58d4c" stroke-width="2"/>
+  <line x1="285" y1="295" x2="515" y2="295" stroke="#e65c47" stroke-width="3" stroke-dasharray="18 10"/>
+  <!-- Golden Foot Restraints on Floor -->
+  <rect x="210" y="438" width="75" height="14" rx="4" fill="#F0CB90"/>
+  <rect x="515" y="438" width="75" height="14" rx="4" fill="#F0CB90"/>
+  <!-- Earth Viewport Above Table -->
+  <circle cx="400" cy="145" r="56" fill="#154c8a" stroke="#8ea1bd" stroke-width="10"/>
+  <path d="M356,155 Q400,130 444,160 A50,50 0 0,1 356,155 Z" fill="#ffffff" opacity="0.45"/>
+</svg>
