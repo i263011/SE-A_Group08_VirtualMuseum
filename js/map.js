@@ -130,7 +130,6 @@
   let targetMouseY = 0;
   let currentMouseX = 0;
   let currentMouseY = 0;
-
   const clusterNodes = [
     { nx: 0.14, ny: 0.22, r: 2.5 },
     { nx: 0.28, ny: 0.16, r: 2.0 },
@@ -1196,7 +1195,6 @@
       }
     });
   });
-
   // SVG Wing Headers & Room Chambers
   wingHeaderZones.forEach((header) => {
     bindSvgActivation(header, () => {

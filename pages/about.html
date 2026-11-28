@@ -295,9 +295,140 @@
       color: var(--gold-light);
     }
 
+    /* Curator Guided Tour & Inquiry Form */
+    .inquiry-panel {
+      background: var(--panel-oxford);
+      backdrop-filter: blur(6px);
+      border: 2px solid var(--gold-main);
+      padding: 2.5rem;
+      box-shadow: 12px 12px 0 var(--shadow-thick);
+      margin-bottom: 4rem;
+    }
+
+    .inquiry-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2rem;
+    }
+
+    .inquiry-header h2 {
+      font-size: 2.1rem;
+      margin: 0.35rem 0 0.6rem;
+    }
+
+    .inquiry-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.35rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-field.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.92rem;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      background: var(--bg-abyss);
+      color: var(--text-silver);
+      border: 1px solid var(--gold-main);
+      padding: 0.72rem 0.9rem;
+      font-family: 'Spectral', Georgia, serif;
+      font-size: 0.98rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 2px rgba(240, 203, 144, 0.25);
+    }
+
+    .form-input.is-invalid {
+      border-color: #f28b82;
+    }
+
+    .form-input.is-valid {
+      border-color: var(--gold-light);
+    }
+
+    .form-error {
+      min-height: 1.15rem;
+      font-size: 0.84rem;
+      color: #f28b82;
+    }
+
+    .inquiry-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-status-banner {
+      margin-top: 1.2rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--bg-abyss);
+      border: 1px solid var(--gold-light);
+      color: var(--gold-light);
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .form-status-banner.is-visible {
+      display: block;
+    }
+
+    .saved-inquiries-wrap {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(240, 203, 144, 0.3);
+    }
+
+    .saved-inquiries-wrap h3 {
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 0.9rem;
+    }
+
+    .saved-inquiries-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .saved-inquiry-item {
+      background: var(--bg-abyss);
+      border: 1px solid var(--gold-main);
+      padding: 1rem 1.1rem;
+      font-size: 0.9rem;
+      color: var(--text-silver);
+    }
+
+    .saved-inquiry-item strong {
+      color: var(--gold-light);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
     @media (max-width: 700px) {
-      .mission-panel, .credits-panel {
+      .mission-panel, .credits-panel, .inquiry-panel {
         padding: 1.6rem;
+      }
+      .inquiry-form-grid {
+        grid-template-columns: 1fr;
       }
       .mission-header h1 {
         font-size: 2rem;
@@ -346,6 +477,7 @@
       <a href="map.html">Floor Plan</a>
       <a href="gift.html">Gift</a>
       <a href="my-collection.html">Saved Art</a>
+      <a href="about.html" class="active">Curators</a>
     </nav>
   </header>
 
@@ -398,7 +530,70 @@
       <div class="curator-grid" id="curatorGrid" aria-live="polite"></div>
     </section>
 
-    <!-- 3. NASA & OBSERVATORY IMAGE CREDITS -->
+    <!-- 3. CURATOR GUIDED TOUR & INQUIRY FORM -->
+    <section class="inquiry-panel" aria-labelledby="inquiryHeading">
+      <div class="inquiry-header">
+        <div class="subtitle">Private Docent Sessions • Visitor Desk</div>
+        <h2 id="inquiryHeading">Curator Guided Tour &amp; Inquiry Form</h2>
+        <p>Request a guided walkthrough of any exhibition wing or submit a research inquiry to our founding curators.</p>
+      </div>
+
+      <form id="curatorInquiryForm" novalidate>
+        <div class="inquiry-form-grid">
+          <div class="form-field">
+            <label for="visitorName">Full Name</label>
+            <input type="text" id="visitorName" name="visitorName" class="form-input" placeholder="e.g. Amina Tariq" autocomplete="name" required />
+            <span class="form-error" id="visitorNameError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="visitorEmail">Email Address</label>
+            <input type="email" id="visitorEmail" name="visitorEmail" class="form-input" placeholder="e.g. amina@observatory.org" autocomplete="email" required />
+            <span class="form-error" id="visitorEmailError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="preferredWing">Preferred Wing / Curator</label>
+            <select id="preferredWing" name="preferredWing" class="form-input" required>
+              <option value="">Select a wing or curator...</option>
+              <option value="Entrance & Hub — Sara Parvez">Entrance &amp; Hub — Sara Parvez</option>
+              <option value="Wing I: Solar System — Muhammad Bilal">Wing I: Solar System — Muhammad Bilal</option>
+              <option value="Wing II: Deep Space — Asad Rehman">Wing II: Deep Space — Asad Rehman</option>
+              <option value="Wing III: Exploration — Khurrum Ishad">Wing III: Exploration — Khurrum Ishad</option>
+              <option value="Wing IV: Observatories — Azlan Khan Mehsud">Wing IV: Observatories — Azlan Khan Mehsud</option>
+              <option value="Visitor Extras — Muhammad Shoaib">Visitor Extras — Muhammad Shoaib</option>
+            </select>
+            <span class="form-error" id="preferredWingError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="visitDate">Preferred Visit Date</label>
+            <input type="date" id="visitDate" name="visitDate" class="form-input" required />
+            <span class="form-error" id="visitDateError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field full-width">
+            <label for="inquiryMessage">Inquiry or Tour Focus</label>
+            <textarea id="inquiryMessage" name="inquiryMessage" rows="4" class="form-input" placeholder="Tell us which exhibits, telescopes, or missions you would like to explore..." required></textarea>
+            <span class="form-error" id="inquiryMessageError" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="inquiry-actions">
+          <button type="submit" class="gold-btn">Submit Tour Request</button>
+          <button type="button" id="clearInquiriesBtn" class="curator-filter-btn">Clear Saved Requests</button>
+        </div>
+
+        <div id="inquiryStatus" class="form-status-banner" role="status" aria-live="polite"></div>
+      </form>
+
+      <div class="saved-inquiries-wrap" id="savedInquiriesWrap">
+        <h3>Submitted Tour Requests</h3>
+        <div class="saved-inquiries-list" id="savedInquiriesList"></div>
+      </div>
+    </section>
+
+    <!-- 4. NASA & OBSERVATORY IMAGE CREDITS -->
     <section class="credits-panel" aria-labelledby="creditsHeading">
       <div class="credits-header">
         <div class="subtitle">Archival Attribution &amp; Public Domain Sources</div>

@@ -122,13 +122,6 @@
 
   let width = 0;
   let height = 0;
-  let bgLoaded = false;
-
-  // Relevant deep-space nebula / observatory backdrop (NASA/Unsplash deep field with local fallback)
-  const nebulaImg = new Image();
-  nebulaImg.crossOrigin = 'anonymous';
-  nebulaImg.src = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1800&q=85';
-  nebulaImg.onload = () => { bgLoaded = true; };
 
   let targetMouseX = 0;
   let targetMouseY = 0;
@@ -197,29 +190,20 @@
 
     ctx.clearRect(0, 0, width, height);
 
-    if (bgLoaded && nebulaImg.naturalWidth > 0) {
-      const zoom = 1.08 + currentScroll * 0.06;
-      const scale = Math.max(width / nebulaImg.naturalWidth, height / nebulaImg.naturalHeight) * zoom;
-      const dw = nebulaImg.naturalWidth * scale;
-      const dh = nebulaImg.naturalHeight * scale;
-      const dx = (width - dw) * 0.5 - currentMouseX * 36;
-      const dy = (height - dh) * 0.5 - currentMouseY * 28;
-
-      ctx.drawImage(nebulaImg, dx, dy, dw, dh);
-
-      // Deep Oxford & Abyss atmospheric overlay so curator cards stay crisp
-      const grad = ctx.createRadialGradient(
-        width * 0.5, height * 0.45, Math.min(width, height) * 0.15,
-        width * 0.5, height * 0.45, Math.max(width, height) * 0.8
-      );
-      grad.addColorStop(0, 'rgba(4, 30, 66, 0.42)');
-      grad.addColorStop(1, 'rgba(1, 8, 20, 0.86)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, width, height);
-    } else {
-      ctx.fillStyle = '#010814';
-      ctx.fillRect(0, 0, width, height);
-    }
+    // Pure canvas deep-space radial backdrop
+    const grad = ctx.createRadialGradient(
+      width * 0.5 - currentMouseX * 24,
+      height * 0.42 - currentMouseY * 20,
+      Math.min(width, height) * 0.1,
+      width * 0.5,
+      height * 0.5,
+      Math.max(width, height) * 0.85
+    );
+    grad.addColorStop(0, '#041e42');
+    grad.addColorStop(0.55, '#021129');
+    grad.addColorStop(1, '#010814');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
 
     // Draw twinkling stardust
     for (let i = 0; i < stars.length; i++) {
@@ -481,4 +465,155 @@
 
   window.renderCurators = renderCurators;
   renderCurators('all');
+})();
+
+/* ==========================================================================
+   4. CURATOR GUIDED TOUR & INQUIRY FORM (LIVE VALIDATION + LOCALSTORAGE)
+   ========================================================================== */
+(function () {
+  const form = document.getElementById('curatorInquiryForm');
+  if (!form) return;
+
+  const STORAGE_KEY = 'stellarium_curator_inquiries';
+  const nameInput = document.getElementById('visitorName');
+  const emailInput = document.getElementById('visitorEmail');
+  const wingInput = document.getElementById('preferredWing');
+  const dateInput = document.getElementById('visitDate');
+  const messageInput = document.getElementById('inquiryMessage');
+  const statusEl = document.getElementById('inquiryStatus');
+  const listEl = document.getElementById('savedInquiriesList');
+  const clearBtn = document.getElementById('clearInquiriesBtn');
+
+  const validators = {
+    visitorName: (val) => {
+      if (!val.trim()) return 'Please enter your full name.';
+      if (val.trim().length < 2) return 'Name must be at least 2 characters.';
+      return '';
+    },
+    visitorEmail: (val) => {
+      if (!val.trim()) return 'Please enter your email address.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())) {
+        return 'Please enter a valid email address.';
+      }
+      return '';
+    },
+    preferredWing: (val) => {
+      if (!val.trim()) return 'Please select a preferred wing or curator.';
+      return '';
+    },
+    visitDate: (val) => {
+      if (!val) return 'Please choose a preferred visit date.';
+      const today = new Date().toISOString().split('T')[0];
+      if (val < today) return 'Visit date cannot be in the past.';
+      return '';
+    },
+    inquiryMessage: (val) => {
+      if (!val.trim()) return 'Please enter your inquiry or tour focus.';
+      if (val.trim().length < 10) return 'Message must be at least 10 characters.';
+      return '';
+    }
+  };
+
+  function validateField(input) {
+    const errorEl = document.getElementById(`${input.id}Error`);
+    const errorMsg = validators[input.id] ? validators[input.id](input.value) : '';
+    if (errorEl) errorEl.textContent = errorMsg;
+    input.classList.toggle('is-invalid', Boolean(errorMsg));
+    input.classList.toggle('is-valid', !errorMsg);
+    return !errorMsg;
+  }
+
+  function loadInquiries() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveInquiries(items) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // Ignore storage quota errors
+    }
+  }
+
+  function renderInquiries() {
+    if (!listEl) return;
+    const items = loadInquiries();
+    listEl.replaceChildren();
+
+    if (items.length === 0) {
+      const empty = document.createElement('p');
+      empty.textContent = 'No tour requests submitted yet.';
+      listEl.appendChild(empty);
+      return;
+    }
+
+    items.slice().reverse().forEach((item) => {
+      const card = document.createElement('div');
+      card.className = 'saved-inquiry-item';
+
+      const title = document.createElement('strong');
+      title.textContent = `${item.name} • ${item.wing}`;
+
+      const meta = document.createElement('div');
+      meta.textContent = `Date: ${item.date} | ${item.email}`;
+
+      const msg = document.createElement('p');
+      msg.textContent = item.message;
+
+      card.append(title, meta, msg);
+      listEl.appendChild(card);
+    });
+  }
+
+  [nameInput, emailInput, wingInput, dateInput, messageInput].forEach((input) => {
+    if (!input) return;
+    const eventName = input.tagName === 'SELECT' || input.type === 'date' ? 'change' : 'input';
+    input.addEventListener(eventName, () => validateField(input));
+    input.addEventListener('blur', () => validateField(input));
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fields = [nameInput, emailInput, wingInput, dateInput, messageInput];
+    const allValid = fields.every((field) => validateField(field));
+
+    if (!allValid) {
+      statusEl.textContent = 'Please fix the highlighted fields before submitting.';
+      statusEl.classList.add('is-visible');
+      return;
+    }
+
+    const items = loadInquiries();
+    items.push({
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      wing: wingInput.value,
+      date: dateInput.value,
+      message: messageInput.value.trim()
+    });
+    saveInquiries(items);
+    renderInquiries();
+
+    form.reset();
+    fields.forEach((f) => f.classList.remove('is-valid', 'is-invalid'));
+    statusEl.textContent = 'Your Curator Guided Tour request has been saved.';
+    statusEl.classList.add('is-visible');
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      saveInquiries([]);
+      renderInquiries();
+      statusEl.textContent = 'Saved tour requests cleared.';
+      statusEl.classList.add('is-visible');
+    });
+  }
+
+  renderInquiries();
 })();
