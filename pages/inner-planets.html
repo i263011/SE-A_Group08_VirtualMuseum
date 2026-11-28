@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inner Rocky Planets | STELLARIUM</title>
+  <!-- Shared museum stylesheet followed by Wing I specific styles -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/solar-wing.css">
+</head>
+<body>
+  <!-- Shared Museum Header -->
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <img
+        class="brand-logo"
+        src="../images/logo.jpeg"
+        alt="Stellarium Celestial Ring Logo"
+        height="68"
+      >
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <p class="tagline">A Gallery Dedicated to Stars</p>
+
+    <!-- Mobile hamburger toggle (shown below 850px via solar-wing.css) -->
+    <button
+      type="button"
+      class="nav-toggle outline-btn"
+      id="nav-toggle"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      ☰ Menu
+    </button>
+
+    <nav id="main-nav" aria-label="Primary museum navigation">
+      <a href="../index.html">Lobby</a>
+      <a href="solar-system.html" class="active" aria-current="page">I. Solar System</a>
+      <a href="deep-space.html">II. Deep Space</a>
+      <a href="exploration.html">III. Exploration</a>
+      <a href="telescopes.html">IV. Observatories</a>
+      <a href="map.html">Floor Plan</a>
+      <a href="audio-tour.html">Audio Guide</a>
+      <a href="my-collection.html">Saved Art</a>
+    </nav>
+  </header>
+
+  <!-- Main Inner Rocky Planets Exhibition Content -->
+  <main class="container">
+    <!-- 1. Page Header -->
+    <section class="page-header" aria-labelledby="page-title">
+      <div class="badge-tag">Wing I • Gallery 02</div>
+      <h1 id="page-title">Inner Rocky Planets</h1>
+      <p>
+        Closest to the Sun orbit four compact terrestrial worlds built of silicate rock and dense metallic cores: Mercury, Venus, Earth, and Mars. Explore their contrasting climates, surface gravities, and atmospheres in this curated gallery.
+      </p>
+    </section>
+
+    <!-- 2. Search and Sort Controls -->
+    <section class="controls-bar" aria-label="Filter and sort planets">
+      <div class="search-group">
+        <label for="planet-search" class="control-label">Search by Name</label>
+        <input
+          type="search"
+          id="planet-search"
+          class="museum-input"
+          placeholder="Search planet..."
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="sort-group">
+        <label for="planet-sort" class="control-label">Sort by</label>
+        <select id="planet-sort" class="museum-select">
+          <option value="default">Orbital Order (Mercury to Mars)</option>
+          <option value="name">Name (A–Z)</option>
+          <option value="temp-asc">Temperature (Coldest to Hottest)</option>
+          <option value="temp-desc">Temperature (Hottest to Coldest)</option>
+          <option value="gravity-asc">Gravity (Weakest to Strongest)</option>
+          <option value="gravity-desc">Gravity (Strongest to Weakest)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- 3. 2 x 2 Planet Cards Grid (populated dynamically from js/inner-planets.js) -->
+    <section aria-labelledby="planets-grid-heading">
+      <h2 id="planets-grid-heading" class="section-heading">Terrestrial Exhibits</h2>
+      <div class="exhibit-grid inner-planets-grid" id="planets-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- 4. Weight Calculator Panel -->
+    <section class="panel-box" aria-labelledby="weight-heading">
+      <div class="weight-panel-header">
+        <div class="badge-tag">Interactive Station</div>
+        <h2 id="weight-heading">Your weight on each planet</h2>
+        <p>
+          Enter your weight on Earth in kilograms (1 to 500 kg) to calculate how much you would weigh under each inner planet's surface gravity.
+        </p>
+      </div>
+
+      <form id="weight-form" class="weight-form" novalidate>
+        <div class="weight-input-row">
+          <div class="weight-field">
+            <label for="earth-weight" class="control-label">Your Earth Weight (kg)</label>
+            <input
+              type="text"
+              inputmode="decimal"
+              id="earth-weight"
+              class="museum-input"
+              placeholder="e.g. 65"
+            >
+          </div>
+          <button type="submit" class="gold-btn" id="calculate-btn">Calculate</button>
+        </div>
+
+        <p id="weight-feedback" class="weight-feedback" aria-live="polite"></p>
+      </form>
+
+      <div id="weight-results" class="weight-results-grid" aria-live="polite"></div>
+    </section>
+
+    <!-- 5. Wing Navigation Buttons -->
+    <section class="wing-nav-section" aria-label="Continue exploring Wing I">
+      <a href="solar-system.html" class="gold-btn">Back to overview</a>
+      <a href="outer-planets.html" class="gold-btn">Explore outer giants</a>
+    </section>
+
+    <noscript>
+      <div class="panel-box status-message">
+        JavaScript is required to display the Inner Rocky Planets exhibits, search tools, and weight calculator.
+      </div>
+    </noscript>
+  </main>
+
+  <!-- Planet Detail Modal Popup -->
+  <div
+    class="modal-backdrop"
+    id="planet-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    aria-hidden="true"
+  >
+    <div class="modal-box">
+      <button
+        type="button"
+        class="modal-close"
+        id="modal-close"
+        aria-label="Close planet details"
+      >
+        ✕
+      </button>
+      <div class="badge-tag" id="modal-badge">Terrestrial Exhibit</div>
+      <h2 id="modal-title"></h2>
+      <div class="modal-media" id="modal-media"></div>
+      <p class="modal-description" id="modal-description"></p>
+      <ul class="stat-list" id="modal-stats"></ul>
+    </div>
+  </div>
+
+  <!-- Shared Museum Footer -->
+  <footer>
+    <h3>STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="my-collection.html">My Collection</a>
+      <a href="about.html">Curator Team</a>
+    </div>
+    <p>Open Access Educational Exhibition • Imagery courtesy of NASA &amp; Wikimedia Commons</p>
+  </footer>
+
+  <!-- Shared navigation toggle and page-specific exhibition script -->
+  <script src="../js/nav.js"></script>
+  <script src="../js/inner-planets.js"></script>
+</body>
+</html>

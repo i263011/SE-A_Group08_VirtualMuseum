@@ -360,3 +360,231 @@ button:focus-visible,
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   7. INNER ROCKY PLANETS PAGE (inner-planets.html)
+   Appended styles for search/sort controls, 2x2 planet grid, weight
+   calculator panel, and detail modal content.
+   ========================================================================== */
+
+/* Extend existing keyboard focus outline to form inputs and select menus */
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+/* Search & Sort Toolbar */
+.controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-main);
+  box-shadow: 8px 8px 0 var(--shadow-thick);
+}
+
+.search-group,
+.sort-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.search-group {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+.sort-group {
+  flex: 0 1 250px;
+}
+
+.control-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+.museum-input,
+.museum-select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--bg-abyss);
+  color: var(--text-silver);
+  border: 1px solid var(--gold-main);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 1rem;
+  box-shadow: 3px 3px 0 var(--shadow-thick);
+}
+
+.museum-input::placeholder {
+  color: rgba(196, 196, 196, 0.65);
+}
+
+/* 2 x 2 Planet Card Grid on Desktop */
+.inner-planets-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 3rem;
+}
+
+.inner-planets-grid .status-message {
+  grid-column: 1 / -1;
+}
+
+.details-btn {
+  width: 100%;
+}
+
+/* Weight Calculator Panel */
+.weight-panel-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.weight-panel-header h2 {
+  font-size: 1.9rem;
+  margin: 0.3rem 0 0.5rem;
+}
+
+.weight-panel-header p {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.weight-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weight-input-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  max-width: 520px;
+}
+
+.weight-field {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.weight-feedback {
+  min-height: 1.4em;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--gold-light);
+}
+
+.weight-feedback.is-error {
+  color: #ffb4a2;
+  background: rgba(120, 20, 20, 0.35);
+  border: 1px solid #ffb4a2;
+  padding: 0.5rem 0.9rem;
+}
+
+.weight-results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.weight-result-card {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.weight-result-planet {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.weight-result-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.weight-result-gravity {
+  font-size: 0.85rem;
+  color: var(--text-silver);
+  margin-top: 0.25rem;
+}
+
+/* Planet Detail Modal Content */
+.modal-box h2 {
+  font-size: 1.9rem;
+  margin: 0.4rem 0 1rem;
+  padding-right: 2.5rem;
+}
+
+.modal-media {
+  margin-bottom: 1.2rem;
+}
+
+.modal-media img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border: 1px solid var(--gold-dark);
+}
+
+.modal-description {
+  font-size: 1.04rem;
+  color: var(--text-silver);
+  margin-bottom: 1.2rem;
+}
+
+/* Mobile Responsive Adjustments (<= 850px) */
+@media (max-width: 850px) {
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-group,
+  .sort-group {
+    max-width: none;
+    flex: 1 1 auto;
+  }
+
+  .inner-planets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weight-input-row .gold-btn {
+    width: 100%;
+  }
+
+  .weight-results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .weight-results-grid {
+    grid-template-columns: 1fr;
+  }
+}
