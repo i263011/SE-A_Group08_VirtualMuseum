@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STELLARIUM | Space Trivia Quiz &amp; Junior Astronomer Certificate</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/quiz.css">
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to Space Trivia Quiz</a>
+
+  <header>
+    <div class="subtitle">Est. 2026 • Digital Permanent Collection</div>
+    <div class="brand-lockup">
+      <div class="logo-frame">
+        <svg class="logo-svg" viewBox="0 0 120 120" role="img" aria-label="Stellarium Celestial Ring Logo">
+          <defs>
+            <radialGradient id="goldRing" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#F0CB90"/>
+              <stop offset="65%" stop-color="#BC9E70"/>
+              <stop offset="100%" stop-color="#B39053"/>
+            </radialGradient>
+          </defs>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="url(#goldRing)" stroke-width="5.5" stroke-dasharray="235 28" stroke-linecap="round"/>
+          <path d="M25 46 C42 22, 74 20, 92 38" fill="none" stroke="#F0CB90" stroke-width="8" stroke-linecap="round"/>
+          <line x1="46" y1="24" x2="40" y2="9" stroke="#F0CB90" stroke-width="3" stroke-linecap="round"/>
+          <line x1="58" y1="21" x2="57" y2="6" stroke="#F0CB90" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="71" y1="23" x2="77" y2="9" stroke="#F0CB90" stroke-width="3" stroke-linecap="round"/>
+          <line x1="82" y1="29" x2="93" y2="17" stroke="#BC9E70" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="96" cy="84" r="6" fill="#F0CB90"/>
+          <line x1="99" y1="88" x2="108" y2="102" stroke="#F0CB90" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand">STELLARIUM</div>
+    </div>
+    <div class="tagline">A Gallery Dedicated to Stars</div>
+
+    <div class="nav-bar-wrap">
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">☰ Gallery Menu</button>
+      <nav id="mainNav" aria-label="Main Museum Navigation">
+        <a href="../Index1.html">Lobby</a>
+        <a href="solar-system.html">I. Solar System</a>
+        <a href="deep-space.html">II. Deep Space</a>
+        <a href="exploration.html">III. Exploration</a>
+        <a href="telescopes.html">IV. Observatories</a>
+        <a href="map.html">Floor Plan</a>
+        <a href="audio-tour.html">Audio Guide</a>
+        <a href="my-collection.html">Saved Art</a>
+        <a href="quiz.html" class="active" aria-current="page">Trivia Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="quiz-subnav" role="navigation" aria-label="Visitor Assessment Tools">
+    <div class="wing-links">
+      <span class="wing-label">Curator Certification • All Four Museum Wings:</span>
+      <span class="quiz-status-pill" id="bestScoreBadge" aria-live="polite">Best Record: Not Attempted</span>
+    </div>
+    <button type="button" class="outline-btn" id="openSavedCertBtn" hidden>View Saved Certificate</button>
+  </div>
+
+  <main id="mainContent" class="container">
+    <section class="page-header">
+      <div class="subtitle">Visitor Assessment • Curatorial Examination</div>
+      <h1>Space Trivia Quiz</h1>
+      <p>Test your knowledge across all four wings of <strong>STELLARIUM</strong>—from planetary extremes and deep-space nebulae to historic spaceflight and orbital habitats. Complete all 10 questions to earn your personalized <strong>Junior Astronomer Certificate</strong>.</p>
+    </section>
+
+    <!-- STEP 1: VISITOR REGISTRATION FORM (LIVE VALIDATION) -->
+    <section class="panel-box" id="registrationSection" aria-labelledby="regHeading">
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Step 01 • Candidate Registry</div>
+          <h2 id="regHeading">Register for Your Junior Astronomer Credential</h2>
+        </div>
+        <span class="badge-tag">10 Questions • Passing Score: 7/10</span>
+      </div>
+      <p style="margin-bottom: 1.3rem;">Enter your name as you wish it inscribed on your official museum certificate. Your progress automatically saves in your browser across reloads.</p>
+
+      <form id="candidateForm" novalidate>
+        <div class="quiz-form-grid">
+          <div class="form-field">
+            <label for="candidateName">Visitor Full Name (for Certificate) *</label>
+            <input type="text" id="candidateName" class="museum-input" placeholder="e.g., Clara Vance" maxlength="48" required>
+            <span class="field-error" id="errCandidateName" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="candidateEmail">Visitor Email (Optional Dispatch)</label>
+            <input type="email" id="candidateEmail" class="museum-input" placeholder="visitor@stellarium.edu">
+            <span class="field-error" id="errCandidateEmail" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="favoriteWing">Favorite Museum Wing *</label>
+            <select id="favoriteWing" class="museum-select" required>
+              <option value="">-- Select Your Favorite Wing --</option>
+              <option value="Wing I: The Solar System">Wing I: The Solar System</option>
+              <option value="Wing II: Deep Space & Nebulae">Wing II: Deep Space &amp; Nebulae</option>
+              <option value="Wing III: Human Space Exploration">Wing III: Human Space Exploration</option>
+              <option value="Wing IV: Space Technology & Observatories">Wing IV: Space Technology &amp; Observatories</option>
+            </select>
+            <span class="field-error" id="errFavoriteWing" aria-live="polite"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="difficultyFilter">Exhibition Focus Mode</label>
+            <select id="difficultyFilter" class="museum-select">
+              <option value="standard">Standard Grand Tour (All 10 Questions)</option>
+              <option value="shuffled">Shuffled Curatorial Order (All 10 Questions)</option>
+            </select>
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="quiz-form-actions">
+          <button type="submit" class="gold-btn" id="startQuizBtn">Begin 10-Question Examination</button>
+          <button type="button" class="outline-btn" id="resumeQuizBtn" hidden>Resume Saved Attempt</button>
+        </div>
+        <div class="form-status" id="regStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <!-- STEP 2: INTERACTIVE 10-QUESTION QUIZ STAGE -->
+    <section class="panel-box" id="quizStageSection" aria-labelledby="quizStageHeading" hidden>
+      <div class="quiz-hud">
+        <div>
+          <div class="subtitle" id="questionWingTag">Wing I • Solar System</div>
+          <h2 id="quizStageHeading">Question <span id="currentQNum">1</span> of 10</h2>
+        </div>
+        <div class="quiz-metrics-inline" aria-live="polite">
+          <span class="hud-pill">Candidate: <strong id="hudCandidateName">Visitor</strong></span>
+          <span class="hud-pill">Score: <strong id="hudLiveScore">0</strong> / 10</span>
+        </div>
+      </div>
+
+      <div class="quiz-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="1" id="quizProgressBar">
+        <div class="quiz-progress-fill" id="quizProgressFill" style="width: 10%;"></div>
+      </div>
+
+      <div class="question-nav-dots" id="questionNavDots" role="navigation" aria-label="Jump to question"></div>
+
+      <article class="question-card" aria-live="polite">
+        <div class="question-meta-row">
+          <span class="badge-tag" id="questionExhibitRef">Exhibit Reference</span>
+          <a href="#" class="wing-hint-link" id="questionHintLink">Inspect Exhibit Wing →</a>
+        </div>
+
+        <h3 class="question-prompt" id="questionPromptText"></h3>
+
+        <div class="options-list" id="optionsContainer" role="radiogroup" aria-labelledby="questionPromptText"></div>
+
+        <div class="feedback-banner" id="feedbackBanner" role="status" aria-live="polite" hidden>
+          <strong id="feedbackHeadline"></strong>
+          <p id="feedbackExplanation"></p>
+        </div>
+      </article>
+
+      <div class="quiz-controls-footer">
+        <button type="button" class="outline-btn" id="prevQuestionBtn">← Previous</button>
+        <div class="quiz-controls-right">
+          <button type="button" class="outline-btn" id="resetAttemptBtn">Restart Quiz</button>
+          <button type="button" class="gold-btn" id="nextQuestionBtn" disabled>Next Question →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: RESULTS, WING ANALYTICS & JUNIOR ASTRONOMER CERTIFICATE -->
+    <section class="panel-box" id="resultsSection" aria-labelledby="resultsHeading" hidden>
+      <div class="section-heading-row">
+        <div>
+          <div class="subtitle">Examination Complete • Curatorial Verdict</div>
+          <h2 id="resultsHeading">Your Observatory Evaluation</h2>
+        </div>
+        <div class="card-actions-row">
+          <button type="button" class="gold-btn" id="printCertificateBtn">Print / Save Certificate</button>
+          <button type="button" class="outline-btn" id="retakeQuizBtn">Retake Quiz</button>
+        </div>
+      </div>
+
+      <div class="calc-output-grid" aria-live="polite">
+        <div class="metric-tile">
+          <span class="metric-value" id="resScoreFraction">0 / 10</span>
+          <span class="metric-label">Final Score</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="resAccuracy">0%</span>
+          <span class="metric-label">Accuracy Rating</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="resRankTitle">Junior Astronomer</span>
+          <span class="metric-label">Awarded Distinction</span>
+        </div>
+        <div class="metric-tile">
+          <span class="metric-value" id="resStrongestWing">Wing IV</span>
+          <span class="metric-label">Top Museum Wing</span>
+        </div>
+      </div>
+
+      <div class="certificate-wrapper" id="certificatePlaque" aria-label="Junior Astronomer Certificate">
+        <div class="certificate-inner-border">
+          <div class="cert-header">
+            <span class="cert-seal" aria-hidden="true">✦</span>
+            <div class="subtitle">STELLARIUM • A GALLERY DEDICATED TO STARS</div>
+            <h3 class="cert-main-title">Junior Astronomer Certificate</h3>
+            <p class="cert-sub">Official Curatorial Recognition of Celestial Scholarship</p>
+          </div>
+
+          <div class="cert-body">
+            <p class="cert-present-line">This certifies that</p>
+            <div class="cert-recipient-name" id="certRecipientName">Visitor Name</div>
+            <p class="cert-citation" id="certCitationText">
+              has successfully completed the 10-question STELLARIUM Grand Gallery Examination across the Solar System, Deep Space, Human Exploration, and Space Observatories wings.
+            </p>
+          </div>
+
+          <div class="cert-meta-grid">
+            <div class="cert-meta-item">
+              <span class="cert-meta-label">Examination Score</span>
+              <strong id="certScoreDisplay">10 / 10 (100%)</strong>
+            </div>
+            <div class="cert-meta-item">
+              <span class="cert-meta-label">Honors Distinction</span>
+              <strong id="certRankDisplay">Junior Astronomer — Gold Laureate</strong>
+            </div>
+            <div class="cert-meta-item">
+              <span class="cert-meta-label">Date Conferred</span>
+              <strong id="certDateDisplay">November 28, 2026</strong>
+            </div>
+            <div class="cert-meta-item">
+              <span class="cert-meta-label">Registry Serial</span>
+              <strong id="certSerialDisplay">STL-2026-0000</strong>
+            </div>
+          </div>
+
+          <div class="cert-signatures">
+            <div class="sig-block">
+              <div class="sig-line">Office of the Chief Astronomer</div>
+              <span>STELLARIUM Digital Permanent Collection</span>
+            </div>
+            <div class="cert-emblem-badge">
+              <span>VERIFIED</span>
+              <strong>2026</strong>
+            </div>
+            <div class="sig-block">
+              <div class="sig-line" id="certWingEndorsement">Wing IV • Observatories</div>
+              <span>Specialty Wing Endorsement</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-section">
+        <div class="section-heading-row" style="margin-top: 2.2rem;">
+          <div>
+            <div class="subtitle">Curator Answer Key</div>
+            <h3>Question-by-Question Review</h3>
+          </div>
+          <div class="filter-group" id="reviewFilterGroup" role="group" aria-label="Filter quiz review">
+            <button type="button" class="outline-btn active" data-review-filter="all">All (10)</button>
+            <button type="button" class="outline-btn" data-review-filter="correct">Correct</button>
+            <button type="button" class="outline-btn" data-review-filter="incorrect">Needs Review</button>
+          </div>
+        </div>
+        <div class="review-list" id="answerReviewList"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SAVED CERTIFICATE MODAL -->
+  <div class="modal-backdrop" id="certPreviewModal" role="dialog" aria-modal="true" aria-labelledby="certModalHeading">
+    <div class="modal-box">
+      <button type="button" class="modal-close" id="closeCertModalBtn" aria-label="Close certificate preview">✕</button>
+      <div class="subtitle">Permanent Browser Record</div>
+      <h2 id="certModalHeading" style="margin: 0.3rem 0 1rem;">Previously Earned Certificate</h2>
+      <div id="savedCertModalContent"></div>
+      <div style="margin-top: 1.2rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="outline-btn" id="clearSavedRecordBtn">Clear Record</button>
+        <button type="button" class="gold-btn" id="modalPrintBtn">Print Certificate</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h3 style="letter-spacing: 2px; font-size: 1.25rem;">STELLARIUM • A GALLERY DEDICATED TO STARS</h3>
+    <div class="footer-links">
+      <a href="../Index1.html">Museum Lobby</a>
+      <a href="telescopes.html">Space Telescopes</a>
+      <a href="rockets.html">Rockets</a>
+      <a href="iss.html">ISS Habitats</a>
+      <a href="map.html">Museum Map</a>
+      <a href="quiz.html">Visitor Quiz</a>
+      <a href="about.html">Curator Team (6 Members)</a>
+    </div>
+    <p style="font-size: 0.88rem;">Open Access Educational Exhibition • Visitor Certification &amp; Trivia Hall</p>
+    <p class="ai-disclosure">Exhibit visuals and emblems on this website were generated using Antigravity AI.</p>
+  </footer>
+
+  <script src="../js/quiz.js"></script>
+</body>
+</html>

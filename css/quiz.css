@@ -1,0 +1,1051 @@
+/* ==========================================================================
+   STELLARIUM — STANDALONE BRANCH STYLESHEET (css/quiz.css)
+   Palette: Deep Abyss (#010814), Oxford Blue (#041E42), Silver Plate (#C4C4C4),
+            Golden Egg (#BC9E70 / #F0CB90 / #B39053), Thick Shadow (#233658)
+   ========================================================================== */
+
+:root {
+  --bg-abyss: #010814;
+  --panel-oxford: #041E42;
+  --text-silver: #C4C4C4;
+  --text-bright: #E6ECF5;
+  --gold-main: #BC9E70;
+  --gold-light: #F0CB90;
+  --gold-dark: #B39053;
+  --shadow-thick: #233658;
+}
+
+/* --------------------------------------------------------------------------
+   1. RESET, STARFIELD BACKDROP & BASE TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Spectral', Georgia, serif;
+  background-color: var(--bg-abyss);
+  background-image:
+    radial-gradient(1px 1px at 15% 22%, rgba(240, 203, 144, 0.55) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 72% 14%, rgba(230, 236, 245, 0.5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 84% 64%, rgba(240, 203, 144, 0.45) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 78%, rgba(230, 236, 245, 0.4) 50%, transparent 100%),
+    radial-gradient(circle at 50% 0%, #07224d 0%, #010814 75%);
+  background-size: 550px 550px, 680px 680px, 490px 490px, 620px 620px, 100% 100%;
+  color: var(--text-silver);
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1, .brand {
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--gold-light);
+}
+
+h2, h3, h4, .subtitle, .badge-tag {
+  font-family: 'Playfair Display', Georgia, serif;
+  color: var(--gold-light);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--gold-light);
+  color: var(--bg-abyss);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. HEADER, LOGO LOCKUP & NAVIGATION
+   -------------------------------------------------------------------------- */
+header {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  padding: 1.8rem 5% 1.2rem;
+  border-bottom: 2px solid var(--gold-main);
+  background-color: var(--panel-oxford);
+  box-shadow: 0 8px 0 var(--shadow-thick);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold-main);
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  margin: 0.4rem 0 0.25rem;
+}
+
+.logo-frame {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-frame .logo-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  transition: transform 0.6s ease;
+}
+
+.brand-lockup:hover .logo-frame .logo-svg {
+  transform: rotate(15deg) scale(1.06);
+}
+
+.brand {
+  font-size: 2.7rem;
+  letter-spacing: 6px;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 var(--bg-abyss);
+}
+
+.tagline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  color: var(--text-silver);
+  font-size: 1.05rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.1rem;
+}
+
+.nav-bar-wrap {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(240, 203, 144, 0.3);
+}
+
+.nav-toggle {
+  display: none;
+  margin: 0 auto;
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-main);
+  padding: 0.55rem 1.2rem;
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--shadow-thick);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+nav a {
+  color: var(--text-silver);
+  transition: 0.2s;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   3. CONTAINERS, PANELS & SHARED BUTTONS
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 3rem auto;
+  padding: 0 5%;
+  flex: 1;
+}
+
+.page-header {
+  background: rgba(4, 30, 66, 0.92);
+  border: 2px solid var(--gold-main);
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+}
+
+.page-header h1 {
+  font-size: 2.6rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.page-header p {
+  max-width: 780px;
+  margin: 0 auto;
+  font-size: 1.06rem;
+}
+
+.panel-box {
+  background: rgba(4, 30, 66, 0.92);
+  border: 2px solid var(--gold-main);
+  padding: 2.2rem;
+  box-shadow: 10px 10px 0 var(--shadow-thick);
+  margin-bottom: 2.5rem;
+}
+
+.badge-tag {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--gold-main);
+  text-transform: uppercase;
+}
+
+.gold-btn {
+  display: inline-block;
+  padding: 0.85rem 1.8rem;
+  border: 2px solid var(--gold-light);
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  font-family: 'Spectral', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.gold-btn:hover:not(:disabled) {
+  background: var(--gold-light);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow-thick);
+}
+
+.outline-btn {
+  display: inline-block;
+  padding: 0.65rem 1.3rem;
+  border: 1px solid var(--gold-main);
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.outline-btn:hover:not(:disabled),
+.outline-btn.active {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+  font-weight: 700;
+}
+
+.gold-btn:disabled,
+.outline-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.stat-list {
+  list-style: none;
+  text-align: left;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.3rem;
+  font-size: 0.92rem;
+}
+
+.stat-list li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(188, 158, 112, 0.2);
+}
+
+.stat-list li:last-child {
+  border-bottom: none;
+}
+
+.stat-list strong {
+  color: var(--gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   4. QUIZ SUB-NAVIGATION & REGISTRATION FORM
+   -------------------------------------------------------------------------- */
+.quiz-subnav {
+  background: rgba(1, 8, 20, 0.92);
+  border-bottom: 1px solid var(--gold-dark);
+  padding: 0.75rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 15;
+}
+
+.wing-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.wing-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-main);
+}
+
+.quiz-status-pill {
+  padding: 0.35rem 0.9rem;
+  background: var(--panel-oxford);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.section-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.section-heading-row h2 {
+  font-size: 1.85rem;
+  margin-top: 0.2rem;
+}
+
+.quiz-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.15rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-field label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--gold-light);
+}
+
+.museum-input,
+.museum-select {
+  background: var(--bg-abyss);
+  color: var(--text-bright);
+  border: 1px solid var(--gold-main);
+  padding: 0.65rem 0.85rem;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 0.98rem;
+  transition: border-color 0.2s;
+}
+
+.museum-input::placeholder {
+  color: #8c99ad;
+}
+
+.museum-input[aria-invalid="true"],
+.museum-select[aria-invalid="true"] {
+  border-color: #ff826e;
+}
+
+.field-error {
+  min-height: 1.15rem;
+  font-size: 0.84rem;
+  color: #ff9e8f;
+}
+
+.quiz-form-actions {
+  margin-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.form-status {
+  margin-top: 1rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--gold-light);
+  background: rgba(240, 203, 144, 0.12);
+  color: var(--text-bright);
+  display: none;
+}
+
+.form-status.visible {
+  display: block;
+}
+
+.form-status.error {
+  border-color: #ff826e;
+  background: rgba(255, 130, 110, 0.14);
+  color: #ffd6cf;
+}
+
+/* --------------------------------------------------------------------------
+   5. QUIZ HUD, PROGRESS BAR & QUESTION STAGE
+   -------------------------------------------------------------------------- */
+.quiz-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-hud h2 {
+  font-size: 1.85rem;
+  margin-top: 0.2rem;
+}
+
+.quiz-metrics-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hud-pill {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  padding: 0.45rem 0.95rem;
+  font-size: 0.92rem;
+  color: var(--text-silver);
+}
+
+.hud-pill strong {
+  color: var(--gold-light);
+}
+
+.quiz-progress-track {
+  width: 100%;
+  height: 12px;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  margin-bottom: 1.1rem;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  transition: width 0.35s ease;
+}
+
+.question-nav-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.q-dot {
+  width: 36px;
+  height: 36px;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  color: var(--text-silver);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.q-dot:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+.q-dot.current {
+  border: 2px solid var(--gold-light);
+  background: var(--panel-oxford);
+  color: var(--gold-light);
+  box-shadow: 2px 2px 0 var(--shadow-thick);
+}
+
+.q-dot.answered-correct {
+  background: rgba(94, 184, 132, 0.24);
+  border-color: #6fd49b;
+  color: #c5f7da;
+}
+
+.q-dot.answered-wrong {
+  background: rgba(224, 102, 102, 0.24);
+  border-color: #ff8f8f;
+  color: #ffd6d6;
+}
+
+.question-card {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.question-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.wing-hint-link {
+  font-size: 0.88rem;
+  color: var(--gold-light);
+  border-bottom: 1px dashed var(--gold-main);
+}
+
+.wing-hint-link:hover {
+  color: var(--text-bright);
+}
+
+.question-prompt {
+  font-size: 1.45rem;
+  line-height: 1.45;
+  color: var(--text-bright);
+  margin-bottom: 1.4rem;
+}
+
+.options-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.option-btn {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--panel-oxford);
+  border: 1px solid var(--gold-dark);
+  color: var(--text-bright);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+  box-shadow: 4px 4px 0 var(--shadow-thick);
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--gold-light);
+  transform: translate(-2px, -2px);
+}
+
+.option-btn:disabled {
+  cursor: default;
+}
+
+.option-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid var(--gold-main);
+  background: var(--bg-abyss);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.option-btn.correct {
+  background: rgba(34, 92, 64, 0.88);
+  border: 2px solid #7ce3a8;
+  color: #ffffff;
+}
+
+.option-btn.correct .option-letter {
+  background: #7ce3a8;
+  color: var(--bg-abyss);
+  border-color: #7ce3a8;
+}
+
+.option-btn.incorrect {
+  background: rgba(115, 34, 38, 0.88);
+  border: 2px solid #ff8c82;
+  color: #ffffff;
+}
+
+.option-btn.incorrect .option-letter {
+  background: #ff8c82;
+  color: var(--bg-abyss);
+  border-color: #ff8c82;
+}
+
+.feedback-banner {
+  margin-top: 1.35rem;
+  padding: 1.1rem 1.3rem;
+  border-left: 4px solid var(--gold-light);
+  background: rgba(4, 30, 66, 0.95);
+}
+
+.feedback-banner.is-correct {
+  border-left-color: #7ce3a8;
+}
+
+.feedback-banner.is-incorrect {
+  border-left-color: #ff8c82;
+}
+
+.feedback-banner strong {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  margin-bottom: 0.3rem;
+}
+
+.quiz-controls-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.quiz-controls-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. SCORE METRICS & JUNIOR ASTRONOMER CERTIFICATE PLAQUE
+   -------------------------------------------------------------------------- */
+.calc-output-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-tile {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  padding: 1.1rem;
+  text-align: center;
+}
+
+.metric-value {
+  display: block;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.88rem;
+  color: var(--text-silver);
+}
+
+.certificate-wrapper {
+  background: radial-gradient(circle at 50% 25%, #09244d 0%, #010814 88%);
+  border: 3px solid var(--gold-light);
+  padding: 1rem;
+  box-shadow: 12px 12px 0 var(--shadow-thick);
+  margin: 1.5rem 0;
+}
+
+.certificate-inner-border {
+  border: 1px solid var(--gold-main);
+  padding: 2.4rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.cert-seal {
+  display: inline-block;
+  font-size: 1.8rem;
+  color: var(--gold-light);
+  margin-bottom: 0.3rem;
+}
+
+.cert-main-title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  color: var(--gold-light);
+  margin: 0.4rem 0 0.25rem;
+}
+
+.cert-sub {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  color: var(--text-silver);
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+.cert-present-line {
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-size: 0.85rem;
+  color: var(--gold-main);
+}
+
+.cert-recipient-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  border-bottom: 2px solid var(--gold-main);
+  display: inline-block;
+  padding: 0.2rem 2.2rem 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.cert-citation {
+  max-width: 720px;
+  margin: 0 auto 1.8rem;
+  font-size: 1.05rem;
+  color: var(--text-silver);
+}
+
+.cert-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cert-meta-item {
+  background: rgba(1, 8, 20, 0.72);
+  border: 1px solid var(--gold-dark);
+  padding: 0.75rem 0.6rem;
+}
+
+.cert-meta-label {
+  display: block;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--gold-main);
+  margin-bottom: 0.25rem;
+}
+
+.cert-meta-item strong {
+  font-size: 0.95rem;
+  color: var(--text-bright);
+}
+
+.cert-signatures {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.sig-block span {
+  font-size: 0.84rem;
+  color: var(--text-silver);
+}
+
+.sig-line {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+  border-bottom: 1px solid var(--gold-main);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.cert-emblem-badge {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-light);
+  background: var(--panel-oxford);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-light);
+  margin: 0 auto;
+}
+
+.cert-emblem-badge span {
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+}
+
+.cert-emblem-badge strong {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.15rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. ANSWER REVIEW LIST, MODAL & FOOTER
+   -------------------------------------------------------------------------- */
+.filter-group,
+.card-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  margin-top: 1.2rem;
+}
+
+.review-item {
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-dark);
+  padding: 1.1rem 1.3rem;
+}
+
+.review-item.ok {
+  border-left: 4px solid #7ce3a8;
+}
+
+.review-item.bad {
+  border-left: 4px solid #ff8c82;
+}
+
+.review-item-head {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.review-item h4 {
+  font-size: 1.08rem;
+  color: var(--text-bright);
+  margin-bottom: 0.45rem;
+}
+
+.review-item p {
+  font-size: 0.94rem;
+  margin-bottom: 0.25rem;
+}
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(1, 8, 20, 0.88);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--panel-oxford);
+  border: 2px solid var(--gold-light);
+  max-width: 720px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 12px 12px 0 var(--shadow-thick);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: var(--bg-abyss);
+  border: 1px solid var(--gold-main);
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: var(--gold-main);
+  color: var(--bg-abyss);
+}
+
+footer {
+  text-align: center;
+  padding: 3rem 5%;
+  margin-top: auto;
+  border-top: 2px solid var(--gold-main);
+  background: var(--panel-oxford);
+  color: var(--text-silver);
+  box-shadow: 0 -8px 0 var(--shadow-thick);
+}
+
+.footer-links {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.ai-disclosure {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-silver);
+  opacity: 0.75;
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   8. RESPONSIVE & PRINT STYLES
+   -------------------------------------------------------------------------- */
+@media (max-width: 850px) {
+  .brand {
+    font-size: 2rem;
+    letter-spacing: 3px;
+  }
+
+  .logo-frame {
+    width: 50px;
+    height: 50px;
+  }
+
+  .page-header {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .panel-box {
+    padding: 1.4rem 1.1rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  .quiz-form-grid,
+  .cert-meta-grid,
+  .cert-signatures {
+    grid-template-columns: 1fr;
+  }
+
+  .cert-main-title {
+    font-size: 1.9rem;
+  }
+
+  .cert-recipient-name {
+    font-size: 1.65rem;
+    padding: 0.2rem 1rem 0.35rem;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #certificatePlaque,
+  #certificatePlaque * {
+    visibility: visible;
+  }
+
+  #certificatePlaque {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    box-shadow: none;
+    background: #041E42 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
